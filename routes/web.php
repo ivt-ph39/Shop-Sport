@@ -15,4 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('homepage');
+
+Route::get('/login', function () {
+    return view('auth.login-register');
+})->name('show.login');
+Route::get('/cart', function () {
+    return view('cart.cart');
+})->name('show.cart');
