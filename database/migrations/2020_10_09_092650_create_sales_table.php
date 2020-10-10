@@ -14,7 +14,13 @@ class CreateSalesTable extends Migration
     public function up()
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('title');
+            $table->text('content');
+            $table->float('discount');
+            $table->date('start_day');
+            $table->date('end_day');
             $table->timestamps();
         });
     }
