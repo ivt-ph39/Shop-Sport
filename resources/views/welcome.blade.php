@@ -1,7 +1,7 @@
 @extends('layouts.homepage-master')
 @section('title','Sport Shop')
 @section('content')
-<p>test</p>
+<p>test1</p>
 <section id="slider">
 	<!--slider-->
 	<div class="container">
