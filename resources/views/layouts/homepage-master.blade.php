@@ -7,22 +7,18 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>@yield('title') | E-Shopper</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/prettyPhoto.css" rel="stylesheet">
-    <link href="css/price-range.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
-    <link href="css/responsive.css" rel="stylesheet">
+    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/prettyPhoto.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/price-range.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/animate.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/main.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/responsive.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head>
 <!--/head-->
 
@@ -95,8 +91,8 @@
                                 <li><a href=""><i class="fa fa-user"></i> Account</a></li>
                                 <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
                                 <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                                <li><a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                                <li><a href="{{route('show.login')}}" class="active"><i class="fa fa-lock"></i> Login</a></li>
+                                <li><a href="{{route('show-cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                                <li><a href="{{route('show-login')}}" class="active"><i class="fa fa-lock"></i> Login</a></li>
                             </ul>
                         </div>
                     </div>
@@ -123,12 +119,12 @@
                                 <li><a href="{{ route('homepage')}}">Home</a></li>
                                 <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="">Products</a></li>
-                                        <li><a href="">Product Details</a></li>
+                                        <li><a href="{{route('show-products')}}">Products</a></li>
+                                        <!-- <li><a href="">Product Details</a></li> -->
                                         <li><a href="checkout.html">Checkout</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="contact-us.html">Contact</a></li>
+                                <li><a href="{{route('form-contact')}}">Contact</a></li>
                             </ul>
                         </div>
                     </div>
@@ -308,12 +304,19 @@
 
 
 
-    <script src="js/jquery.js"></script>
-    <script src="js/price-range.js"></script>
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.prettyPhoto.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{ asset('js/jquery.js')}}"></script>
+    <script src="{{ asset('js/price-range.js')}}"></script>
+    <script src="{{ asset('js/jquery.scrollUp.min.js')}}"></script>
+    <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.prettyPhoto.js')}}"></script>
+    <script src="{{ asset('js/main.js')}}"></script>
+
 </body>
 
 </html>
+
+
+
+
+
+
