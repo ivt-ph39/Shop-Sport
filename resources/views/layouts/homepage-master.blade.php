@@ -128,7 +128,7 @@
                                         <li><a href="checkout.html">Checkout</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="contact-us.html">Contact</a></li>
+                                <li><a href="{{route('form.contact')}}">Contact</a></li>
                             </ul>
                         </div>
                     </div>

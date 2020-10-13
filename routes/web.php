@@ -13,13 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('homepage');
+Route::get('/','HomeController@index')->name('homepage');
 
 Route::get('/login', function () {
-    return view('auth.login-register');
+    return view('auth.login');
 })->name('show.login');
+Route::get('/register',function(){
+    return view('auth.register');
+})->name('show.register');
 Route::get('/cart', function () {
     return view('cart.cart');
 })->name('show.cart');
+
+
+Route::get('/contact-us', 'HomeController@showFormContact')->name('form.contact');
+Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
