@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->morphMany('App\Image','imageable');
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
+    }
 }

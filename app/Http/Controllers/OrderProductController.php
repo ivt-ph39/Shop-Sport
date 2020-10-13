@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Category;
-use App\Brand;
-use App\Mail\OrderConfirmMail;
 
-class HomeController extends Controller
+class OrderProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +13,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $category = Category::with('children')->get();
-        // dd($category->toArray());
-        $brand = Brand::all();
-
-        return view('welcome',compact('category','brand'));
+        //
     }
 
     /**
@@ -87,27 +80,5 @@ class HomeController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function showFormContact()
-    {
-        return view('mail.contact-form');
-    }
-
-    public function contact(Request $request)
-    {
-        $data = $request->all();
-        // dd($data);
-
-        // \Mail::to('nhi12299@gmail.com')->send(new OrderConfirmMail($data));
-
-        $to_email = $data['email'];
-        $to_name = $data['name'];
-        $from_email = 'nhi12299@gmail.com';
-        \Mail::send('mail.contact-mail',$data, function($message) use ($to_email,$to_name, $from_email){
-            $message->to($to_email,$to_name)->subject('Contact Mail');
-            $message->from($from_email,'Shop-Sport');
-        });
-        return 'success';
     }
 }

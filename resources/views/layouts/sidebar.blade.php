@@ -7,35 +7,37 @@
     <h2>Category</h2>
     <div class="panel-group category-products" id="accordian">
         <!--category-productsr-->
+        @foreach($category as $cate)
+        @if($cate['parent_id'] == 0)
         <div class="panel panel-default">
-            @foreach($category as $cate)
-            @if($cate['parent_id'] == 0)
+
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordian" href="#sportwear">
+                    <a data-toggle="collapse" data-parent="#accordian" href="#{{$cate['tag']}}">
                         <span class="badge pull-right"><i class="fa fa-plus"></i></span>
                         {{ $cate['name']}}
                     </a>
                 </h4>
             </div>
 
-            @endif
-            @endforeach
-            <div id="" class="panel-collapse collapse">
+
             
-                @foreach($category as $cate)
-                @if($cate['parent_id'] != 0)
+            <div id="{{$cate['tag']}}" class="panel-collapse collapse">
                 <div class="panel-body">
+                @foreach($cate->children as $child)
                     <ul>
-                        <li><a href="#">{{$cate['name']}} </a></li>
+                        <li><a href="#">{{$child['name']}} </a></li>
                     </ul>
+                    @endforeach
                 </div>
-                @endif
-                @endforeach
             </div>
             
-            
+
         </div>
+
+
+        @endif
+        @endforeach
     </div>
     <!--/category-products-->
 
