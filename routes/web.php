@@ -24,3 +24,7 @@ Route::get('/register',function(){
 Route::get('/cart', function () {
     return view('cart.cart');
 })->name('show.cart');
+
+
+Route::get('/contact-us', 'HomeController@showFormContact')->name('form.contact');
+Route::post('/contact-us', 'HomeController@contact')->name('contact-us');

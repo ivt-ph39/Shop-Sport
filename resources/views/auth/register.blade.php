@@ -17,6 +17,7 @@
                         <label>Account</label>
                         <input type="email" placeholder="Email Address" />
                         <input type="password" placeholder="Password" />
+                        <input type="password" placeholder="Repeat Password" />
                         <button type="submit" class="btn btn-default">Signup</button>
                     </form>
                 </div>
