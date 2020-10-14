@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Product;
+use App\Brand;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,7 +16,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        $products = Product::with('brand')->get();
+        $brands    = Brand::all();
+
+        return view('products.list-product',compact('products','categories','brands'));
     }
 
     /**

@@ -16,18 +16,21 @@ class CategoryTableSeeder extends Seeder
             [
                 'name' => 'Bóng Đá',
                 'parent_id' => '0',
+                'tag' => 'bongda',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Sportwear',
                 'parent_id' => '0',
+                'tag' => 'sportwear',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Balo-Túi xách thể thao',
                 'parent_id' => '0',
+                'tag' => 'balo',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

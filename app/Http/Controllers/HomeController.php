@@ -16,11 +16,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $category = Category::with('children')->get();
+        $categories = Category::with('children')->get();
         // dd($category->toArray());
-        $brand = Brand::all();
+        $brands = Brand::all();
 
-        return view('welcome',compact('category','brand'));
+        return view('welcome',compact('categories','brands'));
     }
 
     /**

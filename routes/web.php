@@ -17,14 +17,14 @@ Route::get('/','HomeController@index')->name('homepage');
 
 Route::get('/login', function () {
     return view('auth.login');
-})->name('show.login');
+})->name('show-login');
 Route::get('/register',function(){
     return view('auth.register');
-})->name('show.register');
+})->name('show-register');
 Route::get('/cart', function () {
     return view('cart.cart');
-})->name('show.cart');
+})->name('show-cart');
 
-
-Route::get('/contact-us', 'HomeController@showFormContact')->name('form.contact');
+Route::get('/products','ProductController@index')->name('show-products');
+Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
