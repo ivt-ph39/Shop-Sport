@@ -13,8 +13,7 @@ class SaleTableSeeder extends Seeder
     public function run()
     {
         $data = [
-            'name' => 'Giảm giá cuối năm',
-            'title' => 'Giảm giá lớn',
+            'title' => 'Giảm giá lớn cuối năm',
             'content' => 'Giảm giá sâu',
             'discount' => '20',
             'start_day' => '2020_11_30',

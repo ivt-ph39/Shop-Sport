@@ -37,60 +37,70 @@ class CategoryTableSeeder extends Seeder
             [
                 'name' => 'Giày bóng đá',
                 'parent_id' => '1',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Quần áo bóng đá',
                 'parent_id' => '1',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Phụ kiện bóng đá',
                 'parent_id' => '1',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Áo Nam',
                 'parent_id' => '2',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Quần Nam',
                 'parent_id' => '2',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Dép',
                 'parent_id' => '2',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Mũ Nón',
                 'parent_id' => '2',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Balo',
                 'parent_id' => '3',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Túi xách',
                 'parent_id' => '3',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'name' => 'Túi chéo',
                 'parent_id' => '3',
+                'tag' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ]
