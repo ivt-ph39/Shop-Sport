@@ -22,7 +22,10 @@
                             <div class="single-products">
                                 
                                 <div class="productinfo text-center">
-                                    <img src="" alt="" />
+                                    <img src="  @foreach($pro->images as $image)
+                                                    {{$image['path']}}
+                                                @endforeach" 
+                                    alt="" />
                                     <h2>${{$pro['price']}} </h2>
                                     <p>{{$pro['name']}} {{$pro->brand['name']}}</p>
                                     <!-- <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a> -->
@@ -51,3 +54,4 @@
         </div>
     </div>
 </section>
+@endsection

@@ -26,5 +26,6 @@ Route::get('/cart', function () {
 })->name('show-cart');
 
 Route::get('/products','ProductController@index')->name('show-products');
+Route::get('/products/{id}/detail','ProductController@show')->name('product-details');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
