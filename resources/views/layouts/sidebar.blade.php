@@ -7,7 +7,7 @@
     <h2>Category</h2>
     <div class="panel-group category-products" id="accordian">
         <!--category-productsr-->
-        @foreach($category as $cate)
+        @foreach($categories as $cate)
         @if($cate['parent_id'] == 0)
         <div class="panel panel-default">
 
@@ -45,7 +45,7 @@
         <!--brands_products-->
         <h2>Brands</h2>
         <div class="brands-name">
-            @foreach($brand as $b)
+            @foreach($brands as $b)
             <ul class="nav nav-pills nav-stacked">
                 <li><a href="#"> <span class="pull-right">()</span>{{$b['name']}}</a></li>
             </ul>

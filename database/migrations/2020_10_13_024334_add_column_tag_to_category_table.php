@@ -14,7 +14,7 @@ class AddColumnTagToCategoryTable extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('tag');
+            $table->string('tag')->nullable();
         });
     }
 
