@@ -14,11 +14,10 @@
                     <!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="  
+                            <img src=" 
                             @foreach($product->images as $image)
-                                            {{ asset('{{$image['path']}}') }}
-                                        @endforeach " 
-                            alt="" />
+                                            {{$image['path']}}
+                                        @endforeach " alt="" />
                             <h3>ZOOM</h3>
                         </div>
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
@@ -58,19 +57,20 @@
                             <!--/product-information-->
                             <img src="images/product-details/new.jpg" class="newarrival" alt="" />
                             <h2>{{$product['name']}}</h2>
-                            
+
                             <img src="images/product-details/rating.png" alt="" />
                             <span>
                                 <span>US ${{$product['price']}}</span>
-                                <label>Quantity: {{$product['quantity']}}</label>
-                                <input type="text" value="3" />
-                                <button type="button" class="btn btn-fefault cart">
+                                
+                                
+                                <a data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{$product['price']}}" type="button" class="btn btn-fefault cart">
                                     <i class="fa fa-shopping-cart"></i>
                                     Add to cart
-                                </button>
+                                </a>
                             </span>
                             <p><b>Availability:</b> In Stock</p>
                             <p><b>Condition:</b> New</p>
+                            <label>Quantity: {{$product['quantity']}}</label>
                             <p><b>Brand:</b> {{$product->brand['name']}}</p>
                             <a href=""><img src="images/product-details/share.png" class="share img-responsive" alt="" /></a>
                         </div>
@@ -89,7 +89,7 @@
                             <li class="active"><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
                         </ul>
                     </div>
-                    <div class="tab-content">
+                    <!-- <div class="tab-content">
                         <div class="tab-pane fade" id="details">
                             <div class="col-sm-3">
                                 <div class="product-image-wrapper">
@@ -98,7 +98,7 @@
                                             <img src="images/home/gallery1.jpg" alt="" />
                                             <h2>$56</h2>
                                             <p>Easy Polo Black Edition</p>
-                                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                            <button class="add" type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                         </div>
                                     </div>
                                 </div>
@@ -195,7 +195,7 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> -->
                 </div>
                 <!--/category-tab-->
 
@@ -233,4 +233,6 @@
             </div>
         </div>
 </section>
+<script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
+
 @endsection
