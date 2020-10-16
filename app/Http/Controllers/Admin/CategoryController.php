@@ -6,19 +6,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Product;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\Eloquent\CategoryRepository;
 class CategoryController extends Controller
 {
+    protected $categoryRepo;
+
+    public function __construct(CategoryRepository $category)
+    {
+        $this->categoryRepo = $category;
+    }
+
     public function index()
     {
-        $categories = Category::all();
+        $categories = $this->categoryRepo->all();
 
         return view('admin.categories.list', compact('categories'));
     }
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = $this->categoryRepo->all();
         return view('admin.categories.create', ['categories' => $categories]);
     }
 
@@ -30,8 +37,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        Category::create($data);
+        $this->categoryRepo->create($request->all());
 
         return redirect()->route('admin.categories.list');
     }
@@ -55,7 +61,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
+        $category = $this->categoryRepo->find($id);
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -69,7 +75,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         // DB::enableQueryLog();
-        $category = Category::find($id);
+        $category = $this->categoryRepo->find($id);
         $data = $request->only('name');
         $category->update($data);
         return redirect()->route('admin.categories.list');
@@ -83,18 +89,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        // DB::enableQueryLog();
-        $category = Category::find($id);
-        // return $category->parent_id;
-        if (!$category->parent_id) {
-            $children = Category::find($id)->load('children')->children;
-            // dd(DB::getQueryLog());
-            foreach ($children as $child) {
-                $categoryId = Category::find($child->id);
-                $categoryId->delete();
-            }
-        }
-        $category->delete();
+        $this->categoryRepo->xoa($id);
 
         return redirect()->route('admin.categories.list');
     }
