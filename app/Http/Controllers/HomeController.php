@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Brand;
-use App\Mail\OrderConfirmMail;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -104,7 +104,7 @@ class HomeController extends Controller
         $to_email = $data['email'];
         $to_name = $data['name'];
         $from_email = 'nhi12299@gmail.com';
-        \Mail::send('mail.contact-mail',$data, function($message) use ($to_email,$to_name, $from_email){
+        Mail::send('mail.contact-mail',$data, function($message) use ($to_email,$to_name, $from_email){
             $message->to($to_email,$to_name)->subject('Contact Mail');
             $message->from($from_email,'Shop-Sport');
         });
