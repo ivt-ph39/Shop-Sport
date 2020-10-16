@@ -45,16 +45,18 @@ Route::group(
     [
         'as' => 'admin.',
         'prefix' => 'admin',
+        'namespace'=>'Admin'
     ],
     function () {
-        Route::get('/login', 'Auth\LoginController@show')->name('form-login');
-        Route::get('/', 'Auth\LoginController@show');
-        Route::post('/login', 'Auth\LoginController@login')->name('login');
+        // Login
+        Route::get('/login', 'LoginController@show')->name('form-login');       
+        Route::post('/login', 'LoginController@login')->name('login');
         // logout 
-        Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-        Route::get('/home', 'HomeController@index')->name('home')->middleware(['can:canAuthenAdmin']);
+        Route::get('/logout', 'LoginController@logout')->name('logout');
         // main
-        Route::get('/main', 'Auth\LoginController@show')->name('main')->middleware('is.admin');
+        Route::get('/main', 'LoginController@show')->name('main')->middleware('is.admin');
+    
+    
     }
 );
 
@@ -80,9 +82,22 @@ Route::group(
             ->name('categories.list-product');
 
         Route::delete('/categories/{id}', 'CategoryController@destroy')->name('categories.delete');
+        
         // products 
 
+        Route::get('/products', 'ProductController@index')->name('products.list');
 
+        Route::get('/products/{id}/edit','ProductController@edit')->name('products.edit');
+        
+        Route::put('/products/{id}/update', 'ProductController@update')->name('products.update');
+        
+        Route::get('/products/create','ProductController@create')->name('products.create');
+        
+        Route::post('/products', 'ProductController@store')->name('products.store');
+        
+        Route::delete('/products/{id}', 'ProductController@destroy')->name('products.delete');
+        
+        Route::get('products/{id}', 'ProductController@productDetail')->name('products.detail');
 
 
     }
