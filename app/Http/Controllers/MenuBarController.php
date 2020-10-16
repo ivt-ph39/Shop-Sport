@@ -9,9 +9,10 @@ class MenuBarController extends Controller
 {
     public function index()
     {
-       $category = Category::all();
+       $categories = Category::all();
+        return $categories;
 
-       return view('layouts.sidebar',compact('category'));
+       return view('layouts.sidebar',compact('categories'));
     }
     
 }

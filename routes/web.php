@@ -13,17 +13,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/','HomeController@index')->name('homepage');
+Route::get('/', 'HomeController@index')->name('homepage');
 
-Route::get('/login', function () {
+Route::get('/signin', function () {
     return view('auth.login');
 })->name('show-login');
-Route::get('/register',function(){
+Route::get('/signup', function () {
     return view('auth.register');
 })->name('show.register');
-Route::get('/', function () {
-    return view('welcome');
-})->name('homepage');
+
 #Customer
 Route::get('/test', 'RoleController@index');
 
@@ -35,8 +33,8 @@ Route::get('/cart', function () {
     return view('cart.cart');
 })->name('show-cart');
 
-Route::get('/products','ProductController@index')->name('show-products');
-Route::get('/product/{id}/details','ProductController@show')->name('product-details');
+Route::get('/products', 'ProductController@index')->name('show-products');
+Route::get('/product/{id}/details', 'ProductController@show')->name('product-details');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
 Auth::routes();
@@ -49,20 +47,14 @@ Route::group(
         'prefix' => 'admin',
     ],
     function () {
-        Route::get('/login', 'Auth\LoginController@showLoginForm')->name('form-login');
-
-        Route::post('/login', 'Auth\LoginController@login')
-            ->name('login');
-
+        Route::get('/login', 'Auth\LoginController@show')->name('form-login');
+        Route::get('/', 'Auth\LoginController@show');
+        Route::post('/login', 'Auth\LoginController@login')->name('login');
         // logout 
-        Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-
-        Route::get('/home', 'HomeController@index')->name('home')
-            ->middleware(['can:canAuthenAdmin']);
+        Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+        Route::get('/home', 'HomeController@index')->name('home')->middleware(['can:canAuthenAdmin']);
         // main
-        Route::get('/main', function () {
-            return view('admin.main');
-        })->name('main');
+        Route::get('/main', 'Auth\LoginController@show')->name('main')->middleware('is.admin');
     }
 );
 
@@ -91,8 +83,6 @@ Route::group(
         // products 
 
 
-
-        // users 
 
 
     }

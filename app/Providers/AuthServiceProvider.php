@@ -26,8 +26,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
-        Gate::define('canAuthenAdmin', function ($user) {
+        Gate::define('admin', function ($user) {
             if ($user->roles[0]['pivot']['role_id'] === config('setting.role.admin'))
+                return true;
+        });
+
+        Gate::define('mod', function ($user) {
+            if ($user->roles[0]['pivot']['role_id'] === config('setting.role.mod'))
                 return true;
         });
     }

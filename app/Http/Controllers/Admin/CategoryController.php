@@ -6,18 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Product;
-
+use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     public function index()
     {
         $categories = Category::all();
-        return view('admin.categories.list',compact('categories'));
+
+        return view('admin.categories.list', compact('categories'));
     }
 
     public function create()
     {
-        return view('admin.categories.create');
+        $categories = Category::all();
+        return view('admin.categories.create', ['categories' => $categories]);
     }
 
     /**
@@ -28,8 +30,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data =$request->all();
+        $data = $request->all();
         Category::create($data);
+
         return redirect()->route('admin.categories.list');
     }
 
@@ -52,8 +55,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category =Category::find($id);
-        return view('admin.categories.edit',compact('category'));
+        $category = Category::find($id);
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -66,10 +69,10 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         // DB::enableQueryLog();
-       $category = Category::find($id);
-       $data =$request->only('name');
-       $category->update($data);
-       return redirect()->route('admin.categories.list');
+        $category = Category::find($id);
+        $data = $request->only('name');
+        $category->update($data);
+        return redirect()->route('admin.categories.list');
     }
 
     /**
@@ -80,8 +83,19 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category=Category::find($id);
+        // DB::enableQueryLog();
+        $category = Category::find($id);
+        // return $category->parent_id;
+        if (!$category->parent_id) {
+            $children = Category::find($id)->load('children')->children;
+            // dd(DB::getQueryLog());
+            foreach ($children as $child) {
+                $categoryId = Category::find($child->id);
+                $categoryId->delete();
+            }
+        }
         $category->delete();
+
         return redirect()->route('admin.categories.list');
     }
 }
