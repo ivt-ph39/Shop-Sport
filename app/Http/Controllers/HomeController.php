@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::with('children')->get();
-        // dd($category->toArray());
+        // return $categories;
         $brands = Brand::all();
 
         return view('welcome',compact('categories','brands'));

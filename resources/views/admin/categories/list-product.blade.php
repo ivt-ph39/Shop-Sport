@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.main')
 @section('content')
 <h1>List product of category :{{$category->name}}</h1>
 <table class="table table-bordered" style="width: 50%;">

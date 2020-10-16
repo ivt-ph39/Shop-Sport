@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.main')
 
 @section('content')
 <h1>List Category</h1>

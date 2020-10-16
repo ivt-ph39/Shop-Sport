@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -33,8 +35,25 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function show()
     {
-        $this->middleware('guest')->except('logout');
+        if (!Auth::check()) {
+            return view('admin.login');
+        }
+        return view('admin.main');
+    }
+
+    public function login(Request $rq)
+    {
+        if (Auth::attempt(array('email' => $rq->email, 'password' => $rq->password))) {
+            return redirect()->route('admin.main');
+        }
+        return view('admin.login');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('admin.form-login');
     }
 }
