@@ -15,6 +15,7 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
             $table->string('title');
             $table->text('content');
             $table->float('discount');
