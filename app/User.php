@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Nicolaslopezj\Searchable\SearchableTrait;
 class User extends Authenticatable
 {
     use Notifiable;
+    use SearchableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +36,16 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+    ];
+
+    protected $searchable = [
+        'columns' => [
+            'users.name'  => 10,
+            'users.phone'   => 10,
+            'users.address'   => 10,
+            'users.email'    => 10,
+            'users.id'    => 10,
+        ]
     ];
 
     public function feedbacks()

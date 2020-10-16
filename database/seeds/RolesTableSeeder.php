@@ -15,22 +15,21 @@ class RolesTableSeeder extends Seeder
         $data = [
             [
                 'name' => 'Admin',
+                'description' => 'Quản lý website',
                 'created_at' => now(),
-                'updated_at' => now(),
-                
+                'updated_at' => now()
             ],
             [
                 'name' => 'Mod',
+                'description' => 'Quản lý nội dung được admin cho phép',
                 'created_at' => now(),
-                'updated_at' => now(),
-                
+                'updated_at' => now()
             ],
-
             [
-                'name' => 'User',
+                'name' => 'Customer',
+                'description' => 'Khách hàng',
                 'created_at' => now(),
-                'updated_at' => now(),
-                
+                'updated_at' => now()
             ]
         ];
         Role::insert($data);

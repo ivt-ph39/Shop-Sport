@@ -1,7 +1,7 @@
-@extends('layouts.master')
+@extends('admin.main')
 @section('content')
 <h1>Edit Product</h1>
-<form action="{{route('products.update',$product->id)}}" method="post">
+<form action="{{route('admin.products.update',$product->id)}}" method="post">
 {{@csrf_field()}}
 @method('PUT')
 <div class="form-group">

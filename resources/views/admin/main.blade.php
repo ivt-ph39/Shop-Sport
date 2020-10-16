@@ -30,9 +30,9 @@
         <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         <a href="{{route('admin.categories.list')}}" class="list-group-item list-group-item-action bg-light">Categories</a>
         @can('admin')
-          <a href="#" class="list-group-item list-group-item-action bg-light">Products</a>
+      <a href="{{ route('admin.products.list') }}" class="list-group-item list-group-item-action bg-light">Products</a>
         @endcan
-        <a href="#" class="list-group-item list-group-item-action bg-light">Users</a>
+        <a href="{{ route('admin.users.list') }}" class="list-group-item list-group-item-action bg-light">Users</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">News</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Order</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
@@ -60,7 +60,7 @@
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
+                {{Auth::user()->name}}
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="#">Action</a>
@@ -84,9 +84,9 @@
 
   <!-- Bootstrap core JavaScript -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  @yield('js')
   <!-- Menu Toggle Script -->
   <script>
     $("#menu-toggle").click(function(e) {

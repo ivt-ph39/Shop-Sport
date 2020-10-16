@@ -18,9 +18,9 @@
             <td><a href="#">{{$product->name}}</a></td>
             <td>{{$product->quantity}}</td>
             <td>{{$product->price}}</td>
-            <td><a href="{{route('products.edit',$product->id)}}" class="btn btn-dark" role="button">Edit</a></td>
+            <td><a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-dark" role="button">Edit</a></td>
            <td >
-            <form action="{{route('products.delete',$product->id)}}" method="post">
+            <form action="{{route('admin.products.delete',$product->id)}}" method="post">
                 {{@csrf_field()}}
                 @method('DELETE')
                 <input type="submit" value="Delete" class="btn btn-danger">

@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
-class Product extends Model
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
+class Product extends Model implements Searchable
 {
     protected $fillable = [
         'name','description','price','quantity','sale_id','category_id','brand_id'
@@ -37,5 +38,16 @@ class Product extends Model
     public function orders()
     {
         return $this->belongsToMany('App\Order');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('admin.products.detail', $this->id);
+
+        return new SearchResult(
+            $this,
+            $this->name,
+            $url
+        );
     }
 }

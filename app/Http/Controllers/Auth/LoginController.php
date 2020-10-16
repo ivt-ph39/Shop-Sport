@@ -35,25 +35,5 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function show()
-    {
-        if (!Auth::check()) {
-            return view('admin.login');
-        }
-        return view('admin.main');
-    }
-
-    public function login(Request $rq)
-    {
-        if (Auth::attempt(array('email' => $rq->email, 'password' => $rq->password))) {
-            return redirect()->route('admin.main');
-        }
-        return view('admin.login');
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('admin.form-login');
-    }
+    
 }
