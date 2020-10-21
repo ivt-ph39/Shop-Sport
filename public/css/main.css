@@ -791,9 +791,7 @@ h2.title:before{
 }
 
 
-.price-range{
-  margin-top:30px;
-}
+
 
 .well {
   background-color: #FFFFFF;
@@ -2520,4 +2518,28 @@ h2.title {
   color: #FE980F;
 }
 
+#owl-demo .item img{
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
+.content-news { 
+ 
+  display: block; 
+
+  width: 100px; 
+
+  overflow: hidden; 
+
+  white-space: nowrap; 
+
+  text-overflow: ellipsis;
+
+}
+
+.news{
+  
+  margin-top:30px;
+
+}

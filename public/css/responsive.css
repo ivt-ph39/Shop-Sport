@@ -1,10 +1,16 @@
 /* lg */ 
 @media (min-width: 1200px) {
-
+	#similar-product .carousel-inner .item img{
+		width: 65px;
+	}
+	#similar-product .carousel-inner .item img {
+		display: inline-block;
+		margin-left: 30px;
+	}	
 }
 
 /* md */
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 199px) {
  
  
 .usa{

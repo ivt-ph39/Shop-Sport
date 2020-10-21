@@ -6,7 +6,7 @@ $(document).ready(function () {
 		var cart = [];
 	};
 	//add sự kiện add cart
-	$('a').click(function (e) {
+	$('#button').click(function (e) {
 		e.preventDefault();
 		var product = { key: "value", key1: "value" };
 		var product = {

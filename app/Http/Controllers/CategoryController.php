@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
+use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
 
@@ -81,5 +83,16 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+    }
+
+    public function listProductByCate($id)
+    {
+        $products = Category::find($id)->products;
+        $categories = Category::with('children')->get();
+        $category = Category::find($id);
+        // dd($category->toArray());
+        $brands = Brand::all();
+
+        return view('categories.list-products',compact('products','brands','categories','category'));
     }
 }

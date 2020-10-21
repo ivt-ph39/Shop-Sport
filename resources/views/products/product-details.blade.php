@@ -3,6 +3,11 @@
 @section('content')
 
 
+@foreach($product->images as $key=>$image)
+@if($key ==0)
+{{$image['path']}}
+@endif
+@endforeach
 <section>
     <div class="container">
         <div class="row">
@@ -14,33 +19,37 @@
                     <!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src=" 
-                            @foreach($product->images as $image)
-                                            {{$image['path']}}
-                                        @endforeach " alt="" />
+                            <img id="img" src="@foreach($product->images as $key=>$image) @if($key ==0) {{URL::to('/')}}/{{$image['path']}} @endif @endforeach" alt="" />
                             <h3>ZOOM</h3>
                         </div>
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
 
                             <!-- Wrapper for slides -->
+
                             <div class="carousel-inner">
+
                                 <div class="item active">
-                                    <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-                                </div>
-                                <div class="item">
-                                    <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-                                </div>
-                                <div class="item">
-                                    <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
+                               @foreach($product->images as $key=>$image)
+                                
+                               <a href=""> <img src="{{URL::to('/')}}/{{$image['path']}}" alt="" onclick='changeImage(" ");' > </a>
+                               
+                                @endforeach
                                 </div>
 
+                                <!--<div class="item">
+                                    <a href=""><img src="{{$image['path']}}" alt=""></a>
+                                    <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
+                                    <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
+                                </div> -->
+                                <!--<div class="item active">
+                                    
+                                    <a href=""><img src="{{ asset('images/puma1.jpg') }}" alt=""></a>
+                                    <a href=""><img src="{{ asset('images/puma2.jpg') }}" alt=""></a>
+                                    
+                                </div> -->
+
                             </div>
+
 
                             <!-- Controls -->
                             <a class="left item-control" href="#similar-product" data-slide="prev">
@@ -49,6 +58,7 @@
                             <a class="right item-control" href="#similar-product" data-slide="next">
                                 <i class="fa fa-angle-right"></i>
                             </a>
+
                         </div>
 
                     </div>
@@ -61,9 +71,9 @@
                             <img src="images/product-details/rating.png" alt="" />
                             <span>
                                 <span>US ${{$product['price']}}</span>
-                                
-                                
-                                <a data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{$product['price']}}" type="button" class="btn btn-fefault cart">
+
+
+                                <a id="button" data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{$product['price']}}" type="button" class="btn btn-fefault cart">
                                     <i class="fa fa-shopping-cart"></i>
                                     Add to cart
                                 </a>
@@ -233,6 +243,11 @@
             </div>
         </div>
 </section>
+<script type="text/javascript">
+    function changeImage(a) {
+        document.getElementById("img").src=a;
+    }
+</script>
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
 
 @endsection

@@ -25,7 +25,10 @@ Route::get('/cart', function () {
     return view('cart.cart');
 })->name('show-cart');
 
+//Homepage
 Route::get('/products','ProductController@index')->name('show-products');
 Route::get('/product/{id}/details','ProductController@show')->name('product-details');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
+Route::get('/categories/{id}/products','CategoryController@listProductByCate')->name('listProductByCate');
+Route::get('/news/{id}','NewsController@show')->name('show-news');

@@ -15,6 +15,17 @@
     <link href="{{ asset('css/main.css')}}" rel="stylesheet">
     <link href="{{ asset('css/responsive.css')}}" rel="stylesheet">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Important Owl stylesheet -->
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+
+    <!-- Default Theme -->
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.css') }}">
+
+    <!--  jQuery 1.7+  -->
+    <!-- <script src="jquery-1.9.1.min.js"></script> -->
+
+    <!-- Include js plugin -->
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -139,7 +150,7 @@
         <!--/header-bottom-->
     </header>
     <!--/header-->
-   
+
     @yield('content')
 
     <footer id="footer">
@@ -310,13 +321,9 @@
     <script src="{{ asset('js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{ asset('js/main.js')}}"></script>
+    <script src="{{ asset('js/owl.carousel.js') }}"></script>
+
 
 </body>
 
 </html>
-
-
-
-
-
-

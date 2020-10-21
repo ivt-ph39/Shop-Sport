@@ -23,7 +23,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					
+
 				</tbody>
 			</table>
 		</div>
@@ -38,78 +38,40 @@
 			<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
 		</div>
 		<div class="row">
-			<div class="col-sm-6">
-				<div class="chose_area">
-					<ul class="user_option">
-						<li>
-							<input type="checkbox">
-							<label>Use Coupon Code</label>
-						</li>
-						<li>
-							<input type="checkbox">
-							<label>Use Gift Voucher</label>
-						</li>
-						<li>
-							<input type="checkbox">
-							<label>Estimate Shipping & Taxes</label>
-						</li>
-					</ul>
-					<ul class="user_info">
-						<li class="single_field">
-							<label>Country:</label>
-							<select>
-								<option>United States</option>
-								<option>Bangladesh</option>
-								<option>UK</option>
-								<option>India</option>
-								<option>Pakistan</option>
-								<option>Ucrane</option>
-								<option>Canada</option>
-								<option>Dubai</option>
-							</select>
-
-						</li>
-						<li class="single_field">
-							<label>Region / State:</label>
-							<select>
-								<option>Select</option>
-								<option>Dhaka</option>
-								<option>London</option>
-								<option>Dillih</option>
-								<option>Lahore</option>
-								<option>Alaska</option>
-								<option>Canada</option>
-								<option>Dubai</option>
-							</select>
-
-						</li>
-						<li class="single_field zip-field">
-							<label>Zip Code:</label>
-							<input type="text">
-						</li>
-					</ul>
-					<a class="btn btn-default update" href="">Get Quotes</a>
-					<a class="btn btn-default check_out" href="">Continue</a>
+			<form action="#" method="post">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="email">Email address: </label>
+						<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+					</div>
+					<div class="form-group">
+						<label for="name">Password: </label>
+						<input type="text" class="form-control" id="name" placeholder="Name">
+					</div>
+					<div class="form-group">
+						<label for="phone">Phone: </label>
+						<input type="text" class="form-control" id="phone" placeholder="Phone">
+					</div>
+					<div class="form-group">
+						<label for="address">Address</label>
+						<input type="text" class="form-control" id="address" placeholder="Address">
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="total_area">
-					<ul>
-						<li>Cart Sub Total <span id="total"></span></li>
-						<li>Eco Tax <span>$2</span></li>
-						<li>Shipping Cost <span>Free</span></li>
-						<li>Total <span>$61</span></li>
-					</ul>
-					<a class="btn btn-default update" href="">Update</a>
-					<a class="btn btn-default check_out" href="">Check Out</a>
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span id="total"></span></li>
+						</ul>
+					</div>
 				</div>
-			</div>
+				<button type="submit" class="btn btn-primary">Checkout</button>
+			</form>
 		</div>
 	</div>
 </section>
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
 <script type="text/javascript">
-    showCart();
+	showCart();
 </script>
 
 

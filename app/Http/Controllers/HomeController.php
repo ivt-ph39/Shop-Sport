@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Brand;
+use App\News;
 use App\Mail\OrderConfirmMail;
 
 class HomeController extends Controller
@@ -19,8 +20,10 @@ class HomeController extends Controller
         $categories = Category::with('children')->get();
         // dd($category->toArray());
         $brands = Brand::all();
+        $news = News::with('images')->get();
+        // dd($news->toArray());
 
-        return view('welcome',compact('categories','brands'));
+        return view('welcome',compact('categories','brands','news'));
     }
 
     /**
@@ -110,4 +113,6 @@ class HomeController extends Controller
         });
         return 'success';
     }
+
+    
 }
