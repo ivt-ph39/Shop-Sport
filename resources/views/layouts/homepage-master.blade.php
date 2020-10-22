@@ -16,6 +16,7 @@
     <link href="{{ asset('css/responsive.css')}}" rel="stylesheet">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Important Owl stylesheet -->
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
 
@@ -36,8 +37,8 @@
 <body>
     <header id="header">
         <!--header-->
-        <div class="header_top">
-            <!--header_top-->
+        <!-- <div class="header_top">
+            <!--header_top
             <div class="container">
                 <div class="row">
                     <div class="col-sm-6">
@@ -61,7 +62,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!--/header_top-->
 
         <div class="header-middle">

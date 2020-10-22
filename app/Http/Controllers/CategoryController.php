@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Brand;
 use App\Product;
 use App\Category;
+use App\News;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -92,7 +93,8 @@ class CategoryController extends Controller
         $category = Category::find($id);
         // dd($category->toArray());
         $brands = Brand::all();
+        $news = News::with('images')->get();
 
-        return view('categories.list-products',compact('products','brands','categories','category'));
+        return view('categories.list-products',compact('products','brands','categories','category','news'));
     }
 }

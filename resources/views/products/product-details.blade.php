@@ -3,11 +3,7 @@
 @section('content')
 
 
-@foreach($product->images as $key=>$image)
-@if($key ==0)
-{{$image['path']}}
-@endif
-@endforeach
+
 <section>
     <div class="container">
         <div class="row">
@@ -30,8 +26,7 @@
 
                                 <div class="item active">
                                @foreach($product->images as $key=>$image)
-                                
-                               <a href=""> <img src="{{URL::to('/')}}/{{$image['path']}}" alt="" onclick='changeImage(" ");' > </a>
+                               <a href="#"> <img src="{{$image['path']}}" alt="" onclick="changeImage('{{$image->path}}');" > </a>
                                
                                 @endforeach
                                 </div>
@@ -244,8 +239,9 @@
         </div>
 </section>
 <script type="text/javascript">
+
     function changeImage(a) {
-        document.getElementById("img").src=a;
+       $("#img").attr('src', a);
     }
 </script>
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>

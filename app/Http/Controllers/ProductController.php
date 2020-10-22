@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Product;
 use App\Brand;
+use App\News;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -56,8 +57,9 @@ class ProductController extends Controller
         $product = Product::with('brand','images')->find($id);
         $brands    = Brand::all();
         $categories = Category::all();
+        $news = News::with('images')->get();
 
-        return view('products.product-details',compact('product','brands','categories'));
+        return view('products.product-details',compact('product','brands','categories','news'));
     }
 
     /**
