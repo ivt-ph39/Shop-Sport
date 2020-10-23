@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Brand;
+use App\Category;
+use App\Product;
+use App\News;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
@@ -81,5 +84,17 @@ class BrandController extends Controller
     public function destroy(Brand $brand)
     {
         //
+    }
+
+    public function showProductsByBrand($id)
+    {
+        $categories = Category::with('children')->get();
+        // dd($category->toArray());
+        $brands = Brand::all();
+        $news = News::with('images')->get();
+
+        $brand = Brand::with('products')->find($id);
+
+        return view('brands.list-products',compact('categories','brands','news','brand'));
     }
 }

@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\RegisterRequest;
 
 class RegisterController extends Controller
 {
@@ -69,5 +70,24 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function showSignUpHomePage()
+    {
+        return view('auth.register');
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $data = $request->all();
+        // $this->validator($data);
+        // User::create($data);
+        // $this->create($data);
+        // dd($data);
+        $data['password'] = bcrypt($data['password']);
+        $user = User::create($data);
+        auth()->login($user);
+
+        return redirect()->route('homepage');
     }
 }

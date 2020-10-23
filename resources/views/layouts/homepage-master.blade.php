@@ -37,8 +37,8 @@
 <body>
     <header id="header">
         <!--header-->
-        <!-- <div class="header_top">
-            <!--header_top
+        <div class="header_top">
+            <!--header_top-->
             <div class="container">
                 <div class="row">
                     <div class="col-sm-6">
@@ -50,21 +50,36 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="social-icons pull-right">
-                            <ul class="nav navbar-nav">
-                                <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                                <li><a href=""><i class="fa fa-twitter"></i></a></li>
-                                <li><a href=""><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href=""><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href=""><i class="fa fa-google-plus"></i></a></li>
-                            </ul>
-                        </div>
+                        <div class="social-icon pull-right">
+                            @if(!Auth::check())
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-user"></i>
+                                    Account
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a href="{{route('show-login')}}" class="active"><i class="fa fa-lock"></i> Login</a></li>
+                                    <li><a href="{{route('show-register')}}" class="active"><i class="fa fa-unlock"></i> Register</a></li>
+                                </div>
+                            </div> 
+                            
+                            @else
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-user"></i>
+                                    {{Auth::user()->name}}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a href="{{route('logout')}}" class="active"><i class="fa fa-bars"></i> Your Account</a></li>
+                                    <li><a href="{{route('logout')}}" class="active"><i class="fa fa-unlock"></i> Logout</a></li>
+                                </div>
+                            </div> 
+                            @endif
+                        </div> <!-- /header_top -->
                     </div>
                 </div>
             </div>
-        </div> -->
-        <!--/header_top-->
-
+        </div>
         <div class="header-middle">
             <!--header-middle-->
             <div class="container">
@@ -100,11 +115,11 @@
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a href=""><i class="fa fa-user"></i> Account</a></li>
-                                <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
+                                <!-- <li><a href=""><i class="fa fa-user"></i> Account</a></li> -->
+                                <!-- <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li> -->
                                 <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                                 <li><a href="{{route('show-cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                                <li><a href="{{route('show-login')}}" class="active"><i class="fa fa-lock"></i> Login</a></li>
+
                             </ul>
                         </div>
                     </div>
@@ -141,9 +156,13 @@
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="search_box pull-right">
-                            <input type="text" placeholder="Search" />
+                        <div class="header-search">
+                            <form method="POST" action="{{ route('search') }}" id="header-search">
+                                <input type="text" name="search" class="form-control m-input" placeholder="Enter Product Name" />
+                                {{ csrf_field() }}
+                            </form>
                         </div>
+                        <div id="search-suggest" class="s-suggest"></div>
                     </div>
                 </div>
             </div>
@@ -323,8 +342,28 @@
     <script src="{{ asset('js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{ asset('js/main.js')}}"></script>
     <script src="{{ asset('js/owl.carousel.js') }}"></script>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </body>
 
 </html>
+<script type="text/javascript">
+    $('#header-search').on('keyup', function() {
+        var search = $(this).serialize();
+        if ($(this).find('.m-input').val() == '') {
+            $('#search-suggest div').hide();
+        } else {
+            $.ajax({
+                    url: '/search',
+                    type: 'POST',
+                    data: search,
+                })
+                .done(function(res) {
+                    $('#search-suggest').html('');
+                    $('#search-suggest').append(res)
+                })
+        };
+    });
+</script>

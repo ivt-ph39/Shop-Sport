@@ -15,22 +15,22 @@
                     <!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img id="img" src="@foreach($product->images as $key=>$image) @if($key ==0) {{URL::to('/')}}/{{$image['path']}} @endif @endforeach" alt="" />
+                            <img id="img" src="@foreach($product->images as $key=>$image) @if($key ==0) {{$image['path']}} @endif @endforeach" alt="" />
                             <h3>ZOOM</h3>
                         </div>
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
 
                             <!-- Wrapper for slides -->
-
+                            
                             <div class="carousel-inner">
-
+                                
                                 <div class="item active">
-                               @foreach($product->images as $key=>$image)
-                               <a href="#"> <img src="{{$image['path']}}" alt="" onclick="changeImage('{{$image->path}}');" > </a>
-                               
-                                @endforeach
-                                </div>
+                                    @foreach($product->images as $key=>$image)
+                                    <a href="#"> <img src="{{$image['path']}}" alt="" onclick="changeImage('{{$image->path}}');"> </a>
+                                    @endforeach
 
+                                </div>
+                                
                                 <!--<div class="item">
                                     <a href=""><img src="{{$image['path']}}" alt=""></a>
                                     <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
@@ -44,7 +44,7 @@
                                 </div> -->
 
                             </div>
-
+                            
 
                             <!-- Controls -->
                             <a class="left item-control" href="#similar-product" data-slide="prev">
@@ -239,9 +239,8 @@
         </div>
 </section>
 <script type="text/javascript">
-
     function changeImage(a) {
-       $("#img").attr('src', a);
+        $("#img").attr('src', a);
     }
 </script>
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>

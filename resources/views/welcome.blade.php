@@ -79,32 +79,37 @@
 				<div class="features_items">
 					<!--features_items-->
 					<h2 class="title text-center">Sale Items</h2>
+					@foreach($products as $pro)
+					
 					<div class="col-sm-4">
 						<div class="product-image-wrapper">
 							<div class="single-products">
 								<div class="productinfo text-center">
-									<img src="images/home/product1.jpg" alt="" />
-									<h2>$56</h2>
-									<p>Easy Polo Black Edition</p>
+									<img src="@foreach($pro->images as $key=>$image)  @if($key ==0) {{$image['path']}} @endif @endforeach" alt="" />
+									<h2>${{$pro['price']}}</h2>
+									<p>{{$pro['name']}} {{$pro->brand['name']}}</p>
 									<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 								</div>
 								<div class="product-overlay">
 									<div class="overlay-content">
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+									<a href="{{route('product-details',$pro['id'])}}" class="btn btn-default add-to-cart"><i></i>View Details</a>
+                                        <a id="button" data-id="{{$pro['id']}}" data-name="{{$pro['name']}}" data-price="{{$pro['price']}}" href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 									</div>
 								</div>
 							</div>
-							<div class="choose">
+							<!-- <div class="choose">
 								<ul class="nav nav-pills nav-justified">
 									<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
 									<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
 								</ul>
-							</div>
+							</div> -->
 						</div>
 					</div>
-					<div class="col-sm-4">
+					
+					@endforeach
+					<p>Có {{ $products->total() }} sản phẩm</p>
+					<div>{{ $products->links() }}</div>
+					<!-- <div class="col-sm-4">
 						<div class="product-image-wrapper">
 							<div class="single-products">
 								<div class="productinfo text-center">
@@ -230,7 +235,7 @@
 								</ul>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 				</div>
 				<!--features_items-->

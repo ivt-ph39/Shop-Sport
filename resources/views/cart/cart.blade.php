@@ -39,24 +39,46 @@
 		</div>
 		<div class="row">
 			<form action="#" method="post">
+				@if(!Auth::check())
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="email">Email address: </label>
-						<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+						<label for="name">Name: </label>
+						<input type="name" class="form-control" name="name" id="name" value="{{Auth::user()->name}}">
 					</div>
 					<div class="form-group">
-						<label for="name">Password: </label>
-						<input type="text" class="form-control" id="name" placeholder="Name">
+						<label for="email">Email address: </label>
+						<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
 					</div>
 					<div class="form-group">
 						<label for="phone">Phone: </label>
-						<input type="text" class="form-control" id="phone" placeholder="Phone">
+						<input type="text" class="form-control" name="phone" id="phone" placeholder="Phone">
 					</div>
 					<div class="form-group">
 						<label for="address">Address</label>
-						<input type="text" class="form-control" id="address" placeholder="Address">
+						<input type="text" class="form-control" name="address" id="address" placeholder="Address">
 					</div>
 				</div>
+				@else
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="name">Name: </label>
+						<input type="name" class="form-control" name="name" id="name" value="{{Auth::user()->name}}">
+					</div>
+					<div class="form-group">
+						<label for="email">Email address: </label>
+						<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" value="{{Auth::user()->email}}">
+					</div>
+					<div class="form-group">
+						<label for="phone">Phone: </label>
+						<input type="text" class="form-control" name="phone" id="phone" value="{{Auth::user()->phone}}">
+					</div>
+					<div class="form-group">
+						<label for="address">Address</label>
+						<input type="text" class="form-control" name="address" id="address" value="{{Auth::user()->address}}">
+					</div>
+				</div>
+				@endif
+
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>

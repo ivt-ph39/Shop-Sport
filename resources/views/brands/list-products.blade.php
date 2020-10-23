@@ -1,5 +1,5 @@
 @extends('layouts.homepage-master')
-@section('title','Sport Shop')
+@section('title','Sport Shop || Products by Brand')
 @section('content')
 
 
@@ -13,8 +13,8 @@
             <div class="col-sm-9 padding-right">
                 <div class="features_items">
                     <!--features_items-->
-                    <h2 class="title text-center">{{ $category['name'] }}</h2>
-                    @foreach($products as $pro)
+                    <h2 class="title text-center">{{ $brand['name'] }}</h2>
+                    @foreach($brand->products as $pro)
                     <div class="col-sm-4">
 
                         <div class="product-image-wrapper">

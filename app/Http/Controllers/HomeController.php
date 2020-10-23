@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\Brand;
 use App\News;
+use App\Product;
 use App\Mail\OrderConfirmMail;
 
 class HomeController extends Controller
@@ -22,8 +23,9 @@ class HomeController extends Controller
         $brands = Brand::all();
         $news = News::with('images')->get();
         // dd($news->toArray());
+        $products = Product::with('brand', 'images', 'sale')->where('sale_id', '<>', 'null')->paginate(6);
 
-        return view('welcome',compact('categories','brands','news'));
+        return view('welcome', compact('categories', 'brands', 'news', 'products'));
     }
 
     /**
@@ -107,12 +109,33 @@ class HomeController extends Controller
         $to_email = $data['email'];
         $to_name = $data['name'];
         $from_email = 'nhi12299@gmail.com';
-        \Mail::send('mail.contact-mail',$data, function($message) use ($to_email,$to_name, $from_email){
-            $message->to($to_email,$to_name)->subject('Contact Mail');
-            $message->from($from_email,'Shop-Sport');
+        \Mail::send('mail.contact-mail', $data, function ($message) use ($to_email, $to_name, $from_email) {
+            $message->to($to_email, $to_name)->subject('Contact Mail');
+            $message->from($from_email, 'Shop-Sport');
         });
         return 'success';
     }
 
-    
+    public function search()
+    {
+        $categories = Category::with('children')->get();
+        // dd($category->toArray());
+        $brands = Brand::all();
+        $news = News::with('images')->get();
+        // dd($news->toArray());
+        $products = Product::with('brand', 'images', 'sale')->where('sale_id', '<>', 'null')->paginate(6);
+
+        return view('welcome', compact('categories', 'brands', 'news', 'products'));
+    }
+
+    public function searchFullText(Request $request)
+    {
+        if ($request->search != '') {
+            $data = Product::FullTextSearch('name', $request->search)->get();
+            foreach ($data as $key => $value) {
+                echo $value->name;
+                echo '<br>'; // mình viết vầy cho nhanh các bạn tùy chỉnh cho đẹp nhé
+            }
+        }
+    }
 }

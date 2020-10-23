@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $searchable = [
+        'email',
+        'name'
+    ];
+
     protected $fillable = [
-        'name','description','price','quantity','sale_id','category_id','brand_id'
+        'name', 'description', 'price', 'quantity', 'sale_id', 'category_id', 'brand_id'
     ];
 
     public function brand()
@@ -32,10 +37,40 @@ class Product extends Model
 
     public function images()
     {
-        return $this->morphMany('App\Image','imageable');
+        return $this->morphMany('App\Image', 'imageable');
     }
     public function orders()
     {
         return $this->belongsToMany('App\Order');
+    }
+
+    protected function fullTextWildcards($term)
+    {
+        // removing symbols used by MySQL
+        $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+        $term = str_replace($reservedSymbols, '', $term);
+
+        $words = explode(' ', $term);
+
+        foreach ($words as $key => $word) {
+            /*
+             * applying + operator (required word) only big words
+             * because smaller ones are not indexed by mysql
+             */
+            if (strlen($word) >= 1) {
+                $words[$key] = '+' . $word  . '*';
+            }
+        }
+
+        $searchTerm = implode(' ', $words);
+
+        return $searchTerm;
+    }
+
+    public function scopeFullTextSearch($query, $columns, $term)
+    {
+        $query->whereRaw("MATCH ({$columns}) AGAINST (? IN BOOLEAN MODE)", $this->fullTextWildcards($term));
+
+        return $query;
     }
 }
