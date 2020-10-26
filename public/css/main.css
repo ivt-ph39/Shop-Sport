@@ -853,10 +853,16 @@ h2.title {
   position: relative;
 }
 
-.new, .sale {
+.new{
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.sale{
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .productinfo h2{

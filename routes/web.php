@@ -17,12 +17,11 @@ Route::get('/','HomeController@index')->name('homepage');
 
 Route::get('/login','Auth\LoginController@showLoginHomePage')->name('show-login');
 Route::post('/login','Auth\LoginController@loginHomePage')->name('login');
-Route::get('/logout','Auth\LoginController@logoutHomePage')->name('logout');
+Route::get('/logout','Auth\LoginController@logout')->name('logout');
 Route::get('/register','Auth\RegisterController@showSignUpHomePage')->name('show-register');
 Route::post('/register','Auth\RegisterController@register')->name('register');
-Route::get('/cart', function () {
-    return view('cart.cart');
-})->name('show-cart');
+Route::get('/checkout','CartController@getCheckout')->name('show-cart');
+Route::post('/checkout','CartController@postCheckout')->name('checkout');
 
 //Homepage
 Route::get('/products','ProductController@index')->name('show-products');
@@ -34,3 +33,6 @@ Route::get('/news/{id}','NewsController@show')->name('show-news');
 Route::get('/brand/{id}/products','BrandController@showProductsByBrand')->name('products-by-brand');
 Route::get('/search', 'HomeController@search');
 Route::post('/search', 'HomeController@searchFullText')->name('search');
+
+Route::get('/account','HomeController@showAccountCustomer')->name('account-customer');
+Route::post('/feebacks','FeedbackController@store')->name('feedbacks');

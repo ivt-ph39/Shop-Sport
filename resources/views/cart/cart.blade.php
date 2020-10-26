@@ -2,6 +2,8 @@
 @section('title','Shopping Cart')
 @section('content')
 
+
+
 <section id="cart_items">
 	<div class="container">
 		<div class="breadcrumbs">
@@ -38,28 +40,31 @@
 			<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
 		</div>
 		<div class="row">
-			<form action="#" method="post">
+			<form action="{{ route('checkout') }}" method="post">
+				@csrf
 				@if(!Auth::check())
 				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="name">Name: </label>
-						<input type="name" class="form-control" name="name" id="name" value="{{Auth::user()->name}}">
-					</div>
-					<div class="form-group">
-						<label for="email">Email address: </label>
-						<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-					</div>
-					<div class="form-group">
-						<label for="phone">Phone: </label>
-						<input type="text" class="form-control" name="phone" id="phone" placeholder="Phone">
-					</div>
-					<div class="form-group">
-						<label for="address">Address</label>
-						<input type="text" class="form-control" name="address" id="address" placeholder="Address">
-					</div>
+						<div class="form-group">
+							<label for="name">Name: </label>
+							<input type="name" class="form-control" name="name" id="name">
+						</div>
+						<div class="form-group">
+							<label for="email">Email address: </label>
+							<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp">
+						</div>
+						<div class="form-group">
+							<label for="phone">Phone: </label>
+							<input type="text" class="form-control" name="phone" id="phone">
+						</div>
+						<div class="form-group">
+							<label for="address">Address</label>
+							<input type="text" class="form-control" name="address" id="address">
+						</div>
 				</div>
 				@else
 				<div class="col-sm-6">
+					<!-- <input type="text" name="total" class="total" > -->
+						<input type="hidden" name="user_id" id="name" value="{{Auth::id()}}">
 					<div class="form-group">
 						<label for="name">Name: </label>
 						<input type="name" class="form-control" name="name" id="name" value="{{Auth::user()->name}}">
@@ -82,7 +87,7 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span id="total"></span></li>
+							<li>Cart Sub Total <span name="total" class="total"></span></li>
 						</ul>
 					</div>
 				</div>

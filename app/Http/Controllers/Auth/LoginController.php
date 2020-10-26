@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -42,7 +43,7 @@ class LoginController extends Controller
 
     public function showLoginHomePage()
     {
-        if (!\Auth::check()) {
+        if (!Auth::check()) {
             return view('auth.login');
         }
         return redirect()->back();
@@ -54,16 +55,16 @@ class LoginController extends Controller
             // dd($data);
         // $users = User::all();
         // dd($users->toArray());
-        if(\Auth::attempt($data)){
+        if(Auth::attempt($data)){
             $request->session()->regenerate();
-            return redirect()->route('homepage');
+            return redirect()->back();
         }
         return redirect()->back()->withInput()->with(['error' => 'Email or password wrong']);
     }
 
-    public function logoutHomePage()
+    public function logout()
     {
-        \Auth::logout();
+        Auth::logout();
         return redirect()->route('show-login');
     }
 }

@@ -21,16 +21,16 @@
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
 
                             <!-- Wrapper for slides -->
-                            
+
                             <div class="carousel-inner">
-                                
+
                                 <div class="item active">
                                     @foreach($product->images as $key=>$image)
                                     <a href="#"> <img src="{{$image['path']}}" alt="" onclick="changeImage('{{$image->path}}');"> </a>
                                     @endforeach
 
                                 </div>
-                                
+
                                 <!--<div class="item">
                                     <a href=""><img src="{{$image['path']}}" alt=""></a>
                                     <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
@@ -44,7 +44,7 @@
                                 </div> -->
 
                             </div>
-                            
+
 
                             <!-- Controls -->
                             <a class="left item-control" href="#similar-product" data-slide="prev">
@@ -60,18 +60,23 @@
                     <div class="col-sm-7">
                         <div class="product-information">
                             <!--/product-information-->
-                            <img src="images/product-details/new.jpg" class="newarrival" alt="" />
+                            @if ($product['created_at'] >= now()->modify("-14 Days")) <img src="/images/new.jpg" class="newarrival" alt="" /> @endif
                             <h2>{{$product['name']}}</h2>
-
-                            <img src="images/product-details/rating.png" alt="" />
                             <span>
+                                @if(@product['sale_id'] == null)
                                 <span>US ${{$product['price']}}</span>
-
-
-                                <a id="button" data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{$product['price']}}" type="button" class="btn btn-fefault cart">
+                                <b data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{$product['price']}}" type="button" class="btn btn-fefault cart">
                                     <i class="fa fa-shopping-cart"></i>
                                     Add to cart
-                                </a>
+                                </b>
+                                @else
+                                <h4 style="text-decoration:line-through;">US ${{$product['price']}}</h4>
+                                <span>US ${{ (1-$product->sale->discount)*$product['price'] }}</span>
+                                <b  data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{(1-$product->sale->discount)*$product['price']}}" type="button" class="btn btn-fefault cart">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    Add to cart
+                                </b>
+                                @endif
                             </span>
                             <p><b>Availability:</b> In Stock</p>
                             <p><b>Condition:</b> New</p>
@@ -91,76 +96,13 @@
                             <li><a href="#details" data-toggle="tab">Details</a></li>
                             <li><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>
                             <li><a href="#tag" data-toggle="tab">Tag</a></li>
-                            <li class="active"><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
+                            <li class="active"><a href="#reviews" data-toggle="tab">Reviews ({{$product->feedbacks->count()}})</a></li>
                         </ul>
                     </div>
-                    <!-- <div class="tab-content">
+                    <div class="tab-content">
                         <div class="tab-pane fade" id="details">
-                            <div class="col-sm-3">
-                                <div class="product-image-wrapper">
-                                    <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            <img src="images/home/gallery1.jpg" alt="" />
-                                            <h2>$56</h2>
-                                            <p>Easy Polo Black Edition</p>
-                                            <button class="add" type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="product-image-wrapper">
-                                    <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            <img src="images/home/gallery2.jpg" alt="" />
-                                            <h2>$56</h2>
-                                            <p>Easy Polo Black Edition</p>
-                                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="product-image-wrapper">
-                                    <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            <img src="images/home/gallery3.jpg" alt="" />
-                                            <h2>$56</h2>
-                                            <p>Easy Polo Black Edition</p>
-                                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="product-image-wrapper">
-                                    <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            <img src="images/home/gallery4.jpg" alt="" />
-                                            <h2>$56</h2>
-                                            <p>Easy Polo Black Edition</p>
-                                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="tab-pane fade" id="companyprofile">
-                            <div class="col-sm-3">
-                                <div class="product-image-wrapper">
-                                    <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            <img src="images/home/gallery1.jpg" alt="" />
-                                            <h2>$56</h2>
-                                            <p>Easy Polo Black Edition</p>
-                                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-
                         <div class="tab-pane fade" id="tag">
                             <div class="col-sm-3">
                                 <div class="product-image-wrapper">
@@ -175,37 +117,52 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="tab-pane fade active in" id="reviews">
                             <div class="col-sm-12">
+                            @if(Auth::check())
+                                @foreach($feedbacks as $f)
+                                @if($product['id'] == $f['product_id'])
                                 <ul>
-                                    <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
-                                    <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-                                    <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
+                                    <li><a href=""><i class="fa fa-user"></i>{{$f->user['name']}}</a></li>
+                                    <li><a href=""><i class="fa fa-clock-o"></i>{{$f->user['created_at']->toTimeString()}}</a></li>
+                                    <li><a href=""><i class="fa fa-calendar-o"></i>{{$f->user['created_at']->toFormattedDateString()}}</a></li>
                                 </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                <p>{{$f['content']}}</p>
+                                @endif
+                                @endforeach
                                 <p><b>Write Your Review</b></p>
-
-                                <form action="#">
+                                <form action="{{ route('feedbacks') }}" method="POST" id="feedbacks">
+                                    @csrf
                                     <span>
-                                        <input type="text" placeholder="Your Name" />
-                                        <input type="email" placeholder="Email Address" />
+                                        <input type="hidden" name="user_id" value="{{Auth::id()}}" />
+                                        <input type="hidden" name="product_id" value="{{$product['id']}}" />
                                     </span>
-                                    <textarea name=""></textarea>
-                                    <b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
-                                    <button type="button" class="btn btn-default pull-right">
+                                    <textarea form="feedbacks" name="content"></textarea>
+                                    <!-- <b>Rating: </b> <img src="images/product-details/rating.png" alt="" /> -->
+                                    <button type="submit" class="btn btn-default pull-right">
                                         Submit
                                     </button>
                                 </form>
+                            @else
+                                @foreach($feedbacks as $f)
+                                @if($product['id'] == $f['product_id'])
+                                <ul>
+                                    <li><a href=""><i class="fa fa-user"></i>{{$f->user['name']}}</a></li>
+                                    <li><a href=""><i class="fa fa-clock-o"></i>{{$f->user['created_at']->toTimeString()}}</a></li>
+                                    <li><a href=""><i class="fa fa-calendar-o"></i>{{$f->user['created_at']->toFormattedDateString()}}</a></li>
+                                </ul>
+                                <p>{{$f['content']}}</p>
+                                @endif
+                                @endforeach
+                                <a type="button" class="btn btn-danger" href="{{route('show-login')}}">Login member to write your review</a>
+                            @endif
                             </div>
                         </div>
-
-                    </div> -->
+                    </div>
                 </div>
                 <!--/category-tab-->
-
-                <div class="recommended_items">
-                    <!--recommended_items-->
+                <!-- <div class="recommended_items">
+                    <!--recommended_items
                     <h2 class="title text-center">recommended items</h2>
 
                     <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
@@ -232,9 +189,9 @@
                             </a>
                         </div>
                     </div>
-                    <!--/recommended_items-->
+                    <!--/recommended_items
 
-                </div>
+                </div> -->
             </div>
         </div>
 </section>

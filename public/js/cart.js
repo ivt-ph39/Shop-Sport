@@ -6,7 +6,7 @@ $(document).ready(function () {
 		var cart = [];
 	};
 	//add sự kiện add cart
-	$('#button').click(function (e) {
+	$('b').click(function (e) {
 		e.preventDefault();
 		var product = { key: "value", key1: "value" };
 		var product = {
@@ -108,7 +108,7 @@ function showCart() {
 		$.each(cart, function(key,item){
 			html += '<tr>'+
 							'<td class="cart_product">'+
-								'<a href=""><img src="images/cart/one.png" alt=""></a>'+
+								'<a href=""><img src="" alt=""></a>'+
 							'</td>'+
 							'<td class="cart_description">'+
 								'<h4><a href="">'+item.name+'</a></h4>'+
@@ -124,8 +124,7 @@ function showCart() {
 							'<td class="cart_total">'+
 								'<p class="cart_total_price">$'+(item.price*item.quantity)+'</p>'+
 							'</td>'+
-							'<td class="cart_delete">'+
-								'<a key="'+key+'" id="remove" data-id="'+item.id+'" class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>'+
+							'<td class="cart_delete">'+			'<a key="'+key+'" id="remove" data-id="'+item.id+'" class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>'+
 							'</td>'+
 						'</tr>';
 				total += parseInt(item.price*item.quantity);
@@ -133,7 +132,8 @@ function showCart() {
 		$('tbody').html('');
 		$('tbody').append(html);
 		console.log(total);
-		$('#total').text('$'+formatCurrency(total.toString()));
+		$('.total').text('$'+formatCurrency(total.toString()));
+		$('.total').input('$'+formatCurrency(total.toString()));
 	}
 }
 

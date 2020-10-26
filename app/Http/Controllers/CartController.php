@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Feedback;
 use Illuminate\Http\Request;
+use App\Http\Requests\CheckoutRequest;
+use App\Order;
 
-class FeedbackController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,20 +36,16 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        // dd($data);
-        $product_id = $data['product_id'];
-        Feedback::create($data);
-        return redirect()->route('product-details',$product_id);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Feedback  $feedback
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Feedback $feedback)
+    public function show($id)
     {
         //
     }
@@ -56,10 +53,10 @@ class FeedbackController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Feedback  $feedback
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Feedback $feedback)
+    public function edit($id)
     {
         //
     }
@@ -68,10 +65,10 @@ class FeedbackController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Feedback  $feedback
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Feedback $feedback)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -79,11 +76,37 @@ class FeedbackController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Feedback  $feedback
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Feedback $feedback)
+    public function destroy($id)
     {
         //
+    }
+
+    public function getCheckout()
+    {
+        return view('cart.cart');
+    }
+
+    public function postCheckout(CheckoutRequest $Request)
+    {
+        $order = new Order;
+        $order->name = $Request->input('name');
+        $order->email = $Request->input('email');
+        $order->address = $Request->input('address');
+        $order->phone = $Request->input('phone');
+        $order->user_id = $Request->input('user_id');
+        $order->created_at = now();
+        $order->updated_at = now();
+        $order->save();
+        // dd($order);
+
+
+        return redirect()->back();
+
+
+
+
     }
 }

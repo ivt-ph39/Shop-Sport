@@ -32,7 +32,7 @@ class Product extends Model
 
     public function feedbacks()
     {
-        return $this->belongsTo('App\Feedback');
+        return $this->hasMany('App\Feedback');
     }
 
     public function images()

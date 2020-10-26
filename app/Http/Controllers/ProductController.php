@@ -6,6 +6,7 @@ use App\Category;
 use App\Product;
 use App\Brand;
 use App\News;
+use App\Feedback;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -18,11 +19,12 @@ class ProductController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $products = Product::with('brand','images')->get();
+        $products = Product::with('brand','images','sale')->paginate(9);
         // dd($products->toArray());
         $brands    = Brand::all();
+        $news = News::with('images')->get();
 
-        return view('products.list-product',compact('products','categories','brands'));
+        return view('products.list-product',compact('products','categories','brands','news'));
     }
 
     /**
@@ -58,8 +60,10 @@ class ProductController extends Controller
         $brands    = Brand::all();
         $categories = Category::all();
         $news = News::with('images')->get();
+        $feedbacks = Feedback::with('user','product')->get();
+        // dd($feedbacks->toArray());
 
-        return view('products.product-details',compact('product','brands','categories','news'));
+        return view('products.product-details',compact('product','brands','categories','news','feedbacks'));
     }
 
     /**

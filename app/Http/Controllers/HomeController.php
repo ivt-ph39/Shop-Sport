@@ -138,4 +138,9 @@ class HomeController extends Controller
             }
         }
     }
+
+    public function showAccountCustomer()
+    {
+        return view('customers.customer-infor');
+    }
 }

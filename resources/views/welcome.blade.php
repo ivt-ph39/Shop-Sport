@@ -80,22 +80,23 @@
 					<!--features_items-->
 					<h2 class="title text-center">Sale Items</h2>
 					@foreach($products as $pro)
-					
 					<div class="col-sm-4">
 						<div class="product-image-wrapper">
 							<div class="single-products">
 								<div class="productinfo text-center">
-									<img src="@foreach($pro->images as $key=>$image)  @if($key ==0) {{$image['path']}} @endif @endforeach" alt="" />
-									<h2>${{$pro['price']}}</h2>
+									<img style="width:250px; height:250px" src="@foreach($pro->images as $key=>$image)  @if($key ==0) {{$image['path']}} @endif @endforeach" alt="" />
+									<h4 style="text-decoration:line-through;">${{$pro['price']}}</h4>
+									<h2 class="total">${{ (1-$pro->sale->discount)*$pro['price'] }}</h2>
 									<p>{{$pro['name']}} {{$pro->brand['name']}}</p>
-									<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 								</div>
 								<div class="product-overlay">
 									<div class="overlay-content">
-									<a href="{{route('product-details',$pro['id'])}}" class="btn btn-default add-to-cart"><i></i>View Details</a>
-                                        <a id="button" data-id="{{$pro['id']}}" data-name="{{$pro['name']}}" data-price="{{$pro['price']}}" href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										<a href="{{route('product-details',$pro['id'])}}" class="btn btn-default add-to-cart"><i></i>View Details</a>
+										<b id="button" data-id="{{$pro['id']}}" data-name="{{$pro['name']}}" data-price="{{ (1-$pro->sale->discount)*$pro['price'] }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</b>
 									</div>
 								</div>
+								@if ($pro['created_at'] >= now()->modify("-14 Days")) <img src="images/new.png" class="new" alt=""> @endif
+								<img src="images/sale.png" class="sale" alt="">
 							</div>
 							<!-- <div class="choose">
 								<ul class="nav nav-pills nav-justified">
@@ -105,10 +106,9 @@
 							</div> -->
 						</div>
 					</div>
-					
 					@endforeach
-					<p>Có {{ $products->total() }} sản phẩm</p>
-					<div>{{ $products->links() }}</div>
+
+
 					<!-- <div class="col-sm-4">
 						<div class="product-image-wrapper">
 							<div class="single-products">
@@ -238,6 +238,8 @@
 					</div> -->
 
 				</div>
+				<p>Có {{ $products->total() }} sản phẩm</p>
+				<div>{{ $products->links() }}</div>
 				<!--features_items-->
 
 				<div class="category-tab">
@@ -633,5 +635,5 @@
 		</div>
 	</div>
 </section>
-
+<script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
 @endsection

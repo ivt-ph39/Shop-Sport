@@ -58,11 +58,11 @@
                                     Account
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a href="{{route('show-login')}}" class="active"><i class="fa fa-lock"></i> Login</a></li>
-                                    <li><a href="{{route('show-register')}}" class="active"><i class="fa fa-unlock"></i> Register</a></li>
+                                    <li><a href="{{route('show-login')}}" class="active"><i class="fa"></i> Login</a></li>
+                                    <li><a href="{{route('show-register')}}" class="active"><i class="fa"></i> Register</a></li>
                                 </div>
-                            </div> 
-                            
+                            </div>
+
                             @else
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -70,10 +70,10 @@
                                     {{Auth::user()->name}}
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a href="{{route('logout')}}" class="active"><i class="fa fa-bars"></i> Your Account</a></li>
+                                    <li><a href="{{route('account-customer')}}" class="active"><i class="fa fa-bars"></i> Your Account</a></li>
                                     <li><a href="{{route('logout')}}" class="active"><i class="fa fa-unlock"></i> Logout</a></li>
                                 </div>
-                            </div> 
+                            </div>
                             @endif
                         </div> <!-- /header_top -->
                     </div>
@@ -86,7 +86,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="logo pull-left">
-                            <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+                            <a href=""><img src="" alt="" /></a>
                         </div>
                         <!-- <div class="btn-group pull-right">
                             <div class="btn-group">
@@ -189,7 +189,7 @@
                             <div class="video-gallery text-center">
                                 <a href="#">
                                     <div class="iframe-img">
-                                        <img src="images/home/iframe1.png" alt="" />
+                                        <img src="" alt="" />
                                     </div>
                                     <div class="overlay-icon">
                                         <i class="fa fa-play-circle-o"></i>
@@ -204,7 +204,7 @@
                             <div class="video-gallery text-center">
                                 <a href="#">
                                     <div class="iframe-img">
-                                        <img src="images/home/iframe2.png" alt="" />
+                                        <img src="" alt="" />
                                     </div>
                                     <div class="overlay-icon">
                                         <i class="fa fa-play-circle-o"></i>
@@ -219,7 +219,7 @@
                             <div class="video-gallery text-center">
                                 <a href="#">
                                     <div class="iframe-img">
-                                        <img src="images/home/iframe3.png" alt="" />
+                                        <img src="" alt="" />
                                     </div>
                                     <div class="overlay-icon">
                                         <i class="fa fa-play-circle-o"></i>
@@ -234,7 +234,7 @@
                             <div class="video-gallery text-center">
                                 <a href="#">
                                     <div class="iframe-img">
-                                        <img src="images/home/iframe4.png" alt="" />
+                                        <img src="" alt="" />
                                     </div>
                                     <div class="overlay-icon">
                                         <i class="fa fa-play-circle-o"></i>
@@ -247,7 +247,7 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="address">
-                            <img src="images/home/map.png" alt="" />
+                            <img src="" alt="" />
                             <p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
                         </div>
                     </div>
@@ -349,21 +349,4 @@
 </body>
 
 </html>
-<script type="text/javascript">
-    $('#header-search').on('keyup', function() {
-        var search = $(this).serialize();
-        if ($(this).find('.m-input').val() == '') {
-            $('#search-suggest div').hide();
-        } else {
-            $.ajax({
-                    url: '/search',
-                    type: 'POST',
-                    data: search,
-                })
-                .done(function(res) {
-                    $('#search-suggest').html('');
-                    $('#search-suggest').append(res)
-                })
-        };
-    });
-</script>
+
