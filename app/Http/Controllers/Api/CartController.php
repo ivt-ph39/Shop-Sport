@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
 use App\Order;
+use App\OrderProduct;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class CartController extends Controller
 {
@@ -18,14 +22,39 @@ class CartController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    
+
+    public function order(Request $Request)
     {
-        //
+       
+        try {
+            DB::beginTransaction();
+            $data = $Request->only('name', 'email', 'phone', 'address');
+            // return $data;
+            $orders = Order::create($data);
+            
+            // dd($orders);
+            // $cart = json_decode($Request->cart);
+            // dd($data);
+            // return $cart;
+            foreach ($Request->cart as $key=>$item) {
+                 
+                OrderProduct::create([
+                    'order_id' => $orders->id,
+                    'quantity' => $item['quantity'],
+                    'price' =>$item['price'],
+                    'product_id' => $item['id']
+                ]);
+            }
+            DB::commit();
+            return response()->json(['success'=>'Successful'],200);
+
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['fail'=>'fail'],400);
+            
+        }
     }
 
     /**
@@ -51,17 +80,6 @@ class CartController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -82,31 +100,5 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function getCheckout()
-    {
-        return view('cart.cart');
-    }
-
-    public function postCheckout(CheckoutRequest $Request)
-    {
-        $order = new Order;
-        $order->name = $Request->input('name');
-        $order->email = $Request->input('email');
-        $order->address = $Request->input('address');
-        $order->phone = $Request->input('phone');
-        $order->user_id = $Request->input('user_id');
-        $order->created_at = now();
-        $order->updated_at = now();
-        $order->save();
-        // dd($order);
-
-
-        return redirect()->back();
-
-
-
-
     }
 }

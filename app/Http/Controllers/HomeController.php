@@ -7,6 +7,7 @@ use App\Category;
 use App\Brand;
 use App\News;
 use App\Product;
+use App\Slide;
 use App\Mail\OrderConfirmMail;
 
 class HomeController extends Controller
@@ -24,8 +25,9 @@ class HomeController extends Controller
         $news = News::with('images')->get();
         // dd($news->toArray());
         $products = Product::with('brand', 'images', 'sale')->where('sale_id', '<>', 'null')->paginate(6);
+        $slides = Slide::all();
 
-        return view('welcome', compact('categories', 'brands', 'news', 'products'));
+        return view('welcome', compact('categories', 'brands', 'news', 'products','slides'));
     }
 
     /**
@@ -128,16 +130,16 @@ class HomeController extends Controller
         return view('welcome', compact('categories', 'brands', 'news', 'products'));
     }
 
-    public function searchFullText(Request $request)
-    {
-        if ($request->search != '') {
-            $data = Product::FullTextSearch('name', $request->search)->get();
-            foreach ($data as $key => $value) {
-                echo $value->name;
-                echo '<br>'; // mình viết vầy cho nhanh các bạn tùy chỉnh cho đẹp nhé
-            }
-        }
-    }
+    // public function searchFullText(Request $request)
+    // {
+    //     if ($request->search != '') {
+    //         $data = Product::FullTextSearch('name', $request->search)->get();
+    //         foreach ($data as $key => $value) {
+    //             echo $value->name;
+    //             echo '<br>'; // mình viết vầy cho nhanh các bạn tùy chỉnh cho đẹp nhé
+    //         }
+    //     }
+    // }
 
     public function showAccountCustomer()
     {

@@ -5,6 +5,10 @@ $(document).ready(function () {
 	} else {
 		var cart = [];
 	};
+	if(cart.length){
+		count = countItem(cart);
+		$('.count_item_pr').text('('+count+')');
+	}
 	//add sự kiện add cart
 	$('b').click(function (e) {
 		e.preventDefault();
@@ -27,6 +31,10 @@ $(document).ready(function () {
 			//lưu giỏ hàng vào localstorage
 			localStorage.setItem('cart', JSON.stringify(cart));
 		}
+
+		count = countItem(cart);
+		$('.count_item_pr').text('('+count+')');
+		console.log(count);
 	});
 	$(document).on('change','input', (function () {
 		var quantity = $(this).val();
@@ -66,6 +74,18 @@ $(document).ready(function () {
 	// 	showCart() ;
 	// }));
 });
+
+function countItem(cart){
+	var count = cart.length;
+	// for(var i = 0; i < cart.length; i++)
+	// { 
+    // if(cart[i] == 2) 
+	//  count++;
+	//  
+	// }
+	// console.log(cart.length);
+	return count;
+}
 
 // add spham vào giỏ hàng
 function addToCart(cart, product) {
@@ -133,7 +153,7 @@ function showCart() {
 		$('tbody').append(html);
 		console.log(total);
 		$('.total').text('$'+formatCurrency(total.toString()));
-		$('.total').input('$'+formatCurrency(total.toString()));
+		// $('.total').input('$'+formatCurrency(total.toString()));
 	}
 }
 
@@ -156,3 +176,4 @@ function formatCurrency(number) {
 	return n2.split("").reverse().join('');
 	}
 }
+

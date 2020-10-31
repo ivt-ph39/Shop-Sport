@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
+use App\Slide;
 use Illuminate\Http\Request;
 
-
-class OrderController extends Controller
+class SlideController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +14,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        
-    }
-
-    public function getCheckout()
-    {
-        return view('cart.cart');
+        //
     }
 
     /**
@@ -41,16 +35,16 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Slide  $slide
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show(Slide $slide)
     {
         //
     }
@@ -58,10 +52,10 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Slide  $slide
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit(Slide $slide)
     {
         //
     }
@@ -70,10 +64,10 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
+     * @param  \App\Slide  $slide
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, Slide $slide)
     {
         //
     }
@@ -81,10 +75,10 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\Slide  $slide
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy(Slide $slide)
     {
         //
     }
