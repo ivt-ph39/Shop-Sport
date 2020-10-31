@@ -21,7 +21,7 @@ class CategoryController extends Controller
     public function index()
     {
         // $categories = $this->categoryRepo->all();
-        $categories = DB::table('categories')->paginate(5);
+        $categories = Category::paginate(5);
         return view('admin.categories.list', compact('categories'));
     }
 

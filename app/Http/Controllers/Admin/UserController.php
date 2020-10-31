@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Eloquent\userRepository;
 use App\Http\Requests\StoreUserRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class UserController extends Controller
@@ -25,16 +27,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->paginate(5);
-
-        return view('admin.users.list', compact('users'));
+        $users = User::with('roles')->paginate(5);
+        
+        return view('admin.users.list', compact(['users']));
     }
 
-    public function indexSearch()
-    {
-
-        return view('admin.full_text_search');
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,7 +40,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $users = $this->userRepo->all();
+        $users = User::with('roles')->get();
+        dd($users->toArray());
         return view('admin.users.create', compact(['users']));
     }
 
@@ -87,7 +85,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->userRepo->find($id);
+        $user = User::with('roles')->find($id);
+        // dd($user->role);
         return view('admin.users.edit', compact('user'));
     }
 
@@ -121,14 +120,6 @@ class UserController extends Controller
         return redirect()->route('admin.users.list');
     }
 
-    function action(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = User::search($request->get('full_text_search_query'))->get();
-
-            return response()->json($data);
-        }
-    }
 
     public function searchByName(Request $request)
     {
@@ -143,4 +134,8 @@ class UserController extends Controller
 
         return response()->json($users);
     }
+
+    
+
+   
 }

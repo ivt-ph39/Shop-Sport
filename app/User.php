@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Nicolaslopezj\Searchable\SearchableTrait;
+use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
-    use Notifiable;
-    use SearchableTrait;
+    use Notifiable,HasRoles;
+    // use HasPermissions;
+    // use SearchableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -38,15 +39,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $searchable = [
-        'columns' => [
-            'users.name'  => 10,
-            'users.phone'   => 10,
-            'users.address'   => 10,
-            'users.email'    => 10,
-            'users.id'    => 10,
-        ]
-    ];
+    // 
 
     public function feedbacks()
     {
@@ -68,8 +61,8 @@ class User extends Authenticatable
         return $this->morphMany('App\Image','imageable');
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany('App\Role');
-    }
+    // public function roles()
+    // {
+    //     return $this->belongsToMany('App\Role');
+    // }
 }

@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
 use App\Sale;
+use App\Image;
 use Illuminate\Support\Facades\DB;
-use Spatie\Searchable\Search;
-use Spatie\Searchable\ModelSearchAspect;
 use App\Repositories\Eloquent\ProductRepository;
 use App\Http\Requests\StoreProductRequest;
+
 class ProductController extends Controller
 {
     protected $productRepo;
@@ -20,7 +20,7 @@ class ProductController extends Controller
     {
         $this->productRepo = $product;
     }
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -28,7 +28,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('images')->paginate(10);
-        
+
         return view('admin.products.list', compact('products'));
     }
 
@@ -55,7 +55,7 @@ class ProductController extends Controller
         $data = $request->all();
         // dd($data);
         $this->productRepo->create($data);
-       
+
         // $this->productRepo->create($data);
         return redirect()->route('admin.products.list');
     }
@@ -80,6 +80,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = $this->productRepo->find($id);
+
         return view('admin.products.edit', compact('product'));
     }
 
@@ -93,10 +94,32 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = $this->productRepo->find($id);
-        // DB::enableQueryLog();
-        $data = $request->all();
+        $data = $request->except(['img_product','id']);
+        // $image = new Image();
+       if($request->hasFile('img_product'))
+       {
+        // Upload image
+        $file = $request->img_product;
+        $imgName = $file->getClientOriginalName();            
+        $file->move('images', $imgName); 
+
+        // Update new image to Image DB
+        Image::find($request->id)->update(
+            [
+                'path'=>'images/'.$request->img_product->getClientOriginalName(),
+                'imageable_id'=>$id,
+                'imageable_type'=>'App\Product'
+            ]
+        );
+
+        // Update Product
         $product->update($data);
-        // dd(DB::getQueryLog());
+
+       }else{
+           
+           $product->update($data);
+       }
+                      
         return redirect()->route('admin.products.list');
     }
 
@@ -108,33 +131,20 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = $this->productRepo->find($id);   
-        $product->delete();       
+        $product = $this->productRepo->find($id);
+        $product->delete();
         return redirect()->route('admin.products.list');
     }
 
-    public function productDetail($id){
-        $product = $this->productRepo->find($id);
-        $sale =Sale::find($id);
-        return view('admin.products.detail', compact(['product','sale']));
-    }
-
-    public function doUpload(Request $request){
-        $file = $request->filesTest;
-
-        $file->move('upload', $file->getClientOriginalName());
-
-        return  redirect()->route('admin.products.list');
-    }
-
-    public function search(Request $request)
+    public function productDetail($id)
     {
-        $searchterm = $request->input('query');
-
-        $searchResults = (new Search())
-            ->registerModel(\App\Product::class, ['name', 'description']) //apply search on field name and description
-            ->perform($searchterm);
-
-        return view('admin.products.list', compact('searchResults', 'searchterm'));
+        $product = $this->productRepo->find($id);
+        $sale = Sale::find($id);
+        return view('admin.products.detail', compact(['product', 'sale']));
     }
+
+    public function uploadImage(Request $request, $id){
+        
+    }
+
 }

@@ -29,13 +29,14 @@
       
         <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         <a href="{{route('admin.categories.list')}}" class="list-group-item list-group-item-action bg-light">Categories</a>
-        @can('admin')
+        {{-- @can('admin') --}}
       <a href="{{ route('admin.products.list') }}" class="list-group-item list-group-item-action bg-light">Products</a>
-        @endcan
+        {{-- @endcan --}}
         <a href="{{ route('admin.users.list') }}" class="list-group-item list-group-item-action bg-light">Users</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">News</a>
+        {{-- <a href="#" class="list-group-item list-group-item-action bg-light">News</a> --}}
         <a href="#" class="list-group-item list-group-item-action bg-light">Order</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        <a href="{{ route('admin.roles.list') }}" class="list-group-item list-group-item-action bg-light">Role</a>
+        <a href="{{ route('admin.permissions.list') }}" class="list-group-item list-group-item-action bg-light">Permission</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -44,7 +45,7 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-      <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+      <button class="btn btn-primary" id="menu-toggle">Zo</button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
