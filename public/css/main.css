@@ -570,6 +570,8 @@ ul.sub-menu {
 
 #slider {
   padding-bottom: 45px;
+  padding-left: 0;
+  margin-left: 0;
 }
 
 .carousel-indicators li {
@@ -1068,8 +1070,10 @@ h2.title {
   background: #ccccc6;
 }
 
-.recommended_items  h2 {
-}
+/* img.slide{
+  width: 1350px;
+  height:  530px;
+} */
 
 .our_partners{
   overflow:hidden;

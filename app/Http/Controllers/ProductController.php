@@ -19,12 +19,12 @@ class ProductController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $products = Product::with('brand','images','sale')->paginate(9);
+        $products = Product::with('brand', 'images', 'sale')->paginate(9);
         // dd($products->toArray());
         $brands    = Brand::all();
         $news = News::with('images')->get();
 
-        return view('products.list-product',compact('products','categories','brands','news'));
+        return view('products.list-product', compact('products', 'categories', 'brands', 'news'));
     }
 
     /**
@@ -56,14 +56,14 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with('brand','images')->find($id);
+        $product = Product::with('brand', 'images')->find($id);
         $brands    = Brand::all();
         $categories = Category::all();
         $news = News::with('images')->get();
-        $feedbacks = Feedback::with('user','product')->get();
+        $feedbacks = Feedback::with('user', 'product')->get();
         // dd($feedbacks->toArray());
 
-        return view('products.product-details',compact('product','brands','categories','news','feedbacks'));
+        return view('products.product-details', compact('product', 'brands', 'categories', 'news', 'feedbacks'));
     }
 
     /**
@@ -98,5 +98,12 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function searchByName(Request $request)
+    {
+        $products = Product::where('name', 'like', '%' . $request->value. '%')->get();
+        // dd($products->toArray());
+        return response()->json($products);
     }
 }

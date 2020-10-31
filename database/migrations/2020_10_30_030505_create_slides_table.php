@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use DB as DBS;
 
-class AddFullTextToProduct extends Migration
+class CreateSlidesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +13,10 @@ class AddFullTextToProduct extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            DBS::statement('ALTER TABLE products ADD FULLTEXT `search` (`name`)');
-            DBS::statement('ALTER TABLE products ENGINE = MyISAM');
+        Schema::create('slides', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('path');
+            $table->timestamps();
         });
     }
 
@@ -27,8 +27,6 @@ class AddFullTextToProduct extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('slides');
     }
 }

@@ -61,23 +61,45 @@
         <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 
             <div class="carousel-inner">
-                @foreach($news as $n)
-                <div class="item active">
-                    <div class="product-image-wrapper">
+                @foreach($news as $key=>$n)
+                @if($key ==0)
+                    <div class="item active">
+                        <div class="product-image-wrapper">
 
-                        <div class="single-products">
-                            <div class="productinfo text-center">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
 
-                                <a href="{{ route('show-news',$n->id) }}"><img  src="@foreach($n->images as $key=>$image)  @if($key ==0) {{URL::to('/')}}/{{$image['path']}} @endif @endforeach"></a>
-                                <div>
-                                    <h5>{{$n['title']}}</h5>
+                                    <a href="{{ route('show-news',$n->id) }}"><img  src="@foreach($n->images as $key=>$image)  @if($key ==0) {{URL::to('/')}}/{{$image['path']}} @endif @endforeach"></a>
+                                    <div>
+                                        <h5>{{$n['title']}}</h5>
+                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
 
+                        </div>
                     </div>
-                </div>
+                @endif
+                @endforeach
+                @foreach($news as $key=>$n)
+                @if($key != 0)
+                    <div class="item">
+                        <div class="product-image-wrapper">
+
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+
+                                    <a href="{{ route('show-news',$n->id) }}"><img  src="@foreach($n->images as $key=>$image)  @if($key ==0) {{URL::to('/')}}/{{$image['path']}} @endif @endforeach"></a>
+                                    <div>
+                                        <h5>{{$n['title']}}</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                @endif
                 @endforeach
             </div>
             <!-- <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">

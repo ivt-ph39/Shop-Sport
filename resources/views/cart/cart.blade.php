@@ -20,7 +20,7 @@
 						<td class="description"></td>
 						<td class="price">Price</td>
 						<td class="quantity">Quantity</td>
-						<td class="total">Total</td>
+						<td class="">Total</td>
 						<td></td>
 					</tr>
 				</thead>
@@ -41,30 +41,30 @@
 		</div>
 		<div class="row">
 			<form action="{{ route('checkout') }}" method="post">
-				@csrf
+			<input id="token" name="_token" type="hidden" value="{{csrf_token()}}"> 
 				@if(!Auth::check())
 				<div class="col-sm-6">
-						<div class="form-group">
-							<label for="name">Name: </label>
-							<input type="name" class="form-control" name="name" id="name">
-						</div>
-						<div class="form-group">
-							<label for="email">Email address: </label>
-							<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp">
-						</div>
-						<div class="form-group">
-							<label for="phone">Phone: </label>
-							<input type="text" class="form-control" name="phone" id="phone">
-						</div>
-						<div class="form-group">
-							<label for="address">Address</label>
-							<input type="text" class="form-control" name="address" id="address">
-						</div>
+					<div class="form-group">
+						<label for="name">Name: </label>
+						<input type="name" class="form-control" name="name" id="name">
+					</div>
+					<div class="form-group">
+						<label for="email">Email address: </label>
+						<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp">
+					</div>
+					<div class="form-group">
+						<label for="phone">Phone: </label>
+						<input type="text" class="form-control" name="phone" id="phone">
+					</div>
+					<div class="form-group">
+						<label for="address">Address</label>
+						<input type="text" class="form-control" name="address" id="address">
+					</div>
 				</div>
 				@else
 				<div class="col-sm-6">
 					<!-- <input type="text" name="total" class="total" > -->
-						<input type="hidden" name="user_id" id="name" value="{{Auth::id()}}">
+					<input type="hidden" name="user_id" id="id" value="{{Auth::id()}}">
 					<div class="form-group">
 						<label for="name">Name: </label>
 						<input type="name" class="form-control" name="name" id="name" value="{{Auth::user()->name}}">
@@ -91,14 +91,60 @@
 						</ul>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary">Checkout</button>
+				<button class="submit" type="submit" class="btn btn-primary">Checkout</button>
 			</form>
 		</div>
 	</div>
 </section>
+<!-- <script type="text/javascript">
+	if (typeof(Storage) !== "undefined") {
+		var data = localStorage.getItem('cart');
+		alert(data);
+	} else {
+		alert('Trình duyệt của bạn đã quá cũ. Hãy nâng cấp trình duyệt ngay!');
+	}
+</script> -->
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
 <script type="text/javascript">
 	showCart();
+</script>
+<script type="text/javascript" src="{{ asset('js/jquery-3.5.1.min.js')}}"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		if (JSON.parse(localStorage.getItem('cart'))) {
+			cart = JSON.parse(localStorage.getItem('cart'));
+		} else {
+			var cart = [];
+		};
+		$(".submit").click(function(e) {
+			e.preventDefault();
+			$.ajax({
+				type: 'POST',
+				url: '/api/order',
+				data: {"cart" : cart,
+					'_token' : $("#token").val(),
+					'name' : $("#name").val(),
+					'email' : $("#email").val(),
+					'address' : $("#address").val(),
+					'phone' : $("#phone").val(),
+				
+				},
+				success: function(res) {
+					console.log('Submission was successful.');
+					console.log(res);
+					console.log(cart);
+					alert(res);
+				},
+				error: function(data) {
+					console.log(JSON.stringify(data));
+					alert(data);
+					console.log(cart);
+				},
+			});
+
+		});
+	});
 </script>
 
 
