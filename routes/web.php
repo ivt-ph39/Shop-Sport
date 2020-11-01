@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/','HomeController@index')->name('homepage');
+Route::get('/', 'HomeController@index')->name('homepage');
 
 
 Route::get('/login', 'Auth\LoginController@showLoginForm')
@@ -33,8 +33,8 @@ Route::get('/cart', function () {
     return view('cart.cart');
 })->name('show-cart');
 
-Route::get('/products','ProductController@index')->name('show-products');
-Route::get('/product/{id}/details','ProductController@show')->name('product-details');
+Route::get('/products', 'ProductController@index')->name('show-products');
+Route::get('/product/{id}/details', 'ProductController@show')->name('product-details');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
 Auth::routes();
@@ -54,14 +54,11 @@ Route::group(
             ->name('login');
 
         // logout 
-        Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-
-        Route::get('/home', 'HomeController@index')->name('home')
-            ->middleware(['can:canAuthenAdmin']);
+        Route::get('/logout', 'LoginController@logout')->name('logout');
         // main
-        Route::get('/main', function () {
-            return view('admin.main');
-        })->name('main');
+        Route::get('/main', 'LoginController@show')->name('main')->middleware('is.admin');
+    
+    
     }
 );
 
@@ -87,11 +84,22 @@ Route::group(
             ->name('categories.list-product');
 
         Route::delete('/categories/{id}', 'CategoryController@destroy')->name('categories.delete');
+        
         // products 
 
+        Route::get('/products', 'ProductController@index')->name('products.list');
 
-
-        // users 
+        Route::get('/products/{id}/edit','ProductController@edit')->name('products.edit');
+        
+        Route::put('/products/{id}/update', 'ProductController@update')->name('products.update');
+        
+        Route::get('/products/create','ProductController@create')->name('products.create');
+        
+        Route::post('/products', 'ProductController@store')->name('products.store');
+        
+        Route::delete('/products/{id}', 'ProductController@destroy')->name('products.delete');
+        
+        Route::get('products/{id}', 'ProductController@productDetail')->name('products.detail');
 
 
     }
