@@ -122,7 +122,7 @@
                                 <!-- <li><a href=""><i class="fa fa-user"></i> Account</a></li> -->
                                 <!-- <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li> -->
                                 <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                                <li><a href="{{route('show-cart')}}"><i class="fa fa-shopping-cart"><span style="color:red" class="cart-value count_item_pr"></span></i>Cart</a></li>
+                                <li><a class="cart" href="{{route('show-cart')}}"><i class="fa fa-shopping-cart"><span style="color:red" class="cart-value count_item_pr"></span></i>Cart</a></li>
                                 <!-- <li style="margin:0" class="cart-value count_item_pr"></li> -->
                                 <!-- <li><a href="{{route('show-cart')}}">Cart</a></li> -->
                             </ul>
@@ -389,6 +389,7 @@
             }]);
         });
     </script>
+@yield('script')
 </body>
 
 </html>

@@ -867,6 +867,12 @@ h2.title {
   left: 0;
 }
 
+.sold-out{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .productinfo h2{
 	color: #FE980F;
 	font-family: 'Roboto', sans-serif;
@@ -996,6 +1002,10 @@ h2.title {
 .choose ul li a:hover{
 	background:none;
 	color:#FE980F;
+}
+
+ul .active {
+  color:#FE980F
 }
 
 .category-tab {

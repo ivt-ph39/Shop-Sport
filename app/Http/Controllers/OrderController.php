@@ -15,7 +15,6 @@ class OrderController extends Controller
      */
     public function index()
     {
-        
     }
 
     public function getCheckout()
@@ -41,7 +40,6 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
     }
 
     /**

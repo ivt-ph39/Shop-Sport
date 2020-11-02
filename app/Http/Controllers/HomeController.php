@@ -118,17 +118,17 @@ class HomeController extends Controller
         return 'success';
     }
 
-    public function search()
-    {
-        $categories = Category::with('children')->get();
-        // dd($category->toArray());
-        $brands = Brand::all();
-        $news = News::with('images')->get();
-        // dd($news->toArray());
-        $products = Product::with('brand', 'images', 'sale')->where('sale_id', '<>', 'null')->paginate(6);
+    // public function search()
+    // {
+    //     $categories = Category::with('children')->get();
+    //     // dd($category->toArray());
+    //     $brands = Brand::all();
+    //     $news = News::with('images')->get();
+    //     // dd($news->toArray());
+    //     $products = Product::with('brand', 'images', 'sale')->where('sale_id', '<>', 'null')->paginate(6);
 
-        return view('welcome', compact('categories', 'brands', 'news', 'products'));
-    }
+    //     return view('welcome', compact('categories', 'brands', 'news', 'products'));
+    // }
 
     // public function searchFullText(Request $request)
     // {

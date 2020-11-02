@@ -96,6 +96,7 @@
 		</div>
 	</div>
 </section>
+
 <!-- <script type="text/javascript">
 	if (typeof(Storage) !== "undefined") {
 		var data = localStorage.getItem('cart');
@@ -104,6 +105,10 @@
 		alert('Trình duyệt của bạn đã quá cũ. Hãy nâng cấp trình duyệt ngay!');
 	}
 </script> -->
+
+@endsection
+
+@section('script')
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
 <script type="text/javascript">
 	showCart();

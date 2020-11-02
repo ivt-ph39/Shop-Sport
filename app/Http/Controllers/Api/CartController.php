@@ -24,7 +24,7 @@ class CartController extends Controller
 
     
 
-    public function order(Request $Request)
+    public function order(CheckoutRequest $Request)
     {
        
         try {
@@ -42,7 +42,7 @@ class CartController extends Controller
                 OrderProduct::create([
                     'order_id' => $orders->id,
                     'quantity' => $item['quantity'],
-                    'price' =>$item['price'],
+                    'price' =>$item['price']*$item['quantity'],
                     'product_id' => $item['id']
                 ]);
             }

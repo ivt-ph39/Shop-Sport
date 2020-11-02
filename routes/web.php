@@ -31,7 +31,7 @@ Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
 Route::get('/categories/{id}/products','CategoryController@listProductByCate')->name('listProductByCate');
 Route::get('/news/{id}','NewsController@show')->name('show-news');
 Route::get('/brand/{id}/products','BrandController@showProductsByBrand')->name('products-by-brand');
-Route::get('/search', 'HomeController@search');
+// Route::get('/search', 'HomeController@search');
 // Route::post('/search', 'HomeController@searchFullText')->name('search');
 
 Route::get('/account','HomeController@showAccountCustomer')->name('account-customer');
