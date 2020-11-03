@@ -1,7 +1,6 @@
 @extends('layouts.homepage-master')
-@section('title','Sport Shop')
+@section('title','Products Sale| Sport SHop')
 @section('content')
-
 
 
 <section>
@@ -46,7 +45,7 @@
                     </div>
                 </div>
                 <div class="features_items">
-                    @foreach($products as $pro)
+                    @foreach($productsSale as $pro)
                     <div class="col-sm-4">
                         <div class="product-image-wrapper">
 
@@ -54,10 +53,10 @@
                                 @if($pro['quantity'] == 0)
                                 <div class="productinfo text-center">
                                     <img style="width:250px; height:250px" src="  @foreach($pro->images as $key=>$image)  
-                                                    @if($key ==0) 
-                                                        {{$image['path']}} 
-                                                    @endif
-                                                    @endforeach" alt="" />
+                                                        @if($key ==0) 
+                                                            {{$image['path']}} 
+                                                        @endif
+                                                        @endforeach" alt="" />
                                     <p>{{$pro['name']}} {{$pro->brand['name']}}</p>
                                 </div>
                                 <div class="product-overlay">
@@ -66,13 +65,13 @@
                                     </div>
                                 </div>
                                 <!-- <img src="images/sold.jpg" class="sold-out" alt=""> -->
-                                @elseif($pro['sale_id'] != null )
+                                @else
                                 <div class="productinfo text-center">
                                     <img style="width:250px; height:250px" src="  @foreach($pro->images as $key=>$image)  
-                                                    @if($key ==0) 
-                                                        {{$image['path']}} 
-                                                    @endif
-                                                    @endforeach" alt="" />
+                                                        @if($key ==0) 
+                                                            {{$image['path']}} 
+                                                        @endif
+                                                        @endforeach" alt="" />
 
                                     @if($pro->sale['start_day'] <= now() && now() <=$pro->sale['end_day'])
                                         <h4 style="text-decoration:line-through;">${{$pro['price']}}</h4>
@@ -98,40 +97,16 @@
                                             @endif
                                     </div>
                                 </div>
-                                @if($pro->sale['start_day'] <= now() && now() <=$pro->sale['end_day'])
-                                    <img src="{{ asset('images/sale.png') }}" class="sale" alt="">
-                                    @endif
-                                    @else
-                                    <div class="productinfo text-center">
-                                        <img style="width:250px; height:250px" src="  @foreach($pro->images as $key=>$image)  
-                                                    @if($key ==0) 
-                                                        {{$image['path']}} 
-                                                    @endif
-                                                    @endforeach" alt="" />
-
-                                        <h2>${{$pro['price']}} </h2>
-
-                                        <p>{{$pro['name']}} {{$pro->brand['name']}}</p>
-                                    </div>
-                                    <!-- <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a> -->
-                                    <div class="product-overlay">
-                                        <div class="overlay-content">
-                                            <a href="{{route('product-details',$pro['id'])}}" class="btn btn-default add-to-cart"><i></i>View Details</a>
-                                            <b href="#" data-id="{{$pro['id']}}" data-name="{{$pro['name']}}" data-price="{{$pro['price']}}" class="btn btn-default add-to-cart">
-                                                <i class="fa fa-shopping-cart"></i>
-                                                Add to cart
-                                            </b>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if ($pro['created_at'] >= now()->modify("-14 Days") && $pro['quantity'] != 0) <img src="{{ asset('images/new.png') }}" class="new" alt=""> @endif
+                                <img src="{{ asset('images/sale.png') }}" class="sale" alt="">
+                                @endif
+                                @if ($pro['created_at'] >= now()->modify("-14 Days") && $pro['quantity'] != 0) <img src="{{ asset('images/new.png') }}" class="new" alt=""> @endif
                             </div>
                         </div>
                     </div>
                     @endforeach
                 </div>
-                <p>Có {{$products->total()}} sản phẩm</p>
-                {{ $products->links()  }}
+                <p>Có {{$productsSale->total()}} sản phẩm</p>
+                {{ $productsSale->links()  }}
             </div>
             <!--features_items-->
 

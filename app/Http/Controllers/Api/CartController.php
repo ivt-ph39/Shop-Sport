@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
 use App\Order;
 use App\OrderProduct;
+use App\Product;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -26,11 +27,12 @@ class CartController extends Controller
 
     public function order(CheckoutRequest $Request)
     {
+
        
         try {
             DB::beginTransaction();
-            $data = $Request->only('name', 'email', 'phone', 'address');
-            // return $data;
+            $data = $Request->only('name', 'email', 'phone', 'address','user_id','note');
+            // dd($data);
             $orders = Order::create($data);
             
             // dd($orders);
@@ -45,7 +47,14 @@ class CartController extends Controller
                     'price' =>$item['price']*$item['quantity'],
                     'product_id' => $item['id']
                 ]);
+                
+                // DB::enableQueryLog();
+                // Product::find($item['id'])->update(['quantity' => 'quantity'- $item['quantity']]);
+                // dd(DB::getQueryLog());
+                
             }
+            
+
             DB::commit();
             return response()->json(['success'=>'Successful'],200);
 

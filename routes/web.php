@@ -26,11 +26,13 @@ Route::get('/checkout','OrderController@getCheckout')->name('show-cart');
 //Homepage
 Route::get('/products','ProductController@index')->name('show-products');
 Route::get('/product/{id}/details','ProductController@show')->name('product-details');
+Route::get('/products/sale','ProductController@listProductsSale')->name('products-sale');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
 Route::get('/categories/{id}/products','CategoryController@listProductByCate')->name('listProductByCate');
 Route::get('/news/{id}','NewsController@show')->name('show-news');
 Route::get('/brand/{id}/products','BrandController@showProductsByBrand')->name('products-by-brand');
+
 // Route::get('/search', 'HomeController@search');
 // Route::post('/search', 'HomeController@searchFullText')->name('search');
 

@@ -24,30 +24,28 @@ class ProductController extends Controller
         $brands = Brand::all();
         $news = News::with('images')->get();
 
-        if($request->price)
-        {
+        if ($request->price) {
             $price = $request->price;
             // dd($price);
-            switch($price)
-            {
-                case '1': 
-                    $products = Product::where('price','<',100)->with('brand', 'images', 'sale')->paginate(9);
+            switch ($price) {
+                case '1':
+                    $products = Product::where('price', '<', 100)->with('brand', 'images', 'sale')->paginate(9);
                     // dd($products->toArray());
                     break;
-                case '2': 
-                    $products = Product::whereBetween('price',[100,300])->with('brand', 'images', 'sale')->paginate(9);
+                case '2':
+                    $products = Product::whereBetween('price', [100, 300])->with('brand', 'images', 'sale')->paginate(9);
                     break;
 
-                case '3': 
-                    $products = Product::whereBetween('price',[300,500])->with('brand', 'images', 'sale')->paginate(9);
+                case '3':
+                    $products = Product::whereBetween('price', [300, 500])->with('brand', 'images', 'sale')->paginate(9);
                     break;
 
-                case '4': 
-                    $products = Product::whereBetween('price',[500,700])->with('brand', 'images', 'sale')->paginate(9);
+                case '4':
+                    $products = Product::whereBetween('price', [500, 700])->with('brand', 'images', 'sale')->paginate(9);
                     break;
-                   
-                case '5': 
-                    $products = Product::whereBetween('price',[700,900])->with('brand', 'images', 'sale')->paginate(9);
+
+                case '5':
+                    $products = Product::whereBetween('price', [700, 900])->with('brand', 'images', 'sale')->paginate(9);
                     break;
             }
         }
@@ -55,26 +53,24 @@ class ProductController extends Controller
         //     $products = Product::with('brand', 'images', 'sale')->paginate(9);
         // }
 
-        if($request->orderby)
-        {
+        if ($request->orderby) {
             $orderby = $request->orderby;
 
-            switch($orderby)
-            {
-                case 'desc': 
-                    $products = Product::orderBy('id','DESC')->with('brand', 'images', 'sale')->paginate(9);
+            switch ($orderby) {
+                case 'desc':
+                    $products = Product::orderBy('id', 'DESC')->with('brand', 'images', 'sale')->paginate(9);
                     break;
 
-                case 'asc': 
-                    $products = Product::orderBy('id','ASC')->with('brand', 'images', 'sale')->paginate(9);
+                case 'asc':
+                    $products = Product::orderBy('id', 'ASC')->with('brand', 'images', 'sale')->paginate(9);
                     break;
 
-                case 'price_max': 
-                    $products = Product::orderBy('price','ASC')->with('brand', 'images', 'sale')->paginate(9);
+                case 'price_max':
+                    $products = Product::orderBy('price', 'ASC')->with('brand', 'images', 'sale')->paginate(9);
                     break;
 
-                case 'price_min': 
-                    $products = Product::orderBy('price','DESC')->with('brand', 'images', 'sale')->paginate(9);
+                case 'price_min':
+                    $products = Product::orderBy('price', 'DESC')->with('brand', 'images', 'sale')->paginate(9);
                     break;
             }
         }
@@ -83,6 +79,114 @@ class ProductController extends Controller
         // }
 
         return view('products.list-product', compact('products', 'categories', 'brands', 'news'));
+    }
+
+    public function listProductsSale(Request $request)
+    {
+        $categories = Category::with('children')->get();
+        // dd($category->toArray());
+        $brands = Brand::all();
+        $news = News::with('images')->get();
+        // dd($news->toArray());
+        $productsSale = Product::with('images', 'brand', 'sale')
+            ->whereHas('sale', function ($query) {
+                return $query->where('start_day', '<=', now())
+                    ->where('end_day', '>=', now());
+            })
+            ->whereNotNull('sale_id')
+            ->inRandomOrder()
+            ->paginate(9);
+
+        if ($request->price) {
+            $price = $request->price;
+            // dd($price);
+            switch ($price) {
+                case '1':
+                    $productsSale = Product::where('price', '<', 100)->with('brand', 'images', 'sale')
+                        ->whereHas('sale', function ($query) {
+                            return $query->where('start_day', '<=', now())
+                                ->where('end_day', '>=', now());
+                        })
+                        ->whereNotNull('sale_id')->paginate(9);
+                    // dd($products->toArray());
+                    break;
+                case '2':
+                    $productsSale = Product::whereBetween('price', [100, 300])->with('brand', 'images', 'sale')
+                        ->whereHas('sale', function ($query) {
+                            return $query->where('start_day', '<=', now())
+                                ->where('end_day', '>=', now());
+                        })
+                        ->whereNotNull('sale_id')->paginate(9);
+                    break;
+
+                case '3':
+                    $productsSale = Product::whereBetween('price', [300, 500])->with('brand', 'images', 'sale')
+                        ->whereHas('sale', function ($query) {
+                            return $query->where('start_day', '<=', now())
+                                ->where('end_day', '>=', now());
+                        })
+                        ->whereNotNull('sale_id')->paginate(9);
+                    break;
+
+                case '4':
+                    $productsSale = Product::whereBetween('price', [500, 700])->with('brand', 'images', 'sale')
+                        ->whereHas('sale', function ($query) {
+                            return $query->where('start_day', '<=', now())
+                                ->where('end_day', '>=', now());
+                        })
+                        ->whereNotNull('sale_id')->paginate(9);
+                    break;
+
+                case '5':
+                    $productsSale = Product::whereBetween('price', [700, 900])->with('brand', 'images', 'sale')
+                        ->whereHas('sale', function ($query) {
+                            return $query->where('start_day', '<=', now())
+                                ->where('end_day', '>=', now());
+                        })
+                        ->whereNotNull('sale_id')->paginate(9);
+                    break;
+            }
+        }
+
+        if ($request->orderby) {
+            $orderby = $request->orderby;
+
+            switch ($orderby) {
+                case 'desc':
+                    $productsSale = Product::orderBy('id', 'DESC')->with('brand', 'images', 'sale')->whereHas('sale', function ($query) {
+                        return $query->where('start_day', '<=', now())
+                            ->where('end_day', '>=', now());
+                    })
+                        ->whereNotNull('sale_id')->paginate(9);
+                    break;
+
+                case 'asc':
+                    $productsSale = Product::orderBy('id', 'ASC')->with('brand', 'images', 'sale')->whereHas('sale', function ($query) {
+                        return $query->where('start_day', '<=', now())
+                            ->where('end_day', '>=', now());
+                    })
+                        ->whereNotNull('sale_id')->paginate(9);
+                    break;
+
+                case 'price_max':
+                    $productsSale = Product::orderBy('price', 'ASC')->with('brand', 'images', 'sale')->whereHas('sale', function ($query) {
+                        return $query->where('start_day', '<=', now())
+                            ->where('end_day', '>=', now());
+                    })
+                        ->whereNotNull('sale_id')->paginate(9);
+                    break;
+
+                case 'price_min':
+                    $productsSale = Product::orderBy('price', 'DESC')->with('brand', 'images', 'sale')->whereHas('sale', function ($query) {
+                        return $query->where('start_day', '<=', now())
+                            ->where('end_day', '>=', now());
+                    })
+                        ->whereNotNull('sale_id')->paginate(9);
+                    break;
+            }
+        }
+
+        return view('sale.list-products', compact('categories', 'brands', 'news', 'productsSale'));
     }
 
     /**
@@ -160,7 +264,7 @@ class ProductController extends Controller
 
     public function searchByName(Request $request)
     {
-        $products = Product::where('name', 'like', '%' . $request->value. '%')->get();
+        $products = Product::where('name', 'like', '%' . $request->value . '%')->get();
         // dd($products->toArray());
         return response()->json($products);
     }

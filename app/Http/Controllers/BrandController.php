@@ -86,15 +86,84 @@ class BrandController extends Controller
         //
     }
 
-    public function showProductsByBrand($id)
+    public function showProductsByBrand($id,Request $request)
     {
         $categories = Category::with('children')->get();
         // dd($category->toArray());
         $brands = Brand::all();
         $news = News::with('images')->get();
 
-        $brand = Brand::with('products')->find($id);
+        $brand = Brand::find($id);
+        $products = Product::with('images', 'brand', 'sale')
+            ->where('brand_id', $id)
+            ->inRandomOrder()->paginate(6);
 
-        return view('brands.list-products',compact('categories','brands','news','brand'));
+            if ($request->price) {
+                $price = $request->price;
+                // dd($price);
+                switch ($price) {
+                    case '1':
+                        $products = Product::where('price', '<', 100)->with('brand', 'images', 'sale')
+                        ->where('brand_id', $id)
+                        ->paginate(9);
+                        // dd($products->toArray());
+                        break;
+                    case '2':
+                        $products = Product::whereBetween('price', [100, 300])->with('brand', 'images', 'sale')
+                        ->where('brand_id', $id)
+                        ->paginate(9);
+                        break;
+    
+                    case '3':
+                        $products = Product::whereBetween('price', [300, 500])->with('brand', 'images', 'sale')
+                        ->where('brand_id', $id)
+                        ->paginate(9);
+                        break;
+    
+                    case '4':
+                        $products = Product::whereBetween('price', [500, 700])->with('brand', 'images', 'sale')
+                        ->where('brand_id', $id)
+                        ->paginate(9);
+                        break;
+    
+                    case '5':
+                        $products = Product::whereBetween('price', [700, 900])->with('brand', 'images', 'sale')
+                        ->where('brand_id', $id)
+                        ->paginate(9);
+                        break;
+                }
+            }
+    
+            if ($request->orderby) {
+                $orderby = $request->orderby;
+    
+                switch ($orderby) {
+                    case 'desc':
+                        $products = Product::orderBy('id', 'DESC')->with('brand', 'images', 'sale')
+                        ->where('brand_id', $id)
+                        ->paginate(9);
+                        break;
+    
+                    case 'asc':
+                        $products = Product::orderBy('id', 'ASC')->with('brand', 'images', 'sale')
+                        ->where('brand_id', $id)
+                        ->paginate(9);
+                        break;
+    
+                    case 'price_max':
+                        $products= Product::orderBy('price', 'ASC')->with('brand', 'images', 'sale')
+                        ->where('brand_id', $id)
+                        ->paginate(9);
+                        break;
+    
+                    case 'price_min':
+                        $products = Product::orderBy('price', 'DESC')->with('brand', 'images', 'sale')
+                        ->where('brand_id', $id)
+                        ->paginate(9);
+                        break;
+                }
+            }
+
+        return view('brands.list-products',compact('categories','products','news','brands','brand'));
     }
 }

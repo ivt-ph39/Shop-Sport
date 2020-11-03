@@ -60,11 +60,15 @@
 						<label for="address">Address</label>
 						<input type="text" class="form-control" name="address" id="address">
 					</div>
+					<div class="form-group">
+						<label for="note">Note</label>
+						<input type="text" class="form-control" name="note" id="note">
+					</div>
 				</div>
 				@else
 				<div class="col-sm-6">
 					<!-- <input type="text" name="total" class="total" > -->
-					<input type="hidden" name="user_id" id="id" value="{{Auth::id()}}">
+					<input type="hidden" name="user_id" id="user_id" value="{{Auth::id()}}">
 					<div class="form-group">
 						<label for="name">Name: </label>
 						<input type="name" class="form-control" name="name" id="name" value="{{Auth::user()->name}}">
@@ -80,6 +84,10 @@
 					<div class="form-group">
 						<label for="address">Address</label>
 						<input type="text" class="form-control" name="address" id="address" value="{{Auth::user()->address}}">
+					</div>
+					<div class="form-group">
+						<label for="note">Note</label>
+						<input type="text" class="form-control" name="note" id="note">
 					</div>
 				</div>
 				@endif
@@ -133,13 +141,14 @@
 					'email' : $("#email").val(),
 					'address' : $("#address").val(),
 					'phone' : $("#phone").val(),
+					'user_id' : $("#user_id").val()
 				
 				},
 				success: function(res) {
 					console.log('Submission was successful.');
 					console.log(res);
 					console.log(cart);
-					alert(res);
+					alert('Order Successful');
 				},
 				error: function(data) {
 					console.log(JSON.stringify(data));

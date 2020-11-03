@@ -572,6 +572,12 @@ ul.sub-menu {
   padding-bottom: 45px;
   padding-left: 0;
   margin-left: 0;
+  /* margin-right: 100px; */
+}
+
+#slider .carousel-inner .item {
+  padding-left: 0;
+  margin-left: 0;
 }
 
 .carousel-indicators li {
@@ -833,6 +839,9 @@ h2.title:before{
 	overflow:hidden;
 }
 
+.title-sale{
+  color:#FE980F;
+}
 
 h2.title {
   color: #FE980F;
@@ -1007,6 +1016,7 @@ h2.title {
 ul .active {
   color:#FE980F
 }
+
 
 .category-tab {
   overflow: hidden;
