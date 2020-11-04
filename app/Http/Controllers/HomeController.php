@@ -13,6 +13,7 @@ use App\Mail\OrderConfirmMail;
 use App\Order;
 use App\OrderProduct;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::with('children')->get();
-        // dd($category->toArray());
+        // return $categories;
         $brands = Brand::all();
         $news = News::with('images')->get();
         // dd($news->toArray());
@@ -166,9 +167,9 @@ class HomeController extends Controller
         $to_email = $data['email'];
         $to_name = $data['name'];
         $from_email = 'nhi12299@gmail.com';
-        \Mail::send('mail.contact-mail', $data, function ($message) use ($to_email, $to_name, $from_email) {
-            $message->to($to_email, $to_name)->subject('Contact Mail');
-            $message->from($from_email, 'Shop-Sport');
+        Mail::send('mail.contact-mail',$data, function($message) use ($to_email,$to_name, $from_email){
+            $message->to($to_email,$to_name)->subject('Contact Mail');
+            $message->from($from_email,'Shop-Sport');
         });
         return 'success';
     }

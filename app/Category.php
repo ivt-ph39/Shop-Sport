@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
-class Category extends Model
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
+class Category extends Model implements Searchable
 {
     protected $fillable = [
-        'name'
+        'name','parent_id'
     ];
 
     public function products()
@@ -28,5 +29,16 @@ class Category extends Model
     public function parent()
     {
         return $this->belongsTo('App\Category','parent_id');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('admin.categories.list', $this->id);
+
+        return new SearchResult(
+            $this,
+            $this->name,
+            $url
+        );
     }
 }
