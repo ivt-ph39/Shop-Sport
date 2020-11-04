@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\Product;
 use App\Repositories\Eloquent\CategoryRepository;
+use App\Http\Requests\StoreUserRequest;
+use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     protected $categoryRepo;
@@ -18,8 +20,8 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = $this->categoryRepo->all();
-
+        // $categories = $this->categoryRepo->all();
+        $categories = Category::paginate(5);
         return view('admin.categories.list', compact('categories'));
     }
 
@@ -35,7 +37,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         $this->categoryRepo->create($request->all());
 
@@ -93,4 +95,12 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.categories.list');
     }
+
+    public function listProductByCategoryID($id){
+        
+        $category = Category::with('products')->find($id);     
+    
+        return view('admin.categories.list-product',compact('category'));
+    }
+    
 }

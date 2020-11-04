@@ -34,7 +34,9 @@
     </tbody>
 </table>
 
-
+<div>
+    {{$categories->links()}}
+    </div>
 <div id="show-list-product"></div>
 <!-- js -->
 <!-- @section('js') -->

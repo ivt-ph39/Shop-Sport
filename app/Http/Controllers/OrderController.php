@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\OrderProduct;
+use Exception;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -82,4 +84,25 @@ class OrderController extends Controller
     {
         //
     }
+
+    public function order(Request $request){
+        try {
+           
+        $data =$request->all();
+        $cart =json_decode($request->cart);
+
+        $order =Order::create($data);
+        foreach ($cart as $key => $item) {
+            OrderProduct::create([
+                'order_id'=>$order->id,
+                'product_id'=>$item['id']
+                ]);
+                return response()->json(['success'=>'Create Order Successful!'],200);
+             }
+        } catch (Exception $th) {
+            //throw $th;
+        
+        }
+    }
+    
 }

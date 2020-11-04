@@ -2,9 +2,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 
-<h1>Gì mà vô được =))</h1>
+<h1>Bạn không đủ quyền truy cập</h1>
 
-<form id="logout-form" action="{{ route('logout') }}" method="POST">
+<form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
     @csrf
     <input type="submit" value="Out">
     <a href="/" class="btn btn-dark">Return Home</a>

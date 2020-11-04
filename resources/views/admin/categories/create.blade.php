@@ -12,7 +12,7 @@
     <select name="parent_id" id="">
         <option value="0">None</option>
         @foreach ($categories as $category)
-        <option value="{{$category->id}}">{{$category->name}}</option>
+        <option value="{{$category->id}}">{{$category->name}} -{{$category->parent_id}}</option>
         @endforeach
     </select>
     @if($errors->has('name'))

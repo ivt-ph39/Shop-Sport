@@ -1,7 +1,7 @@
-@extends('layouts.master')
+@extends('admin.main')
 @section('content')
 <h1>Create Product</h1>
-<form action="{{route('products.store')}}" method="post" style="width: 50%;">
+<form action="{{route('admin.products.store')}}" method="post" style="width: 50%;">
 
     {{@csrf_field()}}
 
@@ -25,6 +25,13 @@
         <input type="number" name="price" id="" class="form-control">
         @if($errors->has('price'))
         <p style="color:red">{{$errors->first('price')}}</p>
+        @endif
+    </div>
+    <div class="form-group">
+        <label for="">Image:</label>
+        <input type="file" name="image" id="" class="form-control">
+        @if($errors->has('image'))
+        <p style="color:red">{{$errors->first('image')}}</p>
         @endif
     </div>
     <div class="form-group">

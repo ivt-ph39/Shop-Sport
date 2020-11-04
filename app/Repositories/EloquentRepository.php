@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 abstract class EloquentRepository implements EloquentInterface
 {
