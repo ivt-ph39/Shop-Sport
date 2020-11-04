@@ -8,8 +8,13 @@ use App\Brand;
 use App\News;
 use App\Product;
 use App\Slide;
+use App\Sale;
 use App\Mail\OrderConfirmMail;
+use App\Order;
+use App\OrderProduct;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+
 class HomeController extends Controller
 {
     /**
@@ -20,14 +25,65 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::with('children')->get();
-        // dd($category->toArray());
+        // return $categories;
         $brands = Brand::all();
         $news = News::with('images')->get();
         // dd($news->toArray());
-        $products = Product::with('brand', 'images', 'sale')->where('sale_id', '<>', 'null')->paginate(6);
+        $productsSale = Product::with('images', 'brand', 'sale')->where('quantity','>',0)->whereHas('sale', function ($query) {
+            return $query->where('start_day', '<=', now())
+                ->where('end_day', '>=', now());
+        })
+            ->whereNotNull('sale_id')
+            ->inRandomOrder()->take(6)->get();
+
+        // dd($productsSale->toArray());
+        $featureProducts = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 4)
+            ->where('brand_id', 6)
+            ->inRandomOrder()->take(4)->get();
+        $productsKamito = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 4)
+            ->where('brand_id', 6)
+            ->inRandomOrder()->take(4)->get();
+        $productsUnd = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 5)
+            ->where('brand_id', 5)
+            ->inRandomOrder()->take(4)->get();
+        $productsNike = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 10)
+            ->where('brand_id', 1)
+            ->inRandomOrder()->take(4)->get();
+        $productsAdidas = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 11)
+            ->where('brand_id', 2)
+            ->inRandomOrder()->take(4)->get();
+        // $products = Product::with('brand', 'images', 'sale')->get();
         $slides = Slide::all();
 
-        return view('welcome', compact('categories', 'brands', 'news', 'products','slides'));
+        if (Auth::check()) {
+            $orderID = Order::where('user_id', Auth::id())->pluck('id');
+            // dump($orders);
+            if (!empty($orderID)) {
+                $productID = OrderProduct::whereIn('order_id', $orderID)->distinct()->pluck('product_id');
+                // dd($orderProduct);
+                if (!empty($productID)) {
+                    $cateID = Product::whereIn('id', $productID)->distinct()->pluck('category_id');
+                    // dd($cateID);
+                    if (!empty($cateID)) {
+                        $proRecommend = Product::where('quantity','>',0)->whereIn('category_id', $cateID)->inRandomOrder()->take(3)->get();
+                    }
+                }
+            }
+        }
+        $data = [
+            'categories',
+            'brands',
+            'news',
+            'productsSale',
+            'productsAdidas',
+            'productsNike',
+            'productsUnd',
+            'productsKamito',
+            'slides',
+            'proRecommend'
+        ];
+
+        return view('welcome', compact($data));
     }
 
     /**
@@ -118,17 +174,17 @@ class HomeController extends Controller
         return 'success';
     }
 
-    public function search()
-    {
-        $categories = Category::with('children')->get();
-        // dd($category->toArray());
-        $brands = Brand::all();
-        $news = News::with('images')->get();
-        // dd($news->toArray());
-        $products = Product::with('brand', 'images', 'sale')->where('sale_id', '<>', 'null')->paginate(6);
+    // public function search()
+    // {
+    //     $categories = Category::with('children')->get();
+    //     // dd($category->toArray());
+    //     $brands = Brand::all();
+    //     $news = News::with('images')->get();
+    //     // dd($news->toArray());
+    //     $products = Product::with('brand', 'images', 'sale')->where('sale_id', '<>', 'null')->paginate(6);
 
-        return view('welcome', compact('categories', 'brands', 'news', 'products'));
-    }
+    //     return view('welcome', compact('categories', 'brands', 'news', 'products'));
+    // }
 
     // public function searchFullText(Request $request)
     // {

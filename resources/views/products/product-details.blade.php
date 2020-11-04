@@ -63,19 +63,27 @@
                             @if ($product['created_at'] >= now()->modify("-14 Days")) <img src="/images/new.jpg" class="newarrival" alt="" /> @endif
                             <h2>{{$product['name']}}</h2>
                             <span>
-                                @if(@product['sale_id'] == null)
-                                <span>US ${{$product['price']}}</span>
-                                <b data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{$product['price']}}" type="button" class="btn btn-fefault cart">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Add to cart
-                                </b>
+                                @if($product['sale_id'] != null)
+                                    @if($product->sale['start_day'] <= now() && now() <=$product->sale['end_day'])
+                                        <h4 style="text-decoration:line-through;">${{$product['price']}}</h4>
+                                        <span>${{ (1-$product->sale->discount)*$product['price'] }}</span>
+                                        <b  data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{(1-$product->sale->discount)*$product['price']}}" type="button" class="btn btn-fefault cart">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Add to cart
+                                        </b>
+                                    @else
+                                        <span>US ${{$product['price']}}</span>
+                                        <b data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{$product['price']}}" type="button" class="btn btn-fefault cart">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Add to cart
+                                        </b>
+                                    @endif
                                 @else
-                                <h4 style="text-decoration:line-through;">US ${{$product['price']}}</h4>
-                                <span>US ${{ (1-$product->sale->discount)*$product['price'] }}</span>
-                                <b  data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{(1-$product->sale->discount)*$product['price']}}" type="button" class="btn btn-fefault cart">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Add to cart
-                                </b>
+                                    <span>US ${{$product['price']}}</span>
+                                    <b data-id="{{$product['id']}}" data-name="{{$product['name']}}" data-price="{{$product['price']}}" type="button" class="btn btn-fefault cart">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Add to cart
+                                    </b>
                                 @endif
                             </span>
                             <p><b>Availability:</b> In Stock</p>
@@ -195,6 +203,8 @@
             </div>
         </div>
 </section>
+@endsection
+@section('script')
 <script type="text/javascript">
     function changeImage(a) {
         $("#img").attr('src', a);
