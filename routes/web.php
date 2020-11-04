@@ -15,13 +15,14 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'HomeController@index')->name('homepage');
 
-Route::get('/signin', function () {
-    return view('auth.login');
-})->name('show-login');
 
-Route::get('/signup', function () {
-    return view('auth.register');
-})->name('show.register');
+Route::get('/login', 'Auth\LoginController@showLoginForm')
+->name('form-login');
+
+Route::post('/login', 'Auth\LoginController@login')->name('login');
+
+Route::get('/register', 'Auth\RegisterController@showRegisterForm')
+->name('show.register');
 
 #Customer
 Route::get('/test', 'RoleController@index');
@@ -76,6 +77,7 @@ Route::group(
 
         Route::delete('/categories/{id}', 'CategoryController@destroy')->name('categories.delete');
 
+        
         // products 
 
         Route::get('/products', 'ProductController@index')->name('products.list');
