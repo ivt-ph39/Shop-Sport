@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 use Illuminate\Http\Request;
+
 interface EloquentInterface
 {
     public function all();
@@ -12,6 +13,4 @@ interface EloquentInterface
     public function delete($id);
 
     public function find($id);
-
-    
 }

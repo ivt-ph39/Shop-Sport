@@ -5,21 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class LoginController extends Controller
 {
-//     public function __construct()
-// {
-//     $this->middleware(['is.admin']);
-// }
     public function show()
     {
-        
         if (!Auth::check()) {
-           
             return view('admin.login');
         }
-        //  dd(Auth::user()->getRoleNames());
         return view('admin.main');
     }
 
