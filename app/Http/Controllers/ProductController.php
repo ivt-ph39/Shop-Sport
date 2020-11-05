@@ -225,8 +225,8 @@ class ProductController extends Controller
         $feedbacks = Feedback::with('user', 'product')->get();
         // dd($feedbacks->toArray());
 
-        $brandID = Product::where('id',$id)->pluck('brand_id');
-        $productByBrand = Product::where('brand_id',$brandID)->inRandomOrder()->take(4)->get();
+        $cateID = Product::where('id',$id)->pluck('category_id');
+        $productByCate = Product::where('category_id',$cateID)->inRandomOrder()->take(4)->get();
         // dd($productByBrand->toArray());
         $data= [
             'product', 
@@ -234,7 +234,7 @@ class ProductController extends Controller
             'categories', 
             'news', 
             'feedbacks',
-            'productByBrand'
+            'productByCate'
         ];
 
         return view('products.product-details', compact($data));

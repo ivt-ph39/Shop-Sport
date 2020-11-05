@@ -114,7 +114,7 @@
 
                             </div> -->
                             <div class="tab-pane fade" id="tag">
-                                @foreach($productByBrand as $pro)
+                                @foreach($productByCate as $pro)
                                 <div class="col-sm-3" class="carousel-inner">
                                     <div class="product-image-wrapper">
 
