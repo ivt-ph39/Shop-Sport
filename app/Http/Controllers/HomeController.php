@@ -84,6 +84,8 @@ class HomeController extends Controller
             }
         }
 
+
+
         // dd($data);
 
         return view('welcome', compact($data));
@@ -157,6 +159,7 @@ class HomeController extends Controller
 
     public function showFormContact()
     {
+
         return view('mail.contact-form');
     }
 
@@ -202,7 +205,16 @@ class HomeController extends Controller
 
     public function showAccountCustomer()
     {
-        return view('customers.customer-infor');
+        
+        // $orderID = Order::where('user_id', Auth::id())->pluck('id');
+        // $productID = OrderProduct::whereIn('order_id', $orderID)->pluck('product_id');
+
+        $orders = Order::with('products')->where('user_id', Auth::id())->get();
+        // dump($orders->toArray());
+        // dump($order->toArray());
+        // dump($product->toArray());
+
+        return view('customers.customer-infor',compact('orders'));
     }
 
     public function productViewed(Request $request)

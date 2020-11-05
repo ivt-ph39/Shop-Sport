@@ -24,7 +24,7 @@ Route::get('/', 'HomeController@index')->name('homepage');
 // Route::get('/register', 'Auth\RegisterController@showRegisterForm')
 // ->name('show.register');
 
-#Customer
+
 // Route::get('/test', 'RoleController@index');
 
 
@@ -47,7 +47,9 @@ Route::get('/brand/{id}/products','BrandController@showProductsByBrand')->name('
 // Route::get('/search', 'HomeController@search');
 // Route::post('/search', 'HomeController@searchFullText')->name('search');
 
+//Customer
 Route::get('/account','HomeController@showAccountCustomer')->name('account-customer');
+
 Route::post('/feebacks','FeedbackController@store')->name('feedbacks');
 
 //Search
