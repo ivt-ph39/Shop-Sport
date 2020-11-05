@@ -16,29 +16,26 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', 'HomeController@index')->name('homepage');
 
 
-Route::get('/login', 'Auth\LoginController@showLoginForm')
-->name('form-login');
+// Route::get('/login', 'Auth\LoginController@showLoginForm')
+// ->name('form-login');
 
-Route::post('/login', 'Auth\LoginController@login')->name('login');
+// Route::post('/login', 'Auth\LoginController@login')->name('login');
 
-Route::get('/register', 'Auth\RegisterController@showRegisterForm')
-->name('show.register');
+// Route::get('/register', 'Auth\RegisterController@showRegisterForm')
+// ->name('show.register');
 
 #Customer
-Route::get('/test', 'RoleController@index');
+// Route::get('/test', 'RoleController@index');
 
 
-
-Route::get('/login','Auth\LoginController@showLoginHomePage')->name('show-login');
-Route::post('/login','Auth\LoginController@loginHomePage')->name('login');
+Route::get('/login','Auth\LoginController@showLoginHomePage')->name('login');
+Route::post('/login','Auth\LoginController@loginHomePage');
 Route::get('/logout','Auth\LoginController@logout')->name('logout');
-Route::get('/register','Auth\RegisterController@showSignUpHomePage')->name('show-register');
-Route::post('/register','Auth\RegisterController@register')->name('register');
+Route::get('/register','Auth\RegisterController@showSignUpHomePage')->name('register');
+Route::post('/register','Auth\RegisterController@register');
 Route::get('/checkout','OrderController@getCheckout')->name('show-cart');
-// Route::post('/checkout','CartController@postCheckout')->name('checkout');
+Route::post('/checkout','Api\CartController@postCheckout')->name('checkout');
 
-//Homepage
-Route::get('/products','ProductController@index')->name('show-products');
 Route::get('/product/{id}/details','ProductController@show')->name('product-details');
 Route::get('/products/sale','ProductController@listProductsSale')->name('products-sale');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
@@ -55,9 +52,10 @@ Route::post('/feebacks','FeedbackController@store')->name('feedbacks');
 
 //Search
 Route::get('/search/product', 'ProductController@searchByName');
-Route::get('/cart', function () {
-    return view('cart.cart');
-})->name('show-cart');
+// Route::get('/cart', function () {
+//     return view('cart.cart');
+// })->name('show-cart');
+Route::post('ajax/product-viewed','HomeController@productViewed')->name('product-viewed');
 
 Route::get('/products', 'ProductController@index')->name('show-products');
 Route::get('/product/{id}/details', 'ProductController@show')->name('product-details');

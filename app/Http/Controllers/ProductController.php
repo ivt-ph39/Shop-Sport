@@ -225,7 +225,15 @@ class ProductController extends Controller
         $feedbacks = Feedback::with('user', 'product')->get();
         // dd($feedbacks->toArray());
 
-        return view('products.product-details', compact('product', 'brands', 'categories', 'news', 'feedbacks'));
+        $data= [
+            'product', 
+            'brands', 
+            'categories', 
+            'news', 
+            'feedbacks'
+        ];
+
+        return view('products.product-details', compact($data));
     }
 
     /**

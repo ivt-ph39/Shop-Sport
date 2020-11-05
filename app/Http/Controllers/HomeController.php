@@ -28,8 +28,9 @@ class HomeController extends Controller
         // return $categories;
         $brands = Brand::all();
         $news = News::with('images')->get();
+        $slides = Slide::all();
         // dd($news->toArray());
-        $productsSale = Product::with('images', 'brand', 'sale')->where('quantity','>',0)->whereHas('sale', function ($query) {
+        $productsSale = Product::with('images', 'brand', 'sale')->where('quantity', '>', 0)->whereHas('sale', function ($query) {
             return $query->where('start_day', '<=', now())
                 ->where('end_day', '>=', now());
         })
@@ -37,23 +38,34 @@ class HomeController extends Controller
             ->inRandomOrder()->take(6)->get();
 
         // dd($productsSale->toArray());
-        $featureProducts = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 4)
+        $featureProducts = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 4)
             ->where('brand_id', 6)
             ->inRandomOrder()->take(4)->get();
-        $productsKamito = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 4)
+        $productsKamito = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 4)
             ->where('brand_id', 6)
             ->inRandomOrder()->take(4)->get();
-        $productsUnd = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 5)
+        $productsUnd = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 5)
             ->where('brand_id', 5)
             ->inRandomOrder()->take(4)->get();
-        $productsNike = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 10)
+        $productsNike = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 10)
             ->where('brand_id', 1)
             ->inRandomOrder()->take(4)->get();
-        $productsAdidas = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 11)
+        $productsAdidas = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 11)
             ->where('brand_id', 2)
             ->inRandomOrder()->take(4)->get();
         // $products = Product::with('brand', 'images', 'sale')->get();
-        $slides = Slide::all();
+        $data = [
+            'categories',
+            'brands',
+            'news',
+            'productsSale',
+            'productsAdidas',
+            'productsNike',
+            'productsUnd',
+            'productsKamito',
+            'slides',
+            // 'proRecommend'
+        ];
 
         if (Auth::check()) {
             $orderID = Order::where('user_id', Auth::id())->pluck('id');
@@ -65,23 +77,14 @@ class HomeController extends Controller
                     $cateID = Product::whereIn('id', $productID)->distinct()->pluck('category_id');
                     // dd($cateID);
                     if (!empty($cateID)) {
-                        $proRecommend = Product::where('quantity','>',0)->whereIn('category_id', $cateID)->inRandomOrder()->take(3)->get();
+                        $proRecommend = Product::where('quantity', '>', 0)->whereIn('category_id', $cateID)->inRandomOrder()->take(3)->get();
+                        $data[] = 'proRecommend';
                     }
                 }
             }
         }
-        $data = [
-            'categories',
-            'brands',
-            'news',
-            'productsSale',
-            'productsAdidas',
-            'productsNike',
-            'productsUnd',
-            'productsKamito',
-            'slides',
-            'proRecommend'
-        ];
+
+        // dd($data);
 
         return view('welcome', compact($data));
     }
@@ -167,9 +170,9 @@ class HomeController extends Controller
         $to_email = $data['email'];
         $to_name = $data['name'];
         $from_email = 'nhi12299@gmail.com';
-        Mail::send('mail.contact-mail',$data, function($message) use ($to_email,$to_name, $from_email){
-            $message->to($to_email,$to_name)->subject('Contact Mail');
-            $message->from($from_email,'Shop-Sport');
+        Mail::send('mail.contact-mail', $data, function ($message) use ($to_email, $to_name, $from_email) {
+            $message->to($to_email, $to_name)->subject('Contact Mail');
+            $message->from($from_email, 'Shop-Sport');
         });
         return 'success';
     }
@@ -200,5 +203,16 @@ class HomeController extends Controller
     public function showAccountCustomer()
     {
         return view('customers.customer-infor');
+    }
+
+    public function productViewed(Request $request)
+    {
+        if ($request->ajax()) {
+            $listID = $request->id;
+
+            $products = Product::whereIn('id',$listID)->take(4)->get();
+            $html = view('product-viewed.list-product',compact('products'))->render();
+            return response()->json(['data' => $html]);
+        }
     }
 }

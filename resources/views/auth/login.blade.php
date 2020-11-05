@@ -30,7 +30,7 @@
             <h2 class="or">Or</h2>
         </div>
         <div class="col-md-4 ">
-            <button class="btn btn-danger" style="margin-top:80px"><a style="color:white;" href="{{route('show-register')}}"> Create Account</a></button>
+            <button class="btn btn-danger" style="margin-top:80px"><a style="color:white;" href="{{route('register')}}"> Create Account</a></button>
         </div>
     </div>
 </div>

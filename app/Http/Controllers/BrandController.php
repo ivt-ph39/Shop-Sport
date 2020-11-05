@@ -163,7 +163,14 @@ class BrandController extends Controller
                         break;
                 }
             }
+            $data=[
+                'categories',
+                'products',
+                'news',
+                'brands',
+                'brand'
+            ];
 
-        return view('brands.list-products',compact('categories','products','news','brands','brand'));
+        return view('brands.list-products',compact($data));
     }
 }

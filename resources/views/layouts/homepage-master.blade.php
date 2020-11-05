@@ -62,8 +62,8 @@
                                     Account
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a href="{{route('show-login')}}" class="active"><i class="fa"></i> Login</a></li>
-                                    <li><a href="{{route('show-register')}}" class="active"><i class="fa"></i> Register</a></li>
+                                    <li><a href="{{route('login')}}" class="active"><i class="fa"></i> Login</a></li>
+                                    <li><a href="{{route('register')}}" class="active"><i class="fa"></i> Register</a></li>
                                 </div>
                             </div>
 
@@ -162,10 +162,10 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="search_box pull-right">
-                        <form class="typeahead" role="search">
-                            <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
-                            <!-- <input type="submit" value="search"> -->
-                        </form>
+                            <form class="typeahead" role="search">
+                                <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
+                                <!-- <input type="submit" value="search"> -->
+                            </form>
                         </div>
                         <div id="search-suggest" class="s-suggest"></div>
                     </div>
@@ -349,7 +349,7 @@
     <script src="{{ asset('js/bloodhound.min.js')}}"></script>
 
     <!-- <script type="text/javascript" src="{{ asset('js/jquery-3.5.1.min.js')}}"></script> -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
@@ -389,7 +389,29 @@
             }]);
         });
     </script>
-@yield('script')
+    <!-- <script type="text/javascript">
+        $(function() {
+            // luu id san pham vao storage
+            let productID = $("#product-details").attr('data-id');
+            // lay gia tri storage
+            let products = localStorage.getItem('products');
+
+            if (products == null) {
+                productAr = new Array();
+                productAr.push(productID);
+                localStorage.setItem('products', JSON.stringify(productAr));
+            } else {
+                // SJJMX&l v& W3
+                products = $.parseJSON(products);
+                if (products.indexOf(productID) == -1) {
+                    products.push(productID);
+                    localStorage.setItem('products', JSON.stringify(products));
+                }
+                console.log(products)
+            }
+        })
+    </script> -->
+    @yield('script')
 </body>
 
 </html>
