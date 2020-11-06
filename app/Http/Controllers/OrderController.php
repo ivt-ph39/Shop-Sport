@@ -19,11 +19,7 @@ class OrderController extends Controller
     {
     }
 
-    public function getCheckout()
-    {
-        return view('cart.cart');
-    }
-
+    
     /**
      * Show the form for creating a new resource.
      *

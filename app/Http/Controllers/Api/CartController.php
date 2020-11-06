@@ -23,7 +23,11 @@ class CartController extends Controller
         //
     }
 
-    
+    public function getCheckout()
+    {
+        return view('cart.cart');
+    }
+
 
     public function order(CheckoutRequest $Request)
     {

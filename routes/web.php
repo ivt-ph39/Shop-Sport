@@ -33,8 +33,8 @@ Route::post('/login','Auth\LoginController@loginHomePage');
 Route::get('/logout','Auth\LoginController@logout')->name('logout');
 Route::get('/register','Auth\RegisterController@showSignUpHomePage')->name('register');
 Route::post('/register','Auth\RegisterController@register');
-Route::get('/checkout','OrderController@getCheckout')->name('show-cart');
-Route::post('/checkout','Api\CartController@postCheckout')->name('checkout');
+Route::get('/checkout','Api\CartController@getCheckout')->name('show-cart');
+// Route::post('/checkout','Api\CartController@postCheckout')->name('checkout');
 
 Route::get('/product/{id}/details','ProductController@show')->name('product-details');
 Route::get('/products/sale','ProductController@listProductsSale')->name('products-sale');
@@ -48,7 +48,9 @@ Route::get('/brand/{id}/products','BrandController@showProductsByBrand')->name('
 // Route::post('/search', 'HomeController@searchFullText')->name('search');
 
 //Customer
-Route::get('/account','HomeController@showAccountCustomer')->name('account-customer');
+Route::get('/account','CustomerController@showAccountCustomer')->name('account-customer');
+Route::get('/account/{id}/edit','CustomerController@edit')->name('account-edit');
+Route::put('/account/{id}','CustomerController@update')->name('account-update');
 
 Route::post('/feebacks','FeedbackController@store')->name('feedbacks');
 
@@ -61,6 +63,9 @@ Route::post('ajax/product-viewed','HomeController@productViewed')->name('product
 
 Route::get('/products', 'ProductController@index')->name('show-products');
 Route::get('/product/{id}/details', 'ProductController@show')->name('product-details');
+Route::get('/products/{proID}/feedback/{userID}/edit','ProductController@editFeedback')->name('feedback-edit');
+Route::put('/products/{proID}/feedback/{userID}','ProductController@updateFeedback')->name('feedback-update');
+Route::delete('/product/{proID}/details/feedback/delete/{userID}', 'ProductController@deleteFeedback')->name('feedback-delete');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
 Auth::routes();

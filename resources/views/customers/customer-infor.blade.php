@@ -42,6 +42,7 @@
                 <p> {{ Auth::user()->email }} </p>
                 <p> {{ Auth::user()->address }} </p>
                 <p> {{ Auth::user()->phone }} </p>
+                <a style="background: #FE980F;" class="btn btn-default" href="{{ route('account-edit',Auth::id()) }}">Edit your information</a>
             </div>
         </div>
     </div>

@@ -30,6 +30,8 @@ class HomeController extends Controller
         $news = News::with('images')->get();
         $slides = Slide::all();
         // dd($news->toArray());
+
+        //san pham sale
         $productsSale = Product::with('images', 'brand', 'sale')->where('quantity', '>', 0)->whereHas('sale', function ($query) {
             return $query->where('start_day', '<=', now())
                 ->where('end_day', '>=', now());
@@ -67,6 +69,9 @@ class HomeController extends Controller
             // 'proRecommend'
         ];
 
+
+
+        //san pham suggest
         if (Auth::check()) {
             $orderID = Order::where('user_id', Auth::id())->pluck('id');
             // dump($orders);
@@ -83,6 +88,13 @@ class HomeController extends Controller
                 }
             }
         }
+
+        // $productID = OrderProduct::pluck('product_id')->toArray();
+        // // dd($productID->toArray());
+        // // $productFeature = array_count_values($productID);
+        // // print_r($productFeature);
+        // echo '<pre>';
+        // print_r(array_count_values($productID));
 
 
 
@@ -203,27 +215,15 @@ class HomeController extends Controller
     //     }
     // }
 
-    public function showAccountCustomer()
-    {
-        
-        // $orderID = Order::where('user_id', Auth::id())->pluck('id');
-        // $productID = OrderProduct::whereIn('order_id', $orderID)->pluck('product_id');
-
-        $orders = Order::with('products')->where('user_id', Auth::id())->get();
-        // dump($orders->toArray());
-        // dump($order->toArray());
-        // dump($product->toArray());
-
-        return view('customers.customer-infor',compact('orders'));
-    }
+    
 
     public function productViewed(Request $request)
     {
         if ($request->ajax()) {
             $listID = $request->id;
 
-            $products = Product::whereIn('id',$listID)->take(4)->get();
-            $html = view('product-viewed.list-product',compact('products'))->render();
+            $products = Product::whereIn('id', $listID)->take(4)->get();
+            $html = view('product-viewed.list-product', compact('products'))->render();
             return response()->json(['data' => $html]);
         }
     }

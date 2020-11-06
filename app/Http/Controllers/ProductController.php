@@ -240,8 +240,56 @@ class ProductController extends Controller
         return view('products.product-details', compact($data));
     }
 
-    /**
-     * Show the form for editing the specified resource.
+    public function deleteFeedback($proID,$userID)
+    {
+        $feedback= Feedback::where('user_id',$userID)->where('product_id',$proID)
+                                                    ->get()->each->delete();
+        // $feedback = Feedback::find($feedbackID);
+        // dd($feedbackID);
+        // dd($feedback->toArray());
+        // $feedback->delete();
+        
+        return redirect()->route('product-details',$proID);
+    }
+
+    public function editFeedback($proID,$userID)
+    {
+        $product = Product::with('brand', 'images')->find($proID);
+        $brands    = Brand::all();
+        $categories = Category::all();
+        $news = News::with('images')->get();
+        $feedbacks = Feedback::with('user', 'product')->get();
+        // dd($feedbacks->toArray());
+
+        $cateID = Product::where('id',$proID)->pluck('category_id');
+        $productByCate = Product::where('category_id',$cateID)->inRandomOrder()->take(4)->get();
+        // dd($productByBrand->toArray());
+        $data= [
+            'product', 
+            'brands', 
+            'categories', 
+            'news', 
+            'feedbacks',
+            'productByCate',
+            'feedback'
+        ];
+
+        $feedback= Feedback::where('user_id',$userID)->where('product_id',$proID)->get();
+
+        return view('products.edit-feedback', compact($data));
+    }
+
+    public function updateFeedback(Request $request,$proID,$userID)
+    {
+        $data = $request->only('content');
+        // dd($data);
+
+        $feedback= Feedback::where('user_id',$userID)->where('product_id',$proID)->update($data);
+
+        return redirect()->route('product-details',$proID);
+    }
+
+    /**     * Show the form for editing the specified resource.
      *
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
