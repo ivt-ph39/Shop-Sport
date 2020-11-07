@@ -58,8 +58,6 @@ class CartController extends Controller
                 
             }
             
-
-            DB::commit();
             return response()->json(['success'=>'Successful'],200);
 
 

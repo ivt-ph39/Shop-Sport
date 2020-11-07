@@ -45,15 +45,20 @@ $(document).ready(function () {
 		showCart() ;
 	}));
 	$(document).on('click', '#remove', function() {
-		var key = $(this).attr('key');
-		console.log(key);
-		var product_id = $(this).attr('data-id');
-		var cart = JSON.parse(localStorage.getItem('cart'));
-		// console.log(cart[key]);
-		deleteFromCart(cart,product_id);// Gio hang sau khi xoa
-		// delete cart[key];
-		localStorage.setItem('cart', JSON.stringify(cart));
-		showCart();
+		if( ! confirm("Do you really want to do this?") ){
+            e.preventDefault(); // ! => don't want to do this
+        } else {
+			var key = $(this).attr('key');
+			console.log(key);
+			var product_id = $(this).attr('data-id');
+			var cart = JSON.parse(localStorage.getItem('cart'));
+			// console.log(cart[key]);
+			deleteFromCart(cart,product_id);// Gio hang sau khi xoa
+			// delete cart[key];
+			localStorage.setItem('cart', JSON.stringify(cart));
+			showCart();
+        }
+		
 	});
 	// $("#remove").click(function() {
 	// 	var key = $(this).attr('key');

@@ -162,10 +162,18 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="search_box pull-right">
-                            <form class="typeahead" role="search">
-                                <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
-                                <!-- <input type="submit" value="search"> -->
-                            </form>
+                            <!-- <div class="row"> -->
+                                <!-- <div class="col-md-9"> -->
+                                    <form class="typeahead" role="search" action="{{ route('search') }}" method="POST" id="search">
+                                        @csrf
+                                        <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
+                                        <button type="submit" form="search"><i class="fa fa-search"></i></button>
+                                    </form>
+                                <!-- </div> -->
+                                <!-- <div class="col-md-3"> -->
+                                    <!-- <button type="submit" form="search" name="search"><i class="fa fa-search"></i></button> -->
+                                <!-- </div> -->
+                            <!-- </div> -->
                         </div>
                         <div id="search-suggest" class="s-suggest"></div>
                     </div>

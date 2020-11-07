@@ -249,9 +249,9 @@
                                                     ...
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <li><a href="{{route('feedback-edit',['proID' =>$f['product_id'],'userID' => $f['user_id']])}}" class="active"><i class="fa"></i> Edit</a></li>
+                                                    <li><a href="{{route('feedback-edit',['proID' =>$f['product_id'],'id' => $f['id']])}}" class="active"><i class="fa"></i> Edit</a></li>
                                                     <li>
-                                                        <form method="POST" action="{{route('feedback-delete',['proID' =>$f['product_id'],'userID' => $f['user_id']])}}">
+                                                        <form method="POST" action="{{route('feedback-delete',['proID' =>$f['product_id'],'id' => $f['id']])}}">
 
                                                             @csrf
                                                             @method('DELETE')
@@ -277,7 +277,7 @@
                                     @endforeach
                                     <p><b>Write Your Review</b></p>
 
-                                    <form action="{{route('feedback-update',['proID' =>$f['product_id'],'userID' => $f['user_id']])}}" method="POST" role="form" id="edit-feedback">
+                                    <form action="{{route('feedback-update',['proID' =>$f['product_id'],'id' => $f['id']])}}" method="POST" role="form" id="edit-feedback">
 
                                         @csrf
                                         @method('PUT')

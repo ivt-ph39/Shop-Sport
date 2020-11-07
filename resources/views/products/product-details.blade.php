@@ -247,9 +247,9 @@
                                                     ...
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <li><a href="{{route('feedback-edit',['proID' =>$f['product_id'],'userID' => $f['user_id']])}}" class="active"><i class="fa"></i> Edit</a></li>
+                                                    <li><a href="{{ route( 'feedback-edit',['proID' =>$f['product_id'],'id' => $f['id']] ) }}" class="active"><i class="fa"></i> Edit</a></li>
                                                     <li>
-                                                        <form method="POST" action="{{route('feedback-delete',['proID' =>$f['product_id'],'userID' => $f['user_id']])}}">
+                                                        <form method="POST" action="{{ route('feedback-delete',['proID' =>$f['product_id'],'id' => $f['id']] )}}">
 
                                                             @csrf
                                                             @method('DELETE')
@@ -286,6 +286,7 @@
                                             Submit
                                         </button>
                                     </form>
+
                                     @else
                                     @foreach($feedbacks as $f)
                                     @if($product['id'] == $f['product_id'])
@@ -297,7 +298,7 @@
                                     <p>{{$f['content']}}</p>
                                     @endif
                                     @endforeach
-                                    <a type="button" class="btn btn-danger" href="{{route('login')}}">Login member to write your review</a>
+                                    <a type="button" style="color:#FE980F" class="btn btn-danger" href="{{route('login')}}">Login member to write your review</a>
                                     @endif
                                 </div>
                             </div>
@@ -370,6 +371,15 @@
         }
     })
 </script>
+<!-- <script type="text/javascript">
+    $(document).ready(function($) {
+        $(document).on('submit', '#feedbacks', function(event) {
+            event.preventDefault();
+
+            alert('page did not reload');
+        });
+    });
+</script> -->
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
 
 @endsection

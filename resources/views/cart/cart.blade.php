@@ -41,7 +41,7 @@
 		</div>
 		<div class="row">
 			<form action="{{ route('checkout') }}" method="post">
-			<input id="token" name="_token" type="hidden" value="{{csrf_token()}}"> 
+				<input id="token" name="_token" type="hidden" value="{{csrf_token()}}">
 				@if(!Auth::check())
 				<div class="col-sm-6">
 					<div class="form-group">
@@ -135,20 +135,23 @@
 			$.ajax({
 				type: 'POST',
 				url: '/api/order',
-				data: {"cart" : cart,
-					'_token' : $("#token").val(),
-					'name' : $("#name").val(),
-					'email' : $("#email").val(),
-					'address' : $("#address").val(),
-					'phone' : $("#phone").val(),
-					'user_id' : $("#user_id").val()
-				
+				data: {
+					"cart": cart,
+					'_token': $("#token").val(),
+					'name': $("#name").val(),
+					'email': $("#email").val(),
+					'address': $("#address").val(),
+					'phone': $("#phone").val(),
+					'user_id': $("#user_id").val()
+
 				},
 				success: function(res) {
 					console.log('Submission was successful.');
 					console.log(res);
 					console.log(cart);
 					alert('Order Successful');
+					localStorage.removeItem('cart');
+
 				},
 				error: function(data) {
 					console.log(JSON.stringify(data));
@@ -156,7 +159,6 @@
 					console.log(cart);
 				},
 			});
-
 		});
 	});
 </script>

@@ -56,16 +56,18 @@ Route::post('/feebacks','FeedbackController@store')->name('feedbacks');
 
 //Search
 Route::get('/search/product', 'ProductController@searchByName');
+Route::post('/search/product', 'ProductController@searchList')->name('search');
 // Route::get('/cart', function () {
 //     return view('cart.cart');
 // })->name('show-cart');
+
 Route::post('ajax/product-viewed','HomeController@productViewed')->name('product-viewed');
 
 Route::get('/products', 'ProductController@index')->name('show-products');
 Route::get('/product/{id}/details', 'ProductController@show')->name('product-details');
-Route::get('/products/{proID}/feedback/{userID}/edit','ProductController@editFeedback')->name('feedback-edit');
-Route::put('/products/{proID}/feedback/{userID}','ProductController@updateFeedback')->name('feedback-update');
-Route::delete('/product/{proID}/details/feedback/delete/{userID}', 'ProductController@deleteFeedback')->name('feedback-delete');
+Route::get('/products/{proID}/feedback/{id}/edit','ProductController@editFeedback')->name('feedback-edit');
+Route::put('/products/{proID}/feedback/{id}','ProductController@updateFeedback')->name('feedback-update');
+Route::delete('/product/{proID}/details/feedback/{id}/delete', 'ProductController@deleteFeedback')->name('feedback-delete');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
 Auth::routes();
