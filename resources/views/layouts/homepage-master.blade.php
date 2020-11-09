@@ -164,11 +164,19 @@
                         <div class="search_box pull-right">
                             <!-- <div class="row"> -->
                                 <!-- <div class="col-md-9"> -->
+                                    @if(empty($request->q))
                                     <form class="typeahead" role="search" action="{{ route('search') }}" method="POST" id="search">
                                         @csrf
                                         <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
                                         <button type="submit" form="search"><i class="fa fa-search"></i></button>
                                     </form>
+                                    @else
+                                    <form class="typeahead" role="search" action="{{ route('search-get') }}" method="GET" id="search">
+                                        @csrf
+                                        <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
+                                        <button type="submit" form="search"><i class="fa fa-search"></i></button>
+                                    </form>
+                                    @endif
                                 <!-- </div> -->
                                 <!-- <div class="col-md-3"> -->
                                     <!-- <button type="submit" form="search" name="search"><i class="fa fa-search"></i></button> -->
@@ -397,28 +405,15 @@
             }]);
         });
     </script>
-    <!-- <script type="text/javascript">
-        $(function() {
-            // luu id san pham vao storage
-            let productID = $("#product-details").attr('data-id');
-            // lay gia tri storage
-            let products = localStorage.getItem('products');
-
-            if (products == null) {
-                productAr = new Array();
-                productAr.push(productID);
-                localStorage.setItem('products', JSON.stringify(productAr));
-            } else {
-                // SJJMX&l v& W3
-                products = $.parseJSON(products);
-                if (products.indexOf(productID) == -1) {
-                    products.push(productID);
-                    localStorage.setItem('products', JSON.stringify(products));
-                }
-                console.log(products)
-            }
-        })
-    </script> -->
+    <script type="text/javascript">
+         $(document).ready(function($) {
+             $('.cart').click(function(e){
+                 if(localStorage.getItem('cart') == null || empty(localStorage.getItem('cart')) )
+                    e.preventDefault();
+                    alert("Giỏ hàng chưa có gì !!")
+             });
+        });
+    </script>
     @yield('script')
 </body>
 

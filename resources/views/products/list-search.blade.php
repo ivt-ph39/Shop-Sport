@@ -141,6 +141,7 @@
     </div>
 </section>
 @endsection
+
 @section('script')
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
 <script>

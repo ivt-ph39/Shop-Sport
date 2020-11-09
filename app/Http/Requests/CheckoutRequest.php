@@ -26,7 +26,7 @@ class CheckoutRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string'],
+            'phone' => ['required', 'string','min:10','max:11'],
             'email' => ['required', 'string', 'email', 'max:255'],
         ];
     }

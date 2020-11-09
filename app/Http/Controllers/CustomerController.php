@@ -26,7 +26,7 @@ class CustomerController extends Controller
         // $orderID = Order::where('user_id', Auth::id())->pluck('id');
         // $productID = OrderProduct::whereIn('order_id', $orderID)->pluck('product_id');
 
-        $orders = Order::with('products')->where('user_id', Auth::id())->get();
+        $orders = Order::with('products')->where('user_id', Auth::id())->orderBy('id','DESC')->get();
         // dump($orders->toArray());
         // dump($order->toArray());
         // dump($product->toArray());

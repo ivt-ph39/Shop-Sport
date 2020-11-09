@@ -10,6 +10,7 @@ use App\OrderProduct;
 use App\Product;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -22,6 +23,10 @@ class CartController extends Controller
     {
         //
     }
+    public function getCartEmpty()
+    {
+        return view('cart.empty');
+    }
 
     public function getCheckout()
     {
@@ -32,39 +37,51 @@ class CartController extends Controller
     public function order(CheckoutRequest $Request)
     {
 
-       
+
         try {
             DB::beginTransaction();
-            $data = $Request->only('name', 'email', 'phone', 'address','user_id','note');
+            $data = $Request->only('name', 'email', 'phone', 'address', 'user_id', 'note');
             // dd($data);
-            $orders = Order::create($data);
-            
+            $order = Order::create($data);
+
             // dd($orders);
             // $cart = json_decode($Request->cart);
             // dd($data);
             // return $cart;
-            foreach ($Request->cart as $key=>$item) {
-                 
+            foreach ($Request->cart as $key => $item) {
+
                 OrderProduct::create([
-                    'order_id' => $orders->id,
+                    'order_id' => $order->id,
                     'quantity' => $item['quantity'],
-                    'price' =>$item['price']*$item['quantity'],
+                    'price' => $item['price'] * $item['quantity'],
                     'product_id' => $item['id']
                 ]);
-                
+
                 // DB::enableQueryLog();
                 // Product::find($item['id'])->update(['quantity' => 'quantity'- $item['quantity']]);
                 // dd(DB::getQueryLog());
-                
+
             }
-            
-            return response()->json(['success'=>'Successful'],200);
+            $order = Order::with('products')->where('user_id', $order->id)->get();
+            // $orderDetail = OrderProduct::where('order_id',$order->id)->get();
+            // // dump($products);
+            // // $data['products'] = $products;
+            // $data['orderDetail'] = $orderDetail->toArray();
+            $data['order'] = $order->toArray();
 
+            $to_email = $data['email'];
+            $to_name = $data['name'];
+            $from_email = 'nhi12299@gmail.com';
+            Mail::send('mail.order-confirm', $data, function ($message) use ($to_email, $to_name, $from_email) {
+                $message->to($to_email, $to_name)->subject('Contact Mail');
+                $message->from($from_email, 'Shop-Sport');
+            });
 
+            DB::commit();
+            return response()->json(['success' => 'Successful'], 200);
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['fail'=>'fail'],400);
-            
+            return response()->json(['fail' => 'fail'], 400);
         }
     }
 

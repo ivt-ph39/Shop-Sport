@@ -83,6 +83,9 @@
 				<div class="features_items">
 					<!--features_items-->
 					<h2 class="title text-center"><a class="title-sale text-center" href="{{ route('products-sale') }}">Sale Items</a></h2>
+					
+					<p ><a style="color:#FE980F" href="{{ route('products-sale') }}">Xem Thêm</a></p>
+					
 					@foreach($productsSale as $pro)
 
 

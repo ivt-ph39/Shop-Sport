@@ -3,7 +3,6 @@
 @section('content')
 
 
-
 <section>
     <div class="container">
         <h2>Your Account Information</h2>
@@ -13,18 +12,31 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <td colspan="2">Day</th>
-                            <td colspan="2">Order Details</th>
+                            <!-- <th rowspan="2">Day</th> -->
+                            <th>Order Details</th>
+                        </tr>
+                        <tr>
+
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($orders as $order)
+
                         <tr>
                             <td>{{ $order['created_at']->toFormattedDateString() }}</td>
-                            @foreach($order->products as $pro)
-                            <td><a href="{{ route('product-details',$pro['id'])}}" target="_blank" rel="noopener noreferrer">{{ $pro['name']   }} </a></td>
-                            @endforeach
+                            @foreach($order->products as $key=>$pro)
+                            <tr>
+                                <td><a href="{{ route('product-details',$pro['id'])}}" target="_blank" rel="noopener noreferrer">{{ $pro['name']   }} </a></td>
+                                <td>{{$pro->pivot->quantity}} </td>
+                                <td>{{$pro->pivot->price}} </td>
+                            </tr>
+                        @endforeach
                         </tr>
+
                         @endforeach
 
                         <!-- <tr>

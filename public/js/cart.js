@@ -36,7 +36,7 @@ $(document).ready(function () {
 		$('.count_item_pr').text('('+count+')');
 		console.log(count);
 	});
-	$(document).on('change','input', (function () {
+	$(document).on('change','.cart_quantity_input', (function () {
 		var quantity = $(this).val();
 		var product_id = $(this).attr('data-id');
 		cart = updateProductQuantity(cart, product_id, quantity);

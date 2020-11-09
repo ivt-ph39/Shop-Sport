@@ -34,6 +34,7 @@ Route::get('/logout','Auth\LoginController@logout')->name('logout');
 Route::get('/register','Auth\RegisterController@showSignUpHomePage')->name('register');
 Route::post('/register','Auth\RegisterController@register');
 Route::get('/checkout','Api\CartController@getCheckout')->name('show-cart');
+Route::get('/cart-empty','Api\CartController@getCartEmpty')->name('show-cart-empty');
 // Route::post('/checkout','Api\CartController@postCheckout')->name('checkout');
 
 Route::get('/product/{id}/details','ProductController@show')->name('product-details');
@@ -57,6 +58,7 @@ Route::post('/feebacks','FeedbackController@store')->name('feedbacks');
 //Search
 Route::get('/search/product', 'ProductController@searchByName');
 Route::post('/search/product', 'ProductController@searchList')->name('search');
+Route::get('/search/product/list', 'ProductController@searchList')->name('search-get');
 // Route::get('/cart', function () {
 //     return view('cart.cart');
 // })->name('show-cart');

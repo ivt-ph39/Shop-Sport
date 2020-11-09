@@ -218,6 +218,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+
+        Product::find($id)->update([(int)'quantity' => (int)'quantity' - 1]);
+
+
+
+
         $product = Product::with('brand', 'images')->find($id);
         $brands    = Brand::all();
         $categories = Category::all();
@@ -398,8 +404,10 @@ class ProductController extends Controller
         // $search = $request->only('q');
         // dd($search);
 
-        $products = Product::where('name','like', '%' . $request->q . '%')->paginate(9);
-        // dd($products->toArray());
+        
+
+        $products = Product::where('name','like', '%' .$request->q. '%')->paginate(6);
+        dd($products->toArray());
 
 
 

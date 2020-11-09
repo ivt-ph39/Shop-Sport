@@ -45,7 +45,7 @@
 
         <div class="form-group">
             <label for="">Email: </label>
-            <input type="text" name="email" class="form-control" value="{{$customer->email}}" placeholder="Input Email">
+            <input type="text" name="email" class="form-control" value="{{$customer->email}}" placeholder="Input Email" disabled>
         </div>
         @if($errors->has('email'))
         <p style="color:red;">
@@ -54,7 +54,7 @@
         @endif
         <div class="form-group">
             <label for="">Password: </label>
-            <input type="text" name="password" class="form-control" value="{{$customer->password}}" placeholder="Input Email">
+            <input type="text" name="password" class="form-control" value="{{$customer->password}}" placeholder="Input Email" disabled>
         </div>
         @if($errors->has('password'))
         <p style="color:red;">
