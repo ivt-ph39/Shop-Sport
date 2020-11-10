@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') | E-Shopper</title>
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css')}}" rel="stylesheet">
@@ -14,7 +15,22 @@
     <link href="{{ asset('css/animate.css')}}" rel="stylesheet">
     <link href="{{ asset('css/main.css')}}" rel="stylesheet">
     <link href="{{ asset('css/responsive.css')}}" rel="stylesheet">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-3.5.1.min.js')}}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="{{ asset('js/bootstrap3-typeahead.js') }}"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
+    </script>
+    <!-- Important Owl stylesheet -->
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+
+    <!-- Default Theme -->
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.css') }}">
+
+    <!--  jQuery 1.7+  -->
+    <!-- <script src="jquery-1.9.1.min.js"></script> -->
+
+    <!-- Include js plugin -->
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -38,28 +54,43 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="social-icons pull-right">
-                            <ul class="nav navbar-nav">
-                                <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                                <li><a href=""><i class="fa fa-twitter"></i></a></li>
-                                <li><a href=""><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href=""><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href=""><i class="fa fa-google-plus"></i></a></li>
-                            </ul>
-                        </div>
+                        <div class="social-icon pull-right">
+                            @if(!Auth::check())
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-user"></i>
+                                    Account
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a href="{{route('login')}}" class="active"><i class="fa"></i> Login</a></li>
+                                    <li><a href="{{route('register')}}" class="active"><i class="fa"></i> Register</a></li>
+                                </div>
+                            </div>
+
+                            @else
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-user"></i>
+                                    {{Auth::user()->name}}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a href="{{route('account-customer')}}" class="active"><i class="fa fa-bars"></i> Your Account</a></li>
+                                    <li><a href="{{route('logout')}}" class="active"><i class="fa fa-unlock"></i> Logout</a></li>
+                                </div>
+                            </div>
+                            @endif
+                        </div> <!-- /header_top -->
                     </div>
                 </div>
             </div>
         </div>
-        <!--/header_top-->
-
         <div class="header-middle">
             <!--header-middle-->
             <div class="container">
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="logo pull-left">
-                            <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+                            <a href=""><img src="" alt="" /></a>
                         </div>
                         <!-- <div class="btn-group pull-right">
                             <div class="btn-group">
@@ -88,11 +119,12 @@
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a href=""><i class="fa fa-user"></i> Account</a></li>
-                                <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
+                                <!-- <li><a href=""><i class="fa fa-user"></i> Account</a></li> -->
+                                <!-- <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li> -->
                                 <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                                <li><a href="{{route('show-cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                                <li><a href="{{route('form-login')}}" class="active"><i class="fa fa-lock"></i> Login</a></li>
+                                <li><a id="cart" href="{{route('show-cart')}}"><i class="fa fa-shopping-cart"><span style="color:red" class="cart-value count_item_pr"></span></i>Cart</a></li>
+                                <!-- <li style="margin:0" class="cart-value count_item_pr"></li> -->
+                                <!-- <li><a href="{{route('show-cart')}}">Cart</a></li> -->
                             </ul>
                         </div>
                     </div>
@@ -130,8 +162,28 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="search_box pull-right">
-                            <input type="text" placeholder="Search" />
+                            <!-- <div class="row"> -->
+                                <!-- <div class="col-md-9"> -->
+                                    @if(empty($request->q))
+                                    <form class="typeahead" role="search" action="{{ route('search') }}" method="POST" id="search">
+                                        @csrf
+                                        <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
+                                        <button type="submit" form="search"><i class="fa fa-search"></i></button>
+                                    </form>
+                                    @else
+                                    <form class="typeahead" role="search" action="{{ route('search-get') }}" method="GET" id="search">
+                                        @csrf
+                                        <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
+                                        <button type="submit" form="search"><i class="fa fa-search"></i></button>
+                                    </form>
+                                    @endif
+                                <!-- </div> -->
+                                <!-- <div class="col-md-3"> -->
+                                    <!-- <button type="submit" form="search" name="search"><i class="fa fa-search"></i></button> -->
+                                <!-- </div> -->
+                            <!-- </div> -->
                         </div>
+                        <div id="search-suggest" class="s-suggest"></div>
                     </div>
                 </div>
             </div>
@@ -139,12 +191,12 @@
         <!--/header-bottom-->
     </header>
     <!--/header-->
-   
+
     @yield('content')
 
     <footer id="footer">
         <!--Footer-->
-        <div class="footer-top">
+        <!-- <div class="footer-top">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-2">
@@ -158,7 +210,7 @@
                             <div class="video-gallery text-center">
                                 <a href="#">
                                     <div class="iframe-img">
-                                        <img src="images/home/iframe1.png" alt="" />
+                                        <img src="" alt="" />
                                     </div>
                                     <div class="overlay-icon">
                                         <i class="fa fa-play-circle-o"></i>
@@ -173,7 +225,7 @@
                             <div class="video-gallery text-center">
                                 <a href="#">
                                     <div class="iframe-img">
-                                        <img src="images/home/iframe2.png" alt="" />
+                                        <img src="" alt="" />
                                     </div>
                                     <div class="overlay-icon">
                                         <i class="fa fa-play-circle-o"></i>
@@ -188,7 +240,7 @@
                             <div class="video-gallery text-center">
                                 <a href="#">
                                     <div class="iframe-img">
-                                        <img src="images/home/iframe3.png" alt="" />
+                                        <img src="" alt="" />
                                     </div>
                                     <div class="overlay-icon">
                                         <i class="fa fa-play-circle-o"></i>
@@ -203,7 +255,7 @@
                             <div class="video-gallery text-center">
                                 <a href="#">
                                     <div class="iframe-img">
-                                        <img src="images/home/iframe4.png" alt="" />
+                                        <img src="" alt="" />
                                     </div>
                                     <div class="overlay-icon">
                                         <i class="fa fa-play-circle-o"></i>
@@ -216,13 +268,13 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="address">
-                            <img src="images/home/map.png" alt="" />
+                            <img src="" alt="" />
                             <p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="footer-widget">
             <div class="container">
@@ -310,13 +362,59 @@
     <script src="{{ asset('js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{ asset('js/main.js')}}"></script>
+    <script src="{{ asset('js/bloodhound.min.js')}}"></script>
 
+    <!-- <script type="text/javascript" src="{{ asset('js/jquery-3.5.1.min.js')}}"></script> -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function($) {
+            var engine = new Bloodhound({
+                remote: {
+                    url: '/search/product?value=%QUERY%',
+                    wildcard: '%QUERY%'
+                },
+                datumTokenizer: Bloodhound.tokenizers.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace
+            });
+
+            $('.search-input').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, [{
+                source: engine.ttAdapter(),
+                name: 'name',
+                display: function(data) {
+                    return data.name;
+                },
+                templates: {
+                    empty: [
+                        '<div class="header-title"></div><div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                    ],
+                    header: [
+                        '<div class="header-title"></div><div class="list-group search-results-dropdown"></div>'
+                    ],
+                    suggestion: function(data) {
+                        return '<a href="/product/' + data.id + '/details" class="list-group-item">' + data.name + '</a>';
+                    }
+                }
+            }]);
+        });
+    </script>
+    <script type="text/javascript">
+         $(document).ready(function($) {
+             $('#cart').click(function(e){
+                 if(localStorage.getItem('cart') == null || empty(localStorage.getItem('cart')) )
+                    e.preventDefault();
+                    alert("Giỏ hàng chưa có gì !!")
+             });
+        });
+    </script>
+    @yield('script')
 </body>
 
 </html>
-
-
-
-
-
-

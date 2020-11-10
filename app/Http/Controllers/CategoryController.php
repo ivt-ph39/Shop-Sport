@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
+use App\Product;
 use App\Category;
+use App\News;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -81,5 +84,95 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+    }
+
+    public function listProductByCate($id,Request $request)
+    {
+        // $products = Category::find($id)->products;
+        $categories = Category::with('children')->get();
+        $category = Category::find($id);
+        // dd($category->toArray());
+        $brands = Brand::all();
+        $news = News::with('images')->get();
+
+        $products = Product::with('images', 'brand', 'sale')
+            ->where('category_id', $id)
+            ->inRandomOrder()->paginate(9);
+        // dd($products->toArray());
+
+        if ($request->price) {
+            $price = $request->price;
+            // dd($price);
+            switch ($price) {
+                case '1':
+                    $products = Product::where('price', '<', 100)->with('brand', 'images', 'sale')
+                    ->where('category_id', $id)
+                    ->paginate(9);
+                    // dd($products->toArray());
+                    break;
+                case '2':
+                    $products = Product::whereBetween('price', [100, 300])->with('brand', 'images', 'sale')
+                    ->where('category_id', $id)
+                    ->paginate(9);
+                    break;
+
+                case '3':
+                    $products = Product::whereBetween('price', [300, 500])->with('brand', 'images', 'sale')
+                    ->where('category_id', $id)
+                    ->paginate(9);
+                    break;
+
+                case '4':
+                    $products = Product::whereBetween('price', [500, 700])->with('brand', 'images', 'sale')
+                    ->where('category_id', $id)
+                    ->paginate(9);
+                    break;
+
+                case '5':
+                    $products = Product::whereBetween('price', [700, 900])->with('brand', 'images', 'sale')
+                    ->where('category_id', $id)
+                    ->paginate(9);
+                    break;
+            }
+        }
+
+        if ($request->orderby) {
+            $orderby = $request->orderby;
+
+            switch ($orderby) {
+                case 'desc':
+                    $products = Product::orderBy('id', 'DESC')->with('brand', 'images', 'sale')
+                    ->where('category_id', $id)
+                    ->paginate(9);
+                    break;
+
+                case 'asc':
+                    $products = Product::orderBy('id', 'ASC')->with('brand', 'images', 'sale')
+                    ->where('category_id', $id)
+                    ->paginate(9);
+                    break;
+
+                case 'price_max':
+                    $products= Product::orderBy('price', 'ASC')->with('brand', 'images', 'sale')
+                    ->where('category_id', $id)
+                    ->paginate(9);
+                    break;
+
+                case 'price_min':
+                    $products = Product::orderBy('price', 'DESC')->with('brand', 'images', 'sale')
+                    ->where('category_id', $id)
+                    ->paginate(9);
+                    break;
+            }
+        }
+        $data =[
+            'products', 
+            'brands', 
+            'categories', 
+            'category', 
+            'news'
+        ];
+
+        return view('categories.list-products', compact($data));
     }
 }
