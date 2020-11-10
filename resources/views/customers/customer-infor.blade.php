@@ -30,7 +30,7 @@
                             <td>{{ $order['created_at']->toFormattedDateString() }}</td>
                             @foreach($order->products as $key=>$pro)
                             <tr>
-                                <td><a href="{{ route('product-details',$pro['id'])}}" target="_blank" rel="noopener noreferrer">{{ $pro['name']   }} </a></td>
+                                <td><a href="{{ route('product-details',$pro['id'])}}" target="_blank" rel="noopener noreferrer">{{ $pro['name'] }} {{$pro->brand['name']}} </a></td>
                                 <td>{{$pro->pivot->quantity}} </td>
                                 <td>{{$pro->pivot->price}} </td>
                             </tr>

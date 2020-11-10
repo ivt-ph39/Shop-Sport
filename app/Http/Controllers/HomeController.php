@@ -34,16 +34,16 @@ class HomeController extends Controller
 
         // $dd = array('products' => $products->toArray());
         // $d[]=$dd;
-            // $d['products'] = $products->toArray();
+        // $d['products'] = $products->toArray();
         // $d1=array_push($d,$dd);
         // $d = array($products->toArray());
         // dd($d);
 
         // $orderDetail = OrderProduct::where('order_id',50)->get();
-    // dd($orderDetail->toArray());
-            // $d['orderDetail'] = $orderDetail->toArray();
+        // dd($orderDetail->toArray());
+        // $d['orderDetail'] = $orderDetail->toArray();
 
-            // dd($d);
+        // dd($d);
 
 
 
@@ -101,14 +101,12 @@ class HomeController extends Controller
             if (!empty($orderID)) {
                 $productID = OrderProduct::whereIn('order_id', $orderID)->distinct()->pluck('product_id');
                 // dd($orderProduct);
-                if (!empty($productID)) {
-                    $cateID = Product::whereIn('id', $productID)->distinct()->pluck('category_id');
-                    // dd($cateID);
-                    if (!empty($cateID)) {
-                        $proRecommend = Product::where('quantity', '>', 0)->whereIn('category_id', $cateID)->inRandomOrder()->take(3)->get();
-                        $data[] = 'proRecommend';
-                    }
-                }
+
+                $cateID = Product::whereIn('id', $productID)->distinct()->pluck('category_id');
+                // dd($cateID);
+
+                $proRecommend = Product::where('quantity', '>', 0)->whereIn('category_id', $cateID)->inRandomOrder()->take(3)->get();
+                $data[] = 'proRecommend';
             }
         }
 
@@ -238,7 +236,7 @@ class HomeController extends Controller
     //     }
     // }
 
-    
+
 
     public function productViewed(Request $request)
     {

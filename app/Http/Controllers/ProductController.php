@@ -219,8 +219,11 @@ class ProductController extends Controller
     public function show($id)
     {
 
-        Product::find($id)->update([(int)'quantity' => (int)'quantity' - 1]);
 
+
+        
+        // $product->quantity = ($product['quantity'] -= 1);
+        // $product->save();
 
 
 

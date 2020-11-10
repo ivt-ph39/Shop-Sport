@@ -36,12 +36,13 @@ $(document).ready(function () {
 		$('.count_item_pr').text('('+count+')');
 		console.log(count);
 	});
-	$(document).on('change','.cart_quantity_input', (function () {
+	$(document).on('change','.cart-quantity-input', (function () {
 		var quantity = $(this).val();
 		var product_id = $(this).attr('data-id');
 		cart = updateProductQuantity(cart, product_id, quantity);
 		console.log(cart);
 		localStorage.setItem('cart', JSON.stringify(cart));
+		location.reload();
 		showCart() ;
 	}));
 	$(document).on('click', '#remove', function() {
@@ -143,7 +144,7 @@ function showCart() {
 							'</td>'+
 							'<td class="cart_quantity">'+
 								'<div class="cart_quantity_button">'+
-									'<input class="cart_quantity_input" type="text" name="quantity" data-id="'+item.id+'" value="'+item.quantity+'" autocomplete="off" size="2">'+
+									'<input class="cart-quantity-input" type="text" name="quantity" data-id="'+item.id+'" value="'+item.quantity+'" autocomplete="off" size="2">'+
 								'</div>'+
 							'</td>'+
 							'<td class="cart_total">'+

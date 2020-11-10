@@ -61,6 +61,9 @@ class CartController extends Controller
                 // Product::find($item['id'])->update(['quantity' => 'quantity'- $item['quantity']]);
                 // dd(DB::getQueryLog());
 
+                $product = Product::find($item['id']);
+                $product->quantity = ($product['quantity'] -= $item['quantity']);
+                $product->save();
             }
             $order = Order::with('products')->where('user_id', $order->id)->get();
             // $orderDetail = OrderProduct::where('order_id',$order->id)->get();

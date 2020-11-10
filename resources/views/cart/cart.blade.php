@@ -186,7 +186,7 @@
 				type: 'POST',
 				url: '/api/order',
 				data: {
-					"cart": cart,
+					'cart': cart,
 					'_token': $("#token").val(),
 					'name': $("#name").val(),
 					'email': $("#email").val(),

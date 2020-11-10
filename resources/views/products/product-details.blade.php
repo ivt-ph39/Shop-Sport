@@ -298,7 +298,7 @@
                                     <p>{{$f['content']}}</p>
                                     @endif
                                     @endforeach
-                                    <a type="button" style="color:#FE980F" class="btn btn-danger" href="{{route('login')}}">Login member to write your review</a>
+                                    <a type="button" style="background-color:#FE980F;color:white" class="btn" href="{{route('login')}}">Login member to write your review</a>
                                     @endif
                                 </div>
                             </div>
