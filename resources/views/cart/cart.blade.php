@@ -2,6 +2,8 @@
 @section('title','Shopping Cart')
 @section('content')
 
+
+
 <section id="cart_items">
 	<div class="container">
 		<div class="breadcrumbs">
@@ -18,12 +20,12 @@
 						<td class="description"></td>
 						<td class="price">Price</td>
 						<td class="quantity">Quantity</td>
-						<td class="total">Total</td>
+						<td class="">Total</td>
 						<td></td>
 					</tr>
 				</thead>
 				<tbody>
-					
+
 				</tbody>
 			</table>
 		</div>
@@ -38,78 +40,179 @@
 			<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
 		</div>
 		<div class="row">
-			<div class="col-sm-6">
-				<div class="chose_area">
-					<ul class="user_option">
-						<li>
-							<input type="checkbox">
-							<label>Use Coupon Code</label>
-						</li>
-						<li>
-							<input type="checkbox">
-							<label>Use Gift Voucher</label>
-						</li>
-						<li>
-							<input type="checkbox">
-							<label>Estimate Shipping & Taxes</label>
-						</li>
-					</ul>
-					<ul class="user_info">
-						<li class="single_field">
-							<label>Country:</label>
-							<select>
-								<option>United States</option>
-								<option>Bangladesh</option>
-								<option>UK</option>
-								<option>India</option>
-								<option>Pakistan</option>
-								<option>Ucrane</option>
-								<option>Canada</option>
-								<option>Dubai</option>
-							</select>
-
-						</li>
-						<li class="single_field">
-							<label>Region / State:</label>
-							<select>
-								<option>Select</option>
-								<option>Dhaka</option>
-								<option>London</option>
-								<option>Dillih</option>
-								<option>Lahore</option>
-								<option>Alaska</option>
-								<option>Canada</option>
-								<option>Dubai</option>
-							</select>
-
-						</li>
-						<li class="single_field zip-field">
-							<label>Zip Code:</label>
-							<input type="text">
-						</li>
-					</ul>
-					<a class="btn btn-default update" href="">Get Quotes</a>
-					<a class="btn btn-default check_out" href="">Continue</a>
+			<form action="{{ route('checkout') }}" method="post">
+				<input id="token" name="_token" type="hidden" value="{{csrf_token()}}">
+				@if(!Auth::check())
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="name">Name: </label>
+						<input type="name" class="form-control" name="name" id="name">
+					</div>
+					@if($errors->has('name'))
+                    <p style="color:red;">
+                        {{$errors->first('name')}}
+                    </p>
+                    @endif
+					<div class="form-group">
+						<label for="email">Email address: </label>
+						<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp">
+					</div>
+					@if($errors->has('email'))
+                    <p style="color:red;">
+                        {{$errors->first('email')}}
+                    </p>
+                    @endif
+					<div class="form-group">
+						<label for="phone">Phone: </label>
+						<input type="text" class="form-control" name="phone" id="phone">
+					</div>
+					@if($errors->has('phone'))
+                    <p style="color:red;">
+                        {{$errors->first('phone')}}
+                    </p>
+                    @endif
+					<div class="form-group">
+						<label for="address">Address</label>
+						<input type="text" class="form-control" name="address" id="address">
+					</div>
+					@if($errors->has('address'))
+                    <p style="color:red;">
+                        {{$errors->first('address')}}
+                    </p>
+                    @endif
+					<div class="form-group">
+						<label for="note">Note</label>
+						<input type="text" class="form-control" name="note" id="note">
+					</div>
+					@if($errors->has('note'))
+                    <p style="color:red;">
+                        {{$errors->first('note')}}
+                    </p>
+                    @endif
 				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="total_area">
-					<ul>
-						<li>Cart Sub Total <span id="total"></span></li>
-						<li>Eco Tax <span>$2</span></li>
-						<li>Shipping Cost <span>Free</span></li>
-						<li>Total <span>$61</span></li>
-					</ul>
-					<a class="btn btn-default update" href="">Update</a>
-					<a class="btn btn-default check_out" href="">Check Out</a>
+				@else
+				<div class="col-sm-6">
+					<!-- <input type="text" name="total" class="total" > -->
+					<input type="hidden" name="user_id" id="user_id" value="{{Auth::id()}}">
+					<div class="form-group">
+						<label for="name">Name: </label>
+						<input type="name" class="form-control" name="name" id="name" value="{{Auth::user()->name}}">
+					</div>
+					@if($errors->has('name'))
+                    <p style="color:red;">
+                        {{$errors->first('name')}}
+                    </p>
+                    @endif
+					<div class="form-group">
+						<label for="email">Email address: </label>
+						<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" value="{{Auth::user()->email}}">
+					</div>
+					@if($errors->has('email'))
+                    <p style="color:red;">
+                        {{$errors->first('email')}}
+                    </p>
+                    @endif
+					<div class="form-group">
+						<label for="phone">Phone: </label>
+						<input type="text" class="form-control" name="phone" id="phone" value="{{Auth::user()->phone}}">
+					</div>
+					@if($errors->has('phone'))
+                    <p style="color:red;">
+                        {{$errors->first('phone')}}
+                    </p>
+                    @endif
+					<div class="form-group">
+						<label for="address">Address</label>
+						<input type="text" class="form-control" name="address" id="address" value="{{Auth::user()->address}}">
+					</div>
+					@if($errors->has('address'))
+                    <p style="color:red;">
+                        {{$errors->first('address')}}
+                    </p>
+                    @endif
+					<div class="form-group">
+						<label for="note">Note</label>
+						<input type="text" class="form-control" name="note" id="note">
+					</div>
+					@if($errors->has('note'))
+                    <p style="color:red;">
+                        {{$errors->first('note')}}
+                    </p>
+                    @endif
 				</div>
-			</div>
+				@endif
+
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span name="total" class="total"></span></li>
+						</ul>
+					</div>
+				</div>
+				<button class="submit" type="submit" class="btn btn-primary">Checkout</button>
+			</form>
 		</div>
 	</div>
 </section>
+
+<!-- <script type="text/javascript">
+	if (typeof(Storage) !== "undefined") {
+		var data = localStorage.getItem('cart');
+		alert(data);
+	} else {
+		alert('Trình duyệt của bạn đã quá cũ. Hãy nâng cấp trình duyệt ngay!');
+	}
+</script> -->
+
+@endsection
+
+@section('script')
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
 <script type="text/javascript">
-    showCart();
+	showCart();
+</script>
+<script type="text/javascript" src="{{ asset('js/jquery-3.5.1.min.js')}}"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		if (JSON.parse(localStorage.getItem('cart'))) {
+			cart = JSON.parse(localStorage.getItem('cart'));
+		} else {
+			var cart = [];
+		};
+		$(".submit").click(function(e) {
+			e.preventDefault();
+			$.ajax({
+				type: 'POST',
+				url: '/api/order',
+				data: {
+					'cart': cart,
+					'_token': $("#token").val(),
+					'name': $("#name").val(),
+					'email': $("#email").val(),
+					'address': $("#address").val(),
+					'phone': $("#phone").val(),
+					'user_id': $("#user_id").val()
+
+				},
+				success: function(res) {
+					console.log('Submission was successful.');
+					console.log(res);
+					console.log(cart);
+					alert('Order Successful');
+					localStorage.removeItem('cart');
+					// location.reload();
+					window.location="{{route('show-cart-empty')}}";
+
+				},
+				error: function(data) {
+					console.log(JSON.stringify(data));
+					alert(data);
+					console.log(cart);
+				},
+			});
+		});
+	});
 </script>
 
 

@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Brand;
+use App\News;
+use App\Product;
+use App\Slide;
 use App\Sale;
+use App\Mail\OrderConfirmMail;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
@@ -14,7 +20,7 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**

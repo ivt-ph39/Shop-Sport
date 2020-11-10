@@ -1,1 +1,1 @@
-THank for contact us :{{$name}} - {{$email}}
+Thank for contact us :{{$name}} - {{$email}}

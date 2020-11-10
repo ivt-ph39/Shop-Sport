@@ -44,9 +44,14 @@ class NewsController extends Controller
      * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function show(News $news)
+    public function show($id)
     {
-        //
+        $news = News::with('images')->find($id);
+        // dd($news->toArray());
+        $user = News::find($id)->user;
+        $newss = News::with('images')->get();
+        
+        return view('news.page-news',compact('news','user','newss'));
     }
 
     /**

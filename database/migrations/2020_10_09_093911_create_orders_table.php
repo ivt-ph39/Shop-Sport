@@ -18,8 +18,9 @@ class CreateOrdersTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('phone');
-            $table->string('email')->unique();
-            $table->text('note');
+            $table->string('email');
+            $table->text('note')->nullable();
+            $table->float('total');
             $table->boolean('status');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
