@@ -18,12 +18,12 @@ class LoginController extends Controller
 
     public function show()
     {
-        if (Auth::check()) { 
+        if (Auth::check() && Auth::user()->hasRole(['admin'])) { 
 
-            return view('admin.main');
+            return view('admin.main')->with('error','Login Fail');
         }    
         Auth::logout();
-        return view('admin.login');
+        return view('admin.login')->with('success','Login Successful');
         
     }
 
