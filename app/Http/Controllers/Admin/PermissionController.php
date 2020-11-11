@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 class PermissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('is.admin');
+    }
      // Permission
      public function showListPermission(){  
-        $permissions = Permission::paginate(5);
+        $permissions = Permission::orderBy('id','desc')->paginate(5);
 
         return view('admin.permissions.list',compact(['permissions']));
     }
@@ -21,16 +25,18 @@ class PermissionController extends Controller
         
         $data =$request->only('name');
         
-        // DB::enableQueryLog();
+        ;
         Permission::create(['name'=>implode('',$data)]);
-        // dd(DB::getQueryLog());
+        
 
-        return redirect()->route('admin.permissions.list');
+        return redirect()->route('admin.permissions.list')
+        ->with('success','Permission created successfully!');
     }
 
     public function editPermission($id){
         $permission = Permission::findById($id);
-        return view('admin.permissions.edit',compact('permission'));
+        return view('admin.permissions.edit',compact('permission'))
+        ->with('success','');
     }
 
     public function updatePermission(Request $request ,$id){

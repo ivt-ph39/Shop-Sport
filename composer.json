@@ -13,12 +13,14 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
+        "illuminate/support": "v7.28.4",
         "laravel/framework": "^7.24",
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
         "nicolaslopezj/searchable": "^1.13",
         "spatie/laravel-permission": "^3.17",
-        "spatie/laravel-searchable": "^1.7"
+        "spatie/laravel-searchable": "^1.7",
+        "unisharp/laravel-filemanager": "^2.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

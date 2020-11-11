@@ -3,17 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model 
 {
-    protected $searchable = [
-        'email',
-        'name'
-    ];
+    use SoftDeletes;
 
     protected $fillable = [
         'name', 'description', 'price', 'quantity', 'sale_id', 'category_id', 'brand_id'
     ];
+  
+
+    protected $dates =['deleted_at'];
 
     public function brand()
     {

@@ -13,3 +13,26 @@
 </form>
 
 @endsection
+
+@section('script')
+ <script>
+    $(document).ready(function() 
+{
+    var warn_on_unload="";
+    $('input:text,input:checkbox,input:radio,textarea,select').one('change', function() 
+    {
+        warn_on_unload = "Leaving this page will cause any unsaved data to be lost.";
+
+        $('#createBtn').click(function(e) { 
+            warn_on_unload = "";}); 
+
+            window.onbeforeunload = function() { 
+            if(warn_on_unload != ''){
+                return warn_on_unload;
+            }   
+        }
+    });
+});
+    </script>
+
+@endsection

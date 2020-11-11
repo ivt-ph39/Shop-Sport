@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Eloquent\userRepository;
 use App\Http\Requests\StoreUserRequest;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -18,6 +19,7 @@ class UserController extends Controller
 
     public function __construct(UserRepository $user)
     {
+        $this->middleware('is.admin');
         $this->userRepo = $user;
     }
     /**
@@ -27,8 +29,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles')->paginate(5);
-        
+        $users = User::with('roles')->orderBy('id','DESC')->paginate(5);
+        // dd($users);
+        // dd($users->links());
         return view('admin.users.list', compact(['users']));
     }
 
@@ -41,8 +44,9 @@ class UserController extends Controller
     public function create()
     {
         $users = User::with('roles')->get();
-        dd($users->toArray());
-        return view('admin.users.create', compact(['users']));
+        $roles =Role::all();
+        
+        return view('admin.users.create', compact(['users','roles']));
     }
 
     /**
@@ -53,11 +57,17 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $data = $request->all();
-        $this->userRepo->create($data);
+        $data = $request->except(['role']);
+        $role =$request->only('role');
+        $request->password = bcrypt($request->password);
 
-        // $this->userRepo->create($data);
-        return redirect()->route('admin.users.list');
+        User::create($data);
+        $user = User::with('roles')->orderBy('id','desc')->first();
+        $user->assignRole('customer');
+        // $this->userRepo->assignRole($role);
+       
+        return redirect()->route('admin.users.list')
+        ->with('success','User created successfully!');
     }
 
     /**
@@ -104,7 +114,8 @@ class UserController extends Controller
         $data = $request->all();
         $user->update($data);
         // dd(DB::getQueryLog());
-        return redirect()->route('admin.users.list');
+        return redirect()->route('admin.users.list')
+        ->with('update','User updated successfully!');
     }
 
     /**
@@ -117,7 +128,8 @@ class UserController extends Controller
     {
         $user = $this->userRepo->find($id);
         $user->delete();
-        return redirect()->route('admin.users.list');
+        return redirect()->route('admin.users.list')
+        ->with('delete','User deleted successfully!');
     }
 
 
@@ -133,6 +145,16 @@ class UserController extends Controller
         $users = User::where('email', 'like', '%' . $request->value . '%')->get();
 
         return response()->json($users);
+    }
+
+    public function searchAll(Request $request)
+    {
+        $users = User::where('email', 'like', '%' . $request->q . '%')
+        ->orWhere('name', 'like', '%' . $request->q . '%')
+        ->paginate(3);
+            
+        // dd();
+        return view('admin.users.listSearch',compact('users'));
     }
 
     

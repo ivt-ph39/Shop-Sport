@@ -22,15 +22,9 @@ class IsAdmin
     public function handle($request, Closure $next)
     {
         
-        if (Auth::check()  ) {
-            dd(1);
-            if (
-                Auth::user()->roles[0]['pivot']['role_id'] !== 1
-                || Auth::user()->roles[0]['pivot']['role_id'] == 2
-            ) {
-                return $next($request);
-            }
-            return redirect()->route('admin.logout');
+        if(Auth::check() && Auth::user()->hasRole(['admin','mod'])){
+            return $next($request);         
         }
+        return redirect()->back();
     }
 }

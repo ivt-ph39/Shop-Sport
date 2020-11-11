@@ -12,13 +12,13 @@
 
   <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.css" rel="stylesheet">
   <!-- Custom styles for this template -->
   <link href="{{asset('css/simple-sidebar.css')}}" rel="stylesheet">
 
 </head>
 
-<body>
+<body >
 
   <div class="d-flex" id="wrapper">
 
@@ -27,16 +27,17 @@
       <div class="sidebar-heading">Start DashBorad </div>
       <div class="list-group list-group-flush">
       
-        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         <a href="{{route('admin.categories.list')}}" class="list-group-item list-group-item-action bg-light">Categories</a>
         {{-- @can('admin') --}}
       <a href="{{ route('admin.products.list') }}" class="list-group-item list-group-item-action bg-light">Products</a>
         {{-- @endcan --}}
         <a href="{{ route('admin.users.list') }}" class="list-group-item list-group-item-action bg-light">Users</a>
-        {{-- <a href="#" class="list-group-item list-group-item-action bg-light">News</a> --}}
-        <a href="#" class="list-group-item list-group-item-action bg-light">Order</a>
+       
+        <a href="{{ route('admin.orders.list') }}" class="list-group-item list-group-item-action bg-light">Order</a>
         <a href="{{ route('admin.roles.list') }}" class="list-group-item list-group-item-action bg-light">Role</a>
         <a href="{{ route('admin.permissions.list') }}" class="list-group-item list-group-item-action bg-light">Permission</a>
+        <a href="{{ route('admin.brands.list') }}" class="list-group-item list-group-item-action bg-light">Brand</a>
+        <a href="{{ route('admin.sales.list') }}" class="list-group-item list-group-item-action bg-light">Sale</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -87,8 +88,19 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  @yield('js')
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js"></script>
+  <script>
+    var options = {
+      filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+      filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+      filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+    };
+  </script>
+  
+  @yield('script')
   <!-- Menu Toggle Script -->
+ 
   <script>
     $("#menu-toggle").click(function(e) {
       e.preventDefault();
@@ -96,6 +108,10 @@
     });
   </script>
 
+<script>
+  
+
+</script>
 </body>
 
 </html>
