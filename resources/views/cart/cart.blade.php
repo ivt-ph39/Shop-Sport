@@ -154,7 +154,10 @@
 		</div>
 	</div>
 </section>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 69a141ce7b16761d25d6163d3ceb9312de52e716
 <!-- <script type="text/javascript">
 	if (typeof(Storage) !== "undefined") {
 		var data = localStorage.getItem('cart');

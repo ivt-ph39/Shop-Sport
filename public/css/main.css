@@ -561,15 +561,15 @@ ul.sub-menu {
 **************************/
 
 #slider {
-  padding-bottom: 45px;
-  padding-left: 0;
-  margin-left: 0;
-  /* margin-right: 100px; */
+    padding-bottom: 45px;
+    padding-left: 0;
+    margin-left: 0;
+    /* margin-right: 100px; */
 }
 
 #slider .carousel-inner .item {
-  padding-left: 0;
-  margin-left: 0;
+    padding-left: 0;
+    margin-left: 0;
 }
 
 .carousel-indicators li {
@@ -789,9 +789,6 @@ h2.title:before {
     position: relative;
 }
 
-
-
-
 .well {
     background-color: #FFFFFF;
     border: 1px solid #F7F7F0;
@@ -828,8 +825,8 @@ h2.title:before {
     overflow: hidden;
 }
 
-.title-sale{
-  color:#FE980F;
+.title-sale {
+    color: #FE980F;
 }
 
 h2.title {
@@ -853,22 +850,22 @@ h2.title {
     position: relative;
 }
 
-.new{
-  position: absolute;
-  top: 0;
-  right: 0;
+.new {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
-.sale{
-  position: absolute;
-  top: 0;
-  left: 0;
+.sale {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.sold-out{
-  position: absolute;
-  top: 0;
-  right: 0;
+.sold-out {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .productinfo h2 {
@@ -999,9 +996,8 @@ h2.title {
 }
 
 ul .active {
-  color:#FE980F
+    color: #FE980F
 }
-
 
 .category-tab {
     overflow: hidden;
@@ -1076,6 +1072,7 @@ ul .active {
 .recommended-item-control i:hover {
     background: #ccccc6;
 }
+
 
 /* img.slide{
   width: 1350px;
@@ -2461,28 +2458,20 @@ textarea {
     background: none;
 }
 
-#owl-demo .item img{
-  display: block;
-  width: 100%;
-  height: auto;
+#owl-demo .item img {
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
-.content-news { 
- 
-  display: block; 
-
-  width: 100px; 
-
-  overflow: hidden; 
-
-  white-space: nowrap; 
-
-  text-overflow: ellipsis;
-
+.content-news {
+    display: block;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.news{
-  
-  margin-top:30px;
-
+.news {
+    margin-top: 30px;
 }

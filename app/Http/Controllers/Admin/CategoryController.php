@@ -7,28 +7,39 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\Product;
 use App\Repositories\Eloquent\CategoryRepository;
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\StoreCategoryRequest;
 use Illuminate\Support\Facades\DB;
+
 class CategoryController extends Controller
 {
     protected $categoryRepo;
 
     public function __construct(CategoryRepository $category)
     {
+        $this->middleware('is.admin');
         $this->categoryRepo = $category;
     }
 
     public function index()
     {
-        // $categories = $this->categoryRepo->all();
-        $categories = Category::paginate(5);
+        $categories = Category::orderBy('id', 'desc')->paginate(10);  
+    //    foreach ($categories as $value) {
+    //       if(!$value->parent_id){
+    //           dd('sadsa');
+    //       }
+    //    }
         return view('admin.categories.list', compact('categories'));
     }
 
     public function create()
     {
-        $categories = $this->categoryRepo->all();
-        return view('admin.categories.create', ['categories' => $categories]);
+        $categories = Category::with('children')->orderBy('id', 'DESC')->get();
+
+        $c =Category::select('id','name','parent_id')->get()->toArray();
+        $x=$this->categoryRepo->cate_parent($c);
+        
+        // dd($x);
+        return view('admin.categories.create', compact('categories','x'));
     }
 
     /**
@@ -37,11 +48,13 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreCategoryRequest $request)
     {
+
         $this->categoryRepo->create($request->all());
 
-        return redirect()->route('admin.categories.list');
+        return redirect()->route('admin.categories.list')
+            ->with('success', 'Category created successfully!');
     }
 
     /**
@@ -80,7 +93,8 @@ class CategoryController extends Controller
         $category = $this->categoryRepo->find($id);
         $data = $request->only('name');
         $category->update($data);
-        return redirect()->route('admin.categories.list');
+        return redirect()->route('admin.categories.list')
+            ->with('update', 'Category updated successfully!');
     }
 
     /**
@@ -91,16 +105,21 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->categoryRepo->xoa($id);
+        $this->categoryRepo->deleteX($id);
 
-        return redirect()->route('admin.categories.list');
+        return redirect()->route('admin.categories.list')
+            ->with('delete', 'Category deleted successfully!');
     }
 
-    public function listProductByCategoryID($id){
-        
-        $category = Category::with('products')->find($id);     
-    
-        return view('admin.categories.list-product',compact('category'));
+    public function listProductByCategoryID($id)
+    {
+
+        $category = Category::with('products')->find($id);
+
+        return view('admin.categories.list-product', compact('category'));
     }
-    
+
+ 
+      
+   
 }

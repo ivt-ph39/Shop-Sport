@@ -8,7 +8,7 @@
      {{$role->getPermissionNames()}}
 <div class="form-group">
     <label>Name</label>
-    <input type="text" name="name" value="{{$role->name}}" class="form-control" disabled>
+    <input type="text" name="name" value="{{$role->name}}" class="form-control " disabled>
     <label>Permission Name</label>
     <div class="container" style="border:2px solid #ccc; width:500px; height: 200px; overflow-y: scroll;">
         
@@ -27,7 +27,7 @@
         @endforeach
     </div>
 
-    <input type="submit" value="Update" class="btn btn-dark">
+    <input type="submit" value="Revoke" class="btn btn-danger">
 </div>
 </form>
 

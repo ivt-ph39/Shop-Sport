@@ -21,9 +21,10 @@ class CreateOrdersTable extends Migration
             $table->string('email');
             $table->text('note')->nullable();
             $table->float('total');
-            $table->boolean('status');
+            $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade');
             $table->timestamps();
         });
     }
