@@ -40,7 +40,7 @@ class CartController extends Controller
 
         try {
             DB::beginTransaction();
-            $data = $Request->only('name', 'email', 'phone', 'address', 'user_id', 'note');
+            $data = $Request->only('name', 'email', 'phone', 'address', 'user_id', 'note','status_id');
             // dd($data);
             $order = Order::create($data);
 

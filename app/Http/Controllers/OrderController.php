@@ -18,6 +18,34 @@ class OrderController extends Controller
     public function index()
     {
     }
+    public function cancelOrder($id){
+        $order = Order::with('products')->find($id);
+        // dd($order->products->toArray());
+        
+        $order->status_id =3;
+        $order->save();
+
+        return redirect()->back()->with('success','Canceled');
+    }
+
+    public function deleteOrder($id){
+        $order = Order::with('products')->find($id);
+        // dd($order->products->toArray());
+        
+        $order->delete();
+
+        return redirect()->back()->with('success','Deleted');
+    }
+
+    public function doneOrder($id){
+        $order = Order::with('products')->find($id);
+        // dd($order->products->toArray());
+        
+        $order->status_id =5;
+        $order->save();
+
+        return redirect()->back()->with('success','Thank u so much');
+    }
 
     
     /**

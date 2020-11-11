@@ -42,6 +42,7 @@
 		<div class="row">
 			<form action="{{ route('checkout') }}" method="post">
 				<input id="token" name="_token" type="hidden" value="{{csrf_token()}}">
+				<input type="hidden" name="status_id" id="status_id" value="1">
 				@if(!Auth::check())
 				<div class="col-sm-6">
 					<div class="form-group">
@@ -94,6 +95,7 @@
 				<div class="col-sm-6">
 					<!-- <input type="text" name="total" class="total" > -->
 					<input type="hidden" name="user_id" id="user_id" value="{{Auth::id()}}">
+					
 					<div class="form-group">
 						<label for="name">Name: </label>
 						<input type="name" class="form-control" name="name" id="name" value="{{Auth::user()->name}}">
@@ -184,7 +186,8 @@
 					'email': $("#email").val(),
 					'address': $("#address").val(),
 					'phone': $("#phone").val(),
-					'user_id': $("#user_id").val()
+					'user_id': $("#user_id").val(),
+					'status_id': $("#status_id").val()
 
 				},
 				success: function(res) {

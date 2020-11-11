@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', 'HomeController@index')->name('homepage');
-
+Route::get('/test','HomeController@test');
 #Customer
 // Route::get('/test', 'RoleController@index');
 
@@ -45,6 +45,10 @@ Route::get('/account/{id}/edit','CustomerController@edit')->name('account-edit')
 Route::put('/account/{id}','CustomerController@update')->name('account-update');
 
 Route::post('/feebacks','FeedbackController@store')->name('feedbacks');
+
+Route::get('order/done/{id}', 'OrderController@doneOrder')->name('orders-done');
+Route::get('order/cancel/{id}', 'OrderController@cancelOrder')->name('orders-cancel');
+Route::get('order/delete/{id}', 'OrderController@deleteOrder')->name('orders-delete');
 
 //Search
 Route::get('/search/product', 'ProductController@searchByName');

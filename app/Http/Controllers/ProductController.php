@@ -410,7 +410,7 @@ class ProductController extends Controller
         
 
         $products = Product::where('name','like', '%' .$request->q. '%')->paginate(6);
-        dd($products->toArray());
+        // dd($products->toArray());
 
 
 
