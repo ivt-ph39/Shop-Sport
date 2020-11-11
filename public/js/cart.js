@@ -5,8 +5,12 @@ $(document).ready(function () {
 	} else {
 		var cart = [];
 	};
+	if(cart.length){
+		count = countItem(cart);
+		$('.count_item_pr').text('('+count+')');
+	}
 	//add sự kiện add cart
-	$('a').click(function (e) {
+	$('b').click(function (e) {
 		e.preventDefault();
 		var product = { key: "value", key1: "value" };
 		var product = {
@@ -27,25 +31,35 @@ $(document).ready(function () {
 			//lưu giỏ hàng vào localstorage
 			localStorage.setItem('cart', JSON.stringify(cart));
 		}
+
+		count = countItem(cart);
+		$('.count_item_pr').text('('+count+')');
+		console.log(count);
 	});
-	$(document).on('change','input', (function () {
+	$(document).on('change','.cart-quantity-input', (function () {
 		var quantity = $(this).val();
 		var product_id = $(this).attr('data-id');
 		cart = updateProductQuantity(cart, product_id, quantity);
 		console.log(cart);
 		localStorage.setItem('cart', JSON.stringify(cart));
+		location.reload();
 		showCart() ;
 	}));
 	$(document).on('click', '#remove', function() {
-		var key = $(this).attr('key');
-		console.log(key);
-		var product_id = $(this).attr('data-id');
-		var cart = JSON.parse(localStorage.getItem('cart'));
-		// console.log(cart[key]);
-		deleteFromCart(cart,product_id);// Gio hang sau khi xoa
-		// delete cart[key];
-		localStorage.setItem('cart', JSON.stringify(cart));
-		showCart();
+		if( ! confirm("Do you really want to do this?") ){
+            e.preventDefault(); // ! => don't want to do this
+        } else {
+			var key = $(this).attr('key');
+			console.log(key);
+			var product_id = $(this).attr('data-id');
+			var cart = JSON.parse(localStorage.getItem('cart'));
+			// console.log(cart[key]);
+			deleteFromCart(cart,product_id);// Gio hang sau khi xoa
+			// delete cart[key];
+			localStorage.setItem('cart', JSON.stringify(cart));
+			showCart();
+        }
+		
 	});
 	// $("#remove").click(function() {
 	// 	var key = $(this).attr('key');
@@ -66,6 +80,18 @@ $(document).ready(function () {
 	// 	showCart() ;
 	// }));
 });
+
+function countItem(cart){
+	var count = cart.length;
+	// for(var i = 0; i < cart.length; i++)
+	// { 
+    // if(cart[i] == 2) 
+	//  count++;
+	//  
+	// }
+	// console.log(cart.length);
+	return count;
+}
 
 // add spham vào giỏ hàng
 function addToCart(cart, product) {
@@ -108,7 +134,7 @@ function showCart() {
 		$.each(cart, function(key,item){
 			html += '<tr>'+
 							'<td class="cart_product">'+
-								'<a href=""><img src="images/cart/one.png" alt=""></a>'+
+								'<a href=""><img src="" alt=""></a>'+
 							'</td>'+
 							'<td class="cart_description">'+
 								'<h4><a href="">'+item.name+'</a></h4>'+
@@ -118,14 +144,13 @@ function showCart() {
 							'</td>'+
 							'<td class="cart_quantity">'+
 								'<div class="cart_quantity_button">'+
-									'<input class="cart_quantity_input" type="text" name="quantity" data-id="'+item.id+'" value="'+item.quantity+'" autocomplete="off" size="2">'+
+									'<input class="cart-quantity-input" type="text" name="quantity" data-id="'+item.id+'" value="'+item.quantity+'" autocomplete="off" size="2">'+
 								'</div>'+
 							'</td>'+
 							'<td class="cart_total">'+
 								'<p class="cart_total_price">$'+(item.price*item.quantity)+'</p>'+
 							'</td>'+
-							'<td class="cart_delete">'+
-								'<a key="'+key+'" id="remove" data-id="'+item.id+'" class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>'+
+							'<td class="cart_delete">'+			'<a key="'+key+'" id="remove" data-id="'+item.id+'" class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>'+
 							'</td>'+
 						'</tr>';
 				total += parseInt(item.price*item.quantity);
@@ -133,7 +158,8 @@ function showCart() {
 		$('tbody').html('');
 		$('tbody').append(html);
 		console.log(total);
-		$('#total').text('$'+formatCurrency(total.toString()));
+		$('.total').text('$'+formatCurrency(total.toString()));
+		// $('.total').input('$'+formatCurrency(total.toString()));
 	}
 }
 
@@ -156,3 +182,4 @@ function formatCurrency(number) {
 	return n2.split("").reverse().join('');
 	}
 }
+

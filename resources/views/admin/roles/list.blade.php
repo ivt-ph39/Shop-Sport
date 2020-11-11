@@ -4,7 +4,7 @@
     <h1>List Role</h1>
 
 
-    <button type="button" class="btn btn-dark">
+    <button type="button" class="btn btn-dark" style="margin-bottom: 1em">
         <a href="{{ route('admin.roles.create') }}">Add Role</a>
     </button>
     
@@ -25,12 +25,12 @@
                     <td><a href="{{ route('admin.roles.edit', $role->id) }}" class="btn btn-dark" role="button">Edit</a>
                     </td>
                     <td> <a href="{{ route('admin.roles.assign.list' ,$role->id) }}" class="btn btn-dark">Assign Permission</a></td>
-                    <td> <a href="{{ route('admin.roles.revoke.list',$role->id) }}" class="btn btn-dark">Revoke Permission</a></td>
+                    <td> <a href="{{ route('admin.roles.revoke.list',$role->id) }}" class="btn btn-secondary">Revoke Permission</a></td>
                     <td>
                         <form action="{{ route('admin.roles.delete', $role->id) }}" method="post">
                             {{ @csrf_field() }}
                             @method('DELETE')
-                            <input type="submit" value="Delete">
+                            <input type="submit" class="btn btn-danger" value="Delete">
                         </form>
                     </td>
                 </tr>

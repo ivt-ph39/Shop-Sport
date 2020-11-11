@@ -13,33 +13,61 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+
 Route::get('/', 'HomeController@index')->name('homepage');
 
-
-Route::get('/login', 'Auth\LoginController@showLoginForm')
-->name('form-login');
-
-Route::post('/login', 'Auth\LoginController@login')->name('login');
-
-Route::get('/register', 'Auth\RegisterController@showRegisterForm')
-->name('show.register');
-
 #Customer
-Route::get('/test', 'RoleController@index');
+// Route::get('/test', 'RoleController@index');
 
+Route::get('/login','Auth\LoginController@showLoginHomePage')->name('login');
+Route::post('/login','Auth\LoginController@loginHomePage');
+Route::get('/logout','Auth\LoginController@logout')->name('logout');
+Route::get('/register','Auth\RegisterController@showSignUpHomePage')->name('register');
+Route::post('/register','Auth\RegisterController@register');
+Route::get('/checkout','Api\CartController@getCheckout')->name('show-cart');
+Route::get('/cart-empty','Api\CartController@getCartEmpty')->name('show-cart-empty');
+// Route::post('/checkout','Api\CartController@postCheckout')->name('checkout');
 
+Route::get('/product/{id}/details','ProductController@show')->name('product-details');
+Route::get('/products/sale','ProductController@listProductsSale')->name('products-sale');
+Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
+Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
+Route::get('/categories/{id}/products','CategoryController@listProductByCate')->name('listProductByCate');
+Route::get('/news/{id}','NewsController@show')->name('show-news');
+Route::get('/brand/{id}/products','BrandController@showProductsByBrand')->name('products-by-brand');
 
-Route::get('/cart', function () {
-    return view('cart.cart');
-})->name('show-cart');
+// Route::get('/search', 'HomeController@search');
+// Route::post('/search', 'HomeController@searchFullText')->name('search');
+
+//Customer
+Route::get('/account','CustomerController@showAccountCustomer')->name('account-customer');
+Route::get('/account/{id}/edit','CustomerController@edit')->name('account-edit');
+Route::put('/account/{id}','CustomerController@update')->name('account-update');
+
+Route::post('/feebacks','FeedbackController@store')->name('feedbacks');
+
+//Search
+Route::get('/search/product', 'ProductController@searchByName');
+Route::post('/search/product', 'ProductController@searchList')->name('search');
+Route::get('/search/product/list', 'ProductController@searchList')->name('search-get');
+// Route::get('/cart', function () {
+//     return view('cart.cart');
+// })->name('show-cart');
+
+Route::post('ajax/product-viewed','HomeController@productViewed')->name('product-viewed');
 
 Route::get('/products', 'ProductController@index')->name('show-products');
 Route::get('/product/{id}/details', 'ProductController@show')->name('product-details');
+Route::get('/products/{proID}/feedback/{id}/edit','ProductController@editFeedback')->name('feedback-edit');
+Route::put('/products/{proID}/feedback/{id}','ProductController@updateFeedback')->name('feedback-update');
+Route::delete('/product/{proID}/details/feedback/{id}/delete', 'ProductController@deleteFeedback')->name('feedback-delete');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
 Auth::routes();
 
-
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
 
 #Admin
 Route::group(
@@ -57,7 +85,8 @@ Route::group(
         Route::post('/login', 'LoginController@login')->name('login');
         // logout 
         Route::get('/logout', 'LoginController@logout')->name('logout');
-        // Route::post('/logout', 'LoginController@logout')->name('logout');
+        
+        Route::post('/logout', 'LoginController@logout')->name('logout');
 
         // main
         Route::get('/main', 'LoginController@show')->name('main');
@@ -109,12 +138,20 @@ Route::group(
 
         Route::delete('/users/{id}', 'UserController@destroy')->name('users.delete');
 
-
+        // Search-users
         Route::get('/users/{id}', 'UserController@show');
 
-        Route::get('/search/name', 'UserController@searchByName');
+        Route::get('/search/users/name', 'UserController@searchByName');
 
-        Route::get('/search/email', 'UserController@searchByEmail');
+        Route::get('/search/users/email', 'UserController@searchByEmail');
+
+        Route::post('/searchAllUsers','UserController@searchAll')->name('users.search');
+
+        Route::get('/searchAllUsers','UserController@searchAll')->name('users.search1');
+        
+        Route::get('/search/products/name', 'ProductController@searchByName');
+
+        Route::post('/searchAllProducts','ProductController@searchAll')->name('products.search');
 
         // Roles
         Route::get('roles','RoleController@showListRole')
@@ -140,7 +177,7 @@ Route::group(
 
         Route::post('/role/{id}/revokePermission', 'RoleController@revokePermission')->name('roles.revoke');
 
-        Route::get('/testNha','RoleController@test' );
+
         // Permission
         Route::get('permissions','PermissionController@showListPermission')
         ->name('permissions.list');
@@ -157,6 +194,42 @@ Route::group(
 
         Route::delete('/permissions/{id}', 'PermissionController@deletePermission')->name('permissions.delete');
 
+        // Order 
+        Route::get('order', 'OrderController@showOrder')->name('orders.list');
+        Route::get('order/view', 'OrderController@viewOrder')->name('orders.view');
+        Route::get('order/active/{id}', 'OrderController@actionOrder')->name('orders.active');
+        Route::delete('order/{id}', 'OrderController@deleteOrder')->name('orders.delete');
+        //Brand 
+         Route::get('/brands', 'BrandController@index')->name('brands.list');
+
+        Route::get('/brands/{id}/edit', 'BrandController@edit')->name('brands.edit');
+
+        Route::put('/brands/{id}/update', 'BrandController@update')->name('brands.update');
+
+        Route::get('/brands/create', 'BrandController@create')->name('brands.create');
+
+        Route::post('/brands', 'BrandController@store')->name('brands.store');
+
+        Route::delete('/brands/{id}', 'BrandController@destroy')->name('brands.delete');
+
+        //Sale 
+        Route::get('/sales', 'SaleController@index')->name('sales.list');
+
+        Route::get('/sales/{id}/edit', 'SaleController@edit')->name('sales.edit');
+
+        Route::put('/sales/{id}/update', 'SaleController@update')->name('sales.update');
+
+        Route::get('/sales/create', 'SaleController@create')->name('sales.create');
+
+        Route::post('/sales', 'SaleController@store')->name('sales.store');
+
+        Route::delete('/sales/{id}', 'SaleController@destroy')->name('sales.delete');
+
+
+
+
+        // TESSSSSSSSSSSSSSSSSSSST
+        Route::get('/testNha','RoleController@test');
      
     }
 );

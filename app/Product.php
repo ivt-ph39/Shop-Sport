@@ -3,13 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Searchable\Searchable;
-use Spatie\Searchable\SearchResult;
-class Product extends Model implements Searchable
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Product extends Model 
 {
+    use SoftDeletes;
+
     protected $fillable = [
-        'name','description','price','quantity','sale_id','category_id','brand_id'
+        'name', 'description', 'price', 'quantity', 'sale_id', 'category_id', 'brand_id'
     ];
+  
+
+    protected $dates =['deleted_at'];
 
     public function brand()
     {
@@ -28,26 +33,17 @@ class Product extends Model implements Searchable
 
     public function feedbacks()
     {
-        return $this->belongsTo('App\Feedback');
+        return $this->hasMany('App\Feedback');
     }
 
     public function images()
     {
-        return $this->morphMany('App\Image','imageable');
+        return $this->morphMany('App\Image', 'imageable');
     }
     public function orders()
     {
-        return $this->belongsToMany('App\Order');
+        return $this->belongsToMany('App\Order')->withPivot('quantity','price');
     }
 
-    public function getSearchResult(): SearchResult
-    {
-        $url = route('admin.products.detail', $this->id);
 
-        return new SearchResult(
-            $this,
-            $this->name,
-            $url
-        );
-    }
 }

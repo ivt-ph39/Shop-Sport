@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Brand;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
@@ -18,6 +19,7 @@ class ProductController extends Controller
 
     public function __construct(ProductRepository $product)
     {
+        $this->middleware('is.admin');
         $this->productRepo = $product;
     }
     /**
@@ -27,7 +29,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('images')->paginate(10);
+        $products = Product::with('images')->orderBy('id','DESC')->paginate(5);
 
         return view('admin.products.list', compact('products'));
     }
@@ -39,9 +41,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-
-        return view('admin.products.create', compact(['categories']));
+        $categories = Category::orderBy('id','DESC')->get();
+        $brands =Brand::all();
+        $sales = Sale::all();
+        return view('admin.products.create', 
+        compact(['categories','brands','sales']));
     }
 
     /**
@@ -57,7 +61,8 @@ class ProductController extends Controller
         $this->productRepo->create($data);
 
         // $this->productRepo->create($data);
-        return redirect()->route('admin.products.list');
+        return redirect()->route('admin.products.list')
+        ->with('success','Product created successfully!');
     }
 
     /**
@@ -120,7 +125,8 @@ class ProductController extends Controller
            $product->update($data);
        }
                       
-        return redirect()->route('admin.products.list');
+        return redirect()->route('admin.products.list')
+        ->with('update','Product updated successfully!');
     }
 
     /**
@@ -133,7 +139,8 @@ class ProductController extends Controller
     {
         $product = $this->productRepo->find($id);
         $product->delete();
-        return redirect()->route('admin.products.list');
+        return redirect()->route('admin.products.list')
+        ->with('delete','Product deleted successfully!');
     }
 
     public function productDetail($id)
@@ -143,8 +150,21 @@ class ProductController extends Controller
         return view('admin.products.detail', compact(['product', 'sale']));
     }
 
-    public function uploadImage(Request $request, $id){
-        
+    public function searchByName(Request $request)
+    {
+        $products = Product::where('name', 'like', '%' . $request->value . '%')->get();
+
+        return response()->json($products);
+    }
+
+    public function searchAll(Request $request)
+    {
+        $products = Product::where('email', 'like', '%' . $request->q . '%')
+        ->orWhere('name', 'like', '%' . $request->q . '%')
+        ->paginate(3);
+            
+        // dd();
+        return view('admin.users.listSearch',compact('users'));
     }
 
 }

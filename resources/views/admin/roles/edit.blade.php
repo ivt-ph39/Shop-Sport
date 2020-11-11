@@ -13,3 +13,11 @@
 </form>
 
 @endsection
+@section('script')
+<script>
+   window.onbeforeunload = function(event) {
+   event.returnValue = "Write something clever here..";
+   };
+   </script>
+
+@endsection

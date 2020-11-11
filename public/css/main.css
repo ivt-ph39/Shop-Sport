@@ -562,6 +562,14 @@ ul.sub-menu {
 
 #slider {
     padding-bottom: 45px;
+    padding-left: 0;
+    margin-left: 0;
+    /* margin-right: 100px; */
+}
+
+#slider .carousel-inner .item {
+    padding-left: 0;
+    margin-left: 0;
 }
 
 .carousel-indicators li {
@@ -781,10 +789,6 @@ h2.title:before {
     position: relative;
 }
 
-.price-range {
-    margin-top: 30px;
-}
-
 .well {
     background-color: #FFFFFF;
     border: 1px solid #F7F7F0;
@@ -821,6 +825,10 @@ h2.title:before {
     overflow: hidden;
 }
 
+.title-sale {
+    color: #FE980F;
+}
+
 h2.title {
     color: #FE980F;
     font-family: 'Roboto', sans-serif;
@@ -842,8 +850,19 @@ h2.title {
     position: relative;
 }
 
-.new,
+.new {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .sale {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.sold-out {
     position: absolute;
     top: 0;
     right: 0;
@@ -887,7 +906,7 @@ h2.title {
     transition: height 500ms ease 0s;
     width: 100%;
     display: block;
-    opacity: 0;
+    opacity: 1;
 }
 
 .single-products:hover .product-overlay {
@@ -976,6 +995,10 @@ h2.title {
     color: #FE980F;
 }
 
+ul .active {
+    color: #FE980F
+}
+
 .category-tab {
     overflow: hidden;
 }
@@ -1050,7 +1073,11 @@ h2.title {
     background: #ccccc6;
 }
 
-.recommended_items h2 {}
+
+/* img.slide{
+  width: 1350px;
+  height:  530px;
+} */
 
 .our_partners {
     overflow: hidden;
@@ -2431,6 +2458,20 @@ textarea {
     background: none;
 }
 
-.contact-info .social-networks ul li a:hover {
-    color: #FE980F;
+#owl-demo .item img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.content-news {
+    display: block;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.news {
+    margin-top: 30px;
 }

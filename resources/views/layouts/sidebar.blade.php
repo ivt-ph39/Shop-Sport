@@ -15,17 +15,17 @@
             </div>
 
 
-            
+
             <div id="{{$cate['tag']}}" class="panel-collapse collapse">
                 <div class="panel-body">
-                @foreach($cate->children as $child)
+                    @foreach($cate->children as $child)
                     <ul>
-                        <li><a href="#">{{$child['name']}} </a></li>
+                        <li><a href="{{ route( 'listProductByCate',$child['id'] ) }}">{{$child['name']}} </a></li>
                     </ul>
                     @endforeach
                 </div>
             </div>
-            
+
 
         </div>
 
@@ -41,19 +41,86 @@
         <div class="brands-name">
             @foreach($brands as $b)
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="#"> <span class="pull-right">()</span>{{$b['name']}}</a></li>
+                <li><a href="{{route('products-by-brand',$b['id'])}}"> <span class="pull-right">({{$b->products->count()}})</span>{{$b['name']}}</a></li>
             </ul>
             @endforeach
         </div>
     </div>
     <!--/brands_products-->
 
-    <!-- <div class="price-range">
-						
-						<h2>Price Range</h2>
-						<div class="well text-center">
-							<input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2"><br />
-							<b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
-						</div>
-					</div> -->
+    <div class="news">
+        <!--recommended_items-->
+        <h2 class="title text-center">News</h2>
+
+        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+
+            <div class="carousel-inner">
+                @foreach($news as $key=>$n)
+                @if($key ==0)
+                    <div class="item active">
+                        <div class="product-image-wrapper">
+
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+
+                                    <a href="{{ route('show-news',$n->id) }}"><img  src="@foreach($n->images as $key=>$image)  @if($key ==0) {{URL::to('/')}}/{{$image['path']}} @endif @endforeach"></a>
+                                    <div>
+                                        <h5>{{$n['title']}}</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                @endif
+                @endforeach
+                @foreach($news as $key=>$n)
+                @if($key != 0)
+                    <div class="item">
+                        <div class="product-image-wrapper">
+
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+
+                                    <a href="{{ route('show-news',$n->id) }}"><img  src="@foreach($n->images as $key=>$image)  @if($key ==0) {{URL::to('/')}}/{{$image['path']}} @endif @endforeach"></a>
+                                    <div>
+                                        <h5>{{$n['title']}}</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                @endif
+                @endforeach
+            </div>
+            <!-- <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                <i class="fa fa-angle-left"></i>
+            </a>
+            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                <i class="fa fa-angle-right"></i>
+            </a> -->
+
+        </div>
+
+    </div>
+
+   
+
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $("#owl-demo").owlCarousel({
+
+            navigation: true, // Show next and prev buttons
+            slideSpeed: 300,
+            paginationSpeed: 400,
+            singleItem: true
+        });
+
+    });
+</script>

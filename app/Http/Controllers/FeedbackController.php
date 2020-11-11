@@ -35,7 +35,11 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        // dd($data);
+        $product_id = $data['product_id'];
+        Feedback::create($data);
+        return redirect()->route('product-details',$product_id);
     }
 
     /**

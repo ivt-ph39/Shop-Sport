@@ -5,14 +5,26 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Traits\HasRoles;
+
 class LoginController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('is.admin');
+    }
+
     public function show()
     {
-        if (!Auth::check()) {
-            return view('admin.login');
-        }
-        return view('admin.main');
+        if (Auth::check()) { 
+
+            return view('admin.main');
+        }    
+        Auth::logout();
+        return view('admin.login');
+        
     }
 
     public function login(Request $rq)
