@@ -14,7 +14,7 @@
         @foreach ($permissions as $item)
                   @if ($role->getPermissionNames()->contains($item->name))
                   <div class="checkbox">
-                    <label><input type="checkbox" name="permissions[]" value="{{$item->name}}" disabled> {{$item->name}}</label>
+                    <label><input type="checkbox" name="permissions[]" value="{{$item->name}}" checked > {{$item->name}}</label>
                   </div>
                     @else 
                     <div class="checkbox">
@@ -26,7 +26,7 @@
         @endforeach
     </div>
 
-    <input type="submit" value="Update" class="btn btn-dark">
+    <input type="submit" value="Assign" class="btn btn-dark">
 </div>
 </form>
 

@@ -104,12 +104,12 @@
 											@if ($pro['created_at'] >= now()->modify("-14 Days")) <img src="images/new.png" class="new" alt=""> @endif
 											<img src="images/sale.png" class="sale" alt="">
 										</div>
-										<!-- <div class="choose">
+										 {{-- <div class="choose">
 											<ul class="nav nav-pills nav-justified">
 												<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
 												<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
 											</ul>
-										</div> -->
+										</div>  --}}
 									</div>
 								</div>
 							

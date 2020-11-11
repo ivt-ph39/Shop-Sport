@@ -80,7 +80,7 @@ class HomeController extends Controller
             'productsUnd',
             'productsKamito',
             'slides',
-            'proRecommend'
+            // 'proRecommend'
         ];
 
         return view('welcome', compact($data));

@@ -62,8 +62,8 @@
                                     Account
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a href="{{route('show-login')}}" class="active"><i class="fa"></i> Login</a></li>
-                                    <li><a href="{{route('show-register')}}" class="active"><i class="fa"></i> Register</a></li>
+                                    <li><a href="{{route('login')}}" class="active"><i class="fa"></i> Login</a></li>
+                                    <li><a href="{{route('register')}}" class="active"><i class="fa"></i> Register</a></li>
                                 </div>
                             </div>
 

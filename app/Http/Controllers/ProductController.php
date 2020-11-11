@@ -264,8 +264,26 @@ class ProductController extends Controller
 
     public function searchByName(Request $request)
     {
-        $products = Product::where('name', 'like', '%' . $request->value. '%')->get();
-        // dd($products->toArray());
+        $products = Product::where('name', 'like', '%' . $request->value . '%')->get();
+
         return response()->json($products);
     }
+
+    public function searchByEmail(Request $request)
+    {
+        $products = Product::where('email', 'like', '%' . $request->value . '%')->get();
+
+        return response()->json($products);
+    }
+
+    public function searchAll(Request $request)
+    {
+        // dd($request->q);
+        $products = Product::where('email', 'like', '%' . $request->q . '%')
+        ->orWhere('name', 'like', '%' . $request->q . '%')->paginate(3);
+
+        // dd($products);
+        return view('admin.products.listSearch',compact('products'));
+    }
+
 }

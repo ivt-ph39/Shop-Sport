@@ -1,23 +1,36 @@
 @extends('admin.main')
 
 @section('content')
+@if (session('success'))
+<div class="alert alert-success alert-dismissible" style="width:500px;float:right;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{session('success')}}</strong> 
+  </div>
+  @elseif(session('delete'))
+  <div class="alert alert-success alert-dismissible" style="width:300px;float:right;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{session('delete')}}</strong> 
+  </div>
+  @elseif(session('update'))
+  <div class="alert alert-success alert-dismissible" style="width:300px;float:right;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{session('update')}}</strong> 
+  </div>
+@endif
     <h1>List User</h1>
-   
-    
-    {{-- {{ $permissions }} --}}
-  
+
     <div class="flex-center position-ref full-height">
         <div class="content">
-            <form class="typeahead" role="search">
+        <form class="typeahead" action="{{route('admin.users.search')}}" role="search" method="POST">
+            @csrf
                 <input type="search" name="q" class="form-control search-input" placeholder="Type something..."
                     autocomplete="off">
-                    <button type="submit"></button>
+                    <button type="submit">Search</button>
             </form>
         </div>
     </div>
     
-   
-    <button type="button" class="btn btn-dark">
+    <button type="button" class="btn btn-dark" style="margin: 1em 0">
         <a href="{{ route('admin.users.create') }}">Add User</a></button>
     <table class="table table-bordered" style="width: 50%;">
         <thead>
@@ -43,9 +56,7 @@
                     <td>{{ $user->address }}</td>
                     <td>{{ $user->phone }}</td>              
                     <td>                      
-                        {{-- @php
-                            dd($user->roles,$user->roles->contains(App\Role::where('name','mod')->first()));
-                        @endphp                      --}}
+                     
                             @foreach ($user->roles as $item)                                                            
                                     {{$item['name']}}                           
                             @endforeach                                         
@@ -62,7 +73,7 @@
                                 <form action="{{ route('admin.users.delete', $user->id) }}" method="post">
                                     {{ @csrf_field() }}
                                     @method('DELETE')
-                                    <input type="submit" value="Delete">
+                                    <input type="submit" class="btn btn-danger" value="Delete" >
                                 </form>
                             </td>
                         @endif  
@@ -74,7 +85,7 @@
                         <form action="{{ route('admin.users.delete', $user->id) }}" method="post">
                             {{ @csrf_field() }}
                             @method('DELETE')
-                            <input type="submit" value="Delete">
+                            <input type="submit" id="delete" class="btn btn-danger" value="Delete" >
                         </form>
                     </td>
                     @endif
@@ -92,15 +103,14 @@
 
    
     <!-- js -->
-@section('js')
+@section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.3.1/bloodhound.min.js"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.3.1/typeahead.bundle.min.js"></script>
     <script>
         $(document).ready(function($) {
             var engine1 = new Bloodhound({
                 remote: {
-                    url: '/admin/search/name?value=%QUERY%',
+                    url: '/admin/search/users/name?value=%QUERY%',
                     wildcard: '%QUERY%'
                 },
                 datumTokenizer: Bloodhound.tokenizers.whitespace('value'),
@@ -109,7 +119,7 @@
 
             var engine2 = new Bloodhound({
                 remote: {
-                    url: '/admin/search/email?value=%QUERY%',
+                    url: '/admin/search/users/email?value=%QUERY%',
                     wildcard: '%QUERY%'
                 },
                 datumTokenizer: Bloodhound.tokenizers.whitespace('value'),
@@ -163,6 +173,31 @@
         });
 
     </script>
+
+<script>
+    $(".alert-dismissible").fadeTo(1500, 100).slideUp(500, function(){
+        $(".alert-dismissible").alert('close');
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+       $("#delete").click(function(){
+           if(!confirm("Do you want to delete this?"))
+           event.preventDefault();
+       });
+     });
+ </script> 
+
+<script>
+$(document).ready(function(){
+   $("#delete").click(function(){
+       if(!confirm("Do you want to delete this?"))
+       event.preventDefault();
+   });
+ });
+</script>
+
 @endsection
 
 @endsection

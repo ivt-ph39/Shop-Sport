@@ -3,13 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Searchable\Searchable;
-use Spatie\Searchable\SearchResult;
-class Category extends Model implements Searchable
+use Illuminate\Database\Eloquent\SoftDeletes;
+class Category extends Model 
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name','parent_id'
     ];
+
+    protected $dates =['deleted_at'];
 
     public function products()
     {
@@ -31,14 +34,5 @@ class Category extends Model implements Searchable
         return $this->belongsTo('App\Category','parent_id');
     }
 
-    public function getSearchResult(): SearchResult
-    {
-        $url = route('admin.categories.list', $this->id);
-
-        return new SearchResult(
-            $this,
-            $this->name,
-            $url
-        );
-    }
+ 
 }

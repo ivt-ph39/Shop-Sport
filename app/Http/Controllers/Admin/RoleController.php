@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
-
+use App\User;
 class RoleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('is.admin');
+    }
     // Roles 
     /*
     $user->givePermissionTo($permission) : assign permiss to user
@@ -90,7 +95,11 @@ class RoleController extends Controller
     }
 
     public function test(){
-       
+        // $user = User::find(1);
+        // dd($user);
+        // $user->assignRole('admin');
+        // dd('no hope');
+
     }
 }
 
