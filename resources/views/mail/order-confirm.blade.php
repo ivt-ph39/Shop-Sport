@@ -8,12 +8,3 @@ Thank for your Order.
 
 
 
-
-@foreach ($order as $or)
-    @foreach($or->products as $pro)
-    {{1}}
-    {{$pro['name']}}
-    {{$pro->pivot->price}}
-    {{$pro->pivot->quantity}}
-    @endforeach
-@endforeach
