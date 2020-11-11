@@ -102,7 +102,7 @@ class ProductController extends Controller
             // dd($price);
             switch ($price) {
                 case '1':
-                    $productsSale = Product::where('price', '<', 100)->with('brand', 'images', 'sale')
+                    $productsSale = Product::where(1-'price', '<', 100)->with('brand', 'images', 'sale')
                         ->whereHas('sale', function ($query) {
                             return $query->where('start_day', '<=', now())
                                 ->where('end_day', '>=', now());
@@ -218,6 +218,15 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+
+
+
+        
+        // $product->quantity = ($product['quantity'] -= 1);
+        // $product->save();
+
+
+
         $product = Product::with('brand', 'images')->find($id);
         $brands    = Brand::all();
         $categories = Category::all();
@@ -225,11 +234,72 @@ class ProductController extends Controller
         $feedbacks = Feedback::with('user', 'product')->get();
         // dd($feedbacks->toArray());
 
-        return view('products.product-details', compact('product', 'brands', 'categories', 'news', 'feedbacks'));
+        $cateID = Product::where('id',$id)->pluck('category_id');
+        $productByCate = Product::where('category_id',$cateID)->inRandomOrder()->take(4)->get();
+        // dd($productByBrand->toArray());
+        $data= [
+            'product', 
+            'brands', 
+            'categories', 
+            'news', 
+            'feedbacks',
+            'productByCate'
+        ];
+
+        return view('products.product-details', compact($data));
     }
 
-    /**
-     * Show the form for editing the specified resource.
+    public function deleteFeedback($proID,$id)
+    {
+        $feedback= Feedback::where('id',$id)->delete();
+        // $feedback = Feedback::find($feedbackID);
+        // dd($feedbackID);
+        // dd($feedback->toArray());
+        // $feedback->delete();
+        
+        return redirect()->route('product-details',$proID);
+    }
+
+    public function editFeedback($proID,$id)
+    {
+        $product = Product::with('brand', 'images')->find($proID);
+        $brands    = Brand::all();
+        $categories = Category::all();
+        $news = News::with('images')->get();
+        $feedbacks = Feedback::with('user', 'product')->get();
+        // dd($feedbacks->toArray());
+
+        $cateID = Product::where('id',$proID)->pluck('category_id');
+        $productByCate = Product::where('category_id',$cateID)->inRandomOrder()->take(4)->get();
+        // dd($productByBrand->toArray());
+        
+
+        $feedback= Feedback::where('id',$id)->get();
+
+        $data= [
+            'product', 
+            'brands', 
+            'categories', 
+            'news', 
+            'feedbacks',
+            'productByCate',
+            'feedback'
+        ];
+
+        return view('products.edit-feedback', compact($data));
+    }
+
+    public function updateFeedback(Request $request,$proID,$id)
+    {
+        $data = $request->only('content');
+        // dd($data);
+
+        $feedback= Feedback::where('id',$id)->update($data);
+
+        return redirect()->route('product-details',$proID);
+    }
+
+    /**     * Show the form for editing the specified resource.
      *
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
@@ -264,26 +334,94 @@ class ProductController extends Controller
 
     public function searchByName(Request $request)
     {
-        $products = Product::where('name', 'like', '%' . $request->value . '%')->get();
-
+        $products = Product::where('name', 'like', '%' . $request->q . '%')->get();
+        // dd($products->toArray());
         return response()->json($products);
     }
 
-    public function searchByEmail(Request $request)
+    public function searchList(Request $request)
     {
-        $products = Product::where('email', 'like', '%' . $request->value . '%')->get();
 
-        return response()->json($products);
+        $categories = Category::all();
+        // $products = Product::with('brand', 'images', 'sale')->paginate(9);
+        // dd($products->toArray());
+        $brands = Brand::all();
+        $news = News::with('images')->get();
+
+        if ($request->price) {
+            $price = $request->price;
+            // dd($price);
+            switch ($price) {
+                case '1':
+                    $products = Product::where('price', '<', 100)->with('brand', 'images', 'sale')->paginate(9);
+                    // dd($products->toArray());
+                    break;
+                case '2':
+                    $products = Product::whereBetween('price', [100, 300])->with('brand', 'images', 'sale')->paginate(9);
+                    break;
+
+                case '3':
+                    $products = Product::whereBetween('price', [300, 500])->with('brand', 'images', 'sale')->paginate(9);
+                    break;
+
+                case '4':
+                    $products = Product::whereBetween('price', [500, 700])->with('brand', 'images', 'sale')->paginate(9);
+                    break;
+
+                case '5':
+                    $products = Product::whereBetween('price', [700, 900])->with('brand', 'images', 'sale')->paginate(9);
+                    break;
+            }
+        }
+        // else{
+        //     $products = Product::with('brand', 'images', 'sale')->paginate(9);
+        // }
+
+        if ($request->orderby) {
+            $orderby = $request->orderby;
+
+            switch ($orderby) {
+                case 'desc':
+                    $products = Product::orderBy('id', 'DESC')->with('brand', 'images', 'sale')->paginate(9);
+                    break;
+
+                case 'asc':
+                    $products = Product::orderBy('id', 'ASC')->with('brand', 'images', 'sale')->paginate(9);
+                    break;
+
+                case 'price_max':
+                    $products = Product::orderBy('price', 'ASC')->with('brand', 'images', 'sale')->paginate(9);
+                    break;
+
+                case 'price_min':
+                    $products = Product::orderBy('price', 'DESC')->with('brand', 'images', 'sale')->paginate(9);
+                    break;
+            }
+        }
+        // else {
+        //     $products = Product::with('brand', 'images', 'sale')->paginate(9);
+        // }
+
+        // return view('products.list-product', compact('products', 'categories', 'brands', 'news'));
+
+        // $search = $request->only('q');
+        // dd($search);
+
+        
+
+        $products = Product::where('name','like', '%' .$request->q. '%')->paginate(6);
+        dd($products->toArray());
+
+
+
+        $data = [
+            'categories',
+            'brands',
+            'news',
+            'products'
+        ];
+
+        return view('products.list-search', compact($data));
+
     }
-
-    public function searchAll(Request $request)
-    {
-        // dd($request->q);
-        $products = Product::where('email', 'like', '%' . $request->q . '%')
-        ->orWhere('name', 'like', '%' . $request->q . '%')->paginate(3);
-
-        // dd($products);
-        return view('admin.products.listSearch',compact('products'));
-    }
-
 }

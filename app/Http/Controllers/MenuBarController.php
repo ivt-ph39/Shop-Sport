@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class MenuBarController extends Controller
 {
-    public function index()
-    {
-       $categories = Category::all();
+    // public function index()
+    // {
+    //    $categories = Category::all();
 
-       return view('layouts.sidebar',compact('categories'));
-    }
+    //    return view('layouts.sidebar',compact('categories'));
+    // }
     
 }

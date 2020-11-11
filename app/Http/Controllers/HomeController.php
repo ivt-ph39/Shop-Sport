@@ -24,12 +24,38 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // $order = Order::where('id',50)->get();
+        // $products = 
+        // dd($order->toArray());
+        // $d = [
+        //     'name' => 'Name',
+        //     'email' =>'Name@gmail.com',        
+        // ];
+
+        // $dd = array('products' => $products->toArray());
+        // $d[]=$dd;
+        // $d['products'] = $products->toArray();
+        // $d1=array_push($d,$dd);
+        // $d = array($products->toArray());
+        // dd($d);
+
+        // $orderDetail = OrderProduct::where('order_id',50)->get();
+        // dd($orderDetail->toArray());
+        // $d['orderDetail'] = $orderDetail->toArray();
+
+        // dd($d);
+
+
+
         $categories = Category::with('children')->get();
         // return $categories;
         $brands = Brand::all();
         $news = News::with('images')->get();
+        $slides = Slide::all();
         // dd($news->toArray());
-        $productsSale = Product::with('images', 'brand', 'sale')->where('quantity','>',0)->whereHas('sale', function ($query) {
+
+        //san pham sale
+        $productsSale = Product::with('images', 'brand', 'sale')->where('quantity', '>', 0)->whereHas('sale', function ($query) {
             return $query->where('start_day', '<=', now())
                 ->where('end_day', '>=', now());
         })
@@ -37,39 +63,22 @@ class HomeController extends Controller
             ->inRandomOrder()->take(6)->get();
 
         // dd($productsSale->toArray());
-        $featureProducts = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 4)
+        $featureProducts = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 4)
             ->where('brand_id', 6)
             ->inRandomOrder()->take(4)->get();
-        $productsKamito = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 4)
+        $productsKamito = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 4)
             ->where('brand_id', 6)
             ->inRandomOrder()->take(4)->get();
-        $productsUnd = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 5)
+        $productsUnd = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 5)
             ->where('brand_id', 5)
             ->inRandomOrder()->take(4)->get();
-        $productsNike = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 10)
+        $productsNike = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 10)
             ->where('brand_id', 1)
             ->inRandomOrder()->take(4)->get();
-        $productsAdidas = Product::with('brand', 'images', 'sale')->where('quantity','>',0)->where('category_id', 11)
+        $productsAdidas = Product::with('brand', 'images', 'sale')->where('quantity', '>', 0)->where('category_id', 11)
             ->where('brand_id', 2)
             ->inRandomOrder()->take(4)->get();
         // $products = Product::with('brand', 'images', 'sale')->get();
-        $slides = Slide::all();
-
-        if (Auth::check()) {
-            $orderID = Order::where('user_id', Auth::id())->pluck('id');
-            // dump($orders);
-            if (!empty($orderID)) {
-                $productID = OrderProduct::whereIn('order_id', $orderID)->distinct()->pluck('product_id');
-                // dd($orderProduct);
-                if (!empty($productID)) {
-                    $cateID = Product::whereIn('id', $productID)->distinct()->pluck('category_id');
-                    // dd($cateID);
-                    if (!empty($cateID)) {
-                        $proRecommend = Product::where('quantity','>',0)->whereIn('category_id', $cateID)->inRandomOrder()->take(3)->get();
-                    }
-                }
-            }
-        }
         $data = [
             'categories',
             'brands',
@@ -82,6 +91,35 @@ class HomeController extends Controller
             'slides',
             // 'proRecommend'
         ];
+
+
+
+        //san pham suggest
+        if (Auth::check()) {
+            $orderID = Order::where('user_id', Auth::id())->pluck('id');
+            // dump($orders);
+            if (!empty($orderID)) {
+                $productID = OrderProduct::whereIn('order_id', $orderID)->distinct()->pluck('product_id');
+                // dd($orderProduct);
+
+                $cateID = Product::whereIn('id', $productID)->distinct()->pluck('category_id');
+                // dd($cateID);
+
+                $proRecommend = Product::where('quantity', '>', 0)->whereIn('category_id', $cateID)->inRandomOrder()->take(3)->get();
+                $data[] = 'proRecommend';
+            }
+        }
+
+        // $productID = OrderProduct::pluck('product_id')->toArray();
+        // // dd($productID->toArray());
+        // // $productFeature = array_count_values($productID);
+        // // print_r($productFeature);
+        // echo '<pre>';
+        // print_r(array_count_values($productID));
+
+
+
+        // dd($data);
 
         return view('welcome', compact($data));
     }
@@ -154,6 +192,7 @@ class HomeController extends Controller
 
     public function showFormContact()
     {
+
         return view('mail.contact-form');
     }
 
@@ -197,8 +236,16 @@ class HomeController extends Controller
     //     }
     // }
 
-    public function showAccountCustomer()
+
+
+    public function productViewed(Request $request)
     {
-        return view('customers.customer-infor');
+        if ($request->ajax()) {
+            $listID = $request->id;
+
+            $products = Product::whereIn('id', $listID)->take(4)->get();
+            $html = view('product-viewed.list-product', compact('products'))->render();
+            return response()->json(['data' => $html]);
+        }
     }
 }

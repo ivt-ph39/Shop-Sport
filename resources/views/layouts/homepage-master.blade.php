@@ -122,7 +122,7 @@
                                 <!-- <li><a href=""><i class="fa fa-user"></i> Account</a></li> -->
                                 <!-- <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li> -->
                                 <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                                <li><a class="cart" href="{{route('show-cart')}}"><i class="fa fa-shopping-cart"><span style="color:red" class="cart-value count_item_pr"></span></i>Cart</a></li>
+                                <li><a id="cart" href="{{route('show-cart')}}"><i class="fa fa-shopping-cart"><span style="color:red" class="cart-value count_item_pr"></span></i>Cart</a></li>
                                 <!-- <li style="margin:0" class="cart-value count_item_pr"></li> -->
                                 <!-- <li><a href="{{route('show-cart')}}">Cart</a></li> -->
                             </ul>
@@ -162,10 +162,26 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="search_box pull-right">
-                        <form class="typeahead" role="search">
-                            <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
-                            <!-- <input type="submit" value="search"> -->
-                        </form>
+                            <!-- <div class="row"> -->
+                                <!-- <div class="col-md-9"> -->
+                                    @if(empty($request->q))
+                                    <form class="typeahead" role="search" action="{{ route('search') }}" method="POST" id="search">
+                                        @csrf
+                                        <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
+                                        <button type="submit" form="search"><i class="fa fa-search"></i></button>
+                                    </form>
+                                    @else
+                                    <form class="typeahead" role="search" action="{{ route('search-get') }}" method="GET" id="search">
+                                        @csrf
+                                        <input type="search" name="q" class="search-input" placeholder="Type something..." autocomplete="off">
+                                        <button type="submit" form="search"><i class="fa fa-search"></i></button>
+                                    </form>
+                                    @endif
+                                <!-- </div> -->
+                                <!-- <div class="col-md-3"> -->
+                                    <!-- <button type="submit" form="search" name="search"><i class="fa fa-search"></i></button> -->
+                                <!-- </div> -->
+                            <!-- </div> -->
                         </div>
                         <div id="search-suggest" class="s-suggest"></div>
                     </div>
@@ -349,7 +365,7 @@
     <script src="{{ asset('js/bloodhound.min.js')}}"></script>
 
     <!-- <script type="text/javascript" src="{{ asset('js/jquery-3.5.1.min.js')}}"></script> -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
@@ -389,7 +405,16 @@
             }]);
         });
     </script>
-@yield('script')
+    <script type="text/javascript">
+         $(document).ready(function($) {
+             $('#cart').click(function(e){
+                 if(localStorage.getItem('cart') == null || empty(localStorage.getItem('cart')) )
+                    e.preventDefault();
+                    alert("Giỏ hàng chưa có gì !!")
+             });
+        });
+    </script>
+    @yield('script')
 </body>
 
 </html>

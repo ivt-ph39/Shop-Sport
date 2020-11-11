@@ -19,16 +19,15 @@ Route::get('/', 'HomeController@index')->name('homepage');
 #Customer
 // Route::get('/test', 'RoleController@index');
 
-Route::get('/login','Auth\LoginController@showLoginHomePage')->name('show-login');
-Route::post('/login','Auth\LoginController@loginHomePage')->name('login');
+Route::get('/login','Auth\LoginController@showLoginHomePage')->name('login');
+Route::post('/login','Auth\LoginController@loginHomePage');
 Route::get('/logout','Auth\LoginController@logout')->name('logout');
 Route::get('/register','Auth\RegisterController@showSignUpHomePage')->name('register');
-Route::post('/register','Auth\RegisterController@register')->name('register');
-Route::get('/checkout','OrderController@getCheckout')->name('show-cart');
-// Route::post('/checkout','CartController@postCheckout')->name('checkout');
+Route::post('/register','Auth\RegisterController@register');
+Route::get('/checkout','Api\CartController@getCheckout')->name('show-cart');
+Route::get('/cart-empty','Api\CartController@getCartEmpty')->name('show-cart-empty');
+// Route::post('/checkout','Api\CartController@postCheckout')->name('checkout');
 
-//Homepage
-Route::get('/products','ProductController@index')->name('show-products');
 Route::get('/product/{id}/details','ProductController@show')->name('product-details');
 Route::get('/products/sale','ProductController@listProductsSale')->name('products-sale');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
@@ -40,17 +39,28 @@ Route::get('/brand/{id}/products','BrandController@showProductsByBrand')->name('
 // Route::get('/search', 'HomeController@search');
 // Route::post('/search', 'HomeController@searchFullText')->name('search');
 
-Route::get('/account','HomeController@showAccountCustomer')->name('account-customer');
+//Customer
+Route::get('/account','CustomerController@showAccountCustomer')->name('account-customer');
+Route::get('/account/{id}/edit','CustomerController@edit')->name('account-edit');
+Route::put('/account/{id}','CustomerController@update')->name('account-update');
+
 Route::post('/feebacks','FeedbackController@store')->name('feedbacks');
 
 //Search
 Route::get('/search/product', 'ProductController@searchByName');
-Route::get('/cart', function () {
-    return view('cart.cart');
-})->name('show-cart');
+Route::post('/search/product', 'ProductController@searchList')->name('search');
+Route::get('/search/product/list', 'ProductController@searchList')->name('search-get');
+// Route::get('/cart', function () {
+//     return view('cart.cart');
+// })->name('show-cart');
+
+Route::post('ajax/product-viewed','HomeController@productViewed')->name('product-viewed');
 
 Route::get('/products', 'ProductController@index')->name('show-products');
 Route::get('/product/{id}/details', 'ProductController@show')->name('product-details');
+Route::get('/products/{proID}/feedback/{id}/edit','ProductController@editFeedback')->name('feedback-edit');
+Route::put('/products/{proID}/feedback/{id}','ProductController@updateFeedback')->name('feedback-update');
+Route::delete('/product/{proID}/details/feedback/{id}/delete', 'ProductController@deleteFeedback')->name('feedback-delete');
 Route::get('/contact-us', 'HomeController@showFormContact')->name('form-contact');
 Route::post('/contact-us', 'HomeController@contact')->name('contact-us');
 Auth::routes();

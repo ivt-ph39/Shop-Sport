@@ -165,7 +165,14 @@ class CategoryController extends Controller
                     break;
             }
         }
+        $data =[
+            'products', 
+            'brands', 
+            'categories', 
+            'category', 
+            'news'
+        ];
 
-        return view('categories.list-products', compact('products', 'brands', 'categories', 'category', 'news'));
+        return view('categories.list-products', compact($data));
     }
 }

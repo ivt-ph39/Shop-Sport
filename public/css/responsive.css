@@ -1,11 +1,11 @@
 /* lg */ 
 @media (min-width: 1200px) {
 	#similar-product .carousel-inner .item img{
-		width: 65px;
+		width: 85px;
 	}
 	#similar-product .carousel-inner .item img {
 		display: inline-block;
-		margin-left: 30px;
+		margin-left: 20px;
 	}	
 }
 

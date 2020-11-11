@@ -4,7 +4,7 @@
 
 
 
-<section>
+<section style="opacity:10;">
     <div id="content-product" data-id="{{$product['id']}}">
         <div class="container">
             <div class="row">
@@ -242,14 +242,16 @@
                                             <p>{{$f['content']}}</p>
                                         </div>
                                         <div class="col-md-3">
+
+
                                             <div class="dropdown pull-left">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ...
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <li><a href="{{ route( 'feedback-edit',['proID' =>$f['product_id'],'id' => $f['id']] ) }}" class="active"><i class="fa"></i> Edit</a></li>
+                                                    <li><a href="{{route('feedback-edit',['proID' =>$f['product_id'],'id' => $f['id']])}}" class="active"><i class="fa"></i> Edit</a></li>
                                                     <li>
-                                                        <form method="POST" action="{{ route('feedback-delete',['proID' =>$f['product_id'],'id' => $f['id']] )}}">
+                                                        <form method="POST" action="{{route('feedback-delete',['proID' =>$f['product_id'],'id' => $f['id']])}}">
 
                                                             @csrf
                                                             @method('DELETE')
@@ -274,19 +276,31 @@
                                     @endif
                                     @endforeach
                                     <p><b>Write Your Review</b></p>
-                                    <form action="{{ route('feedbacks') }}" method="POST" id="feedbacks">
+
+                                    <form action="{{route('feedback-update',['proID' =>$f['product_id'],'id' => $f['id']])}}" method="POST" role="form" id="edit-feedback">
+
+                                        @csrf
+                                        @method('PUT')
+
+                                        <legend>Edit Review</legend>
+
+                                        <textarea form="edit-feedback" name="content"></textarea>
+
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </form>
+
+                                    <!-- <form action="{{ route('feedbacks') }}" method="POST" id="feedbacks">
                                         @csrf
                                         <span>
                                             <input type="hidden" name="user_id" value="{{Auth::id()}}" />
                                             <input type="hidden" name="product_id" value="{{$product['id']}}" />
                                         </span>
                                         <textarea form="feedbacks" name="content"></textarea>
-                                        <!-- <b>Rating: </b> <img src="images/product-details/rating.png" alt="" /> -->
+                                        <b>Rating: </b> <img src="images/product-details/rating.png" alt="" /> 
                                         <button type="submit" class="btn btn-default pull-right">
                                             Submit
                                         </button>
-                                    </form>
-
+                                    </form> -->
                                     @else
                                     @foreach($feedbacks as $f)
                                     @if($product['id'] == $f['product_id'])
@@ -298,7 +312,7 @@
                                     <p>{{$f['content']}}</p>
                                     @endif
                                     @endforeach
-                                    <a type="button" style="background-color:#FE980F;color:white" class="btn" href="{{route('login')}}">Login member to write your review</a>
+                                    <a type="button" class="btn btn-danger" href="{{route('login')}}">Login member to write your review</a>
                                     @endif
                                 </div>
                             </div>
@@ -371,15 +385,6 @@
         }
     })
 </script>
-<!-- <script type="text/javascript">
-    $(document).ready(function($) {
-        $(document).on('submit', '#feedbacks', function(event) {
-            event.preventDefault();
-
-            alert('page did not reload');
-        });
-    });
-</script> -->
 <script type="text/javascript" src="{{asset( '/js/cart.js' )}}"></script>
 
 @endsection

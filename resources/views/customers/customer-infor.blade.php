@@ -3,42 +3,48 @@
 @section('content')
 
 
-
 <section>
     <div class="container">
         <h2>Your Account Information</h2>
         <p>Welcome {{ Auth::user()->name }} </p>
         <div class="row">
             <div class="col-md-9">
-
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <!-- <th rowspan="2">Day</th> -->
+                            <th>Order Details</th>
+                        </tr>
+                        <tr>
+
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($orders as $order)
+
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <td>{{ $order['created_at']->toFormattedDateString() }}</td>
+                            @foreach($order->products as $key=>$pro)
+                            <tr>
+                                <td><a href="{{ route('product-details',$pro['id'])}}" target="_blank" rel="noopener noreferrer">{{ $pro['name'] }} {{$pro->brand['name']}} </a></td>
+                                <td>{{$pro->pivot->quantity}} </td>
+                                <td>{{$pro->pivot->price}} </td>
+                            </tr>
+                        @endforeach
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
+
+                        @endforeach
+
+                        <!-- <tr>
                             <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
                         </tr>
                         <tr>
-                            <th scope="row">3</th>
                             <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -48,6 +54,7 @@
                 <p> {{ Auth::user()->email }} </p>
                 <p> {{ Auth::user()->address }} </p>
                 <p> {{ Auth::user()->phone }} </p>
+                <a style="background: #FE980F;" class="btn btn-default" href="{{ route('account-edit',Auth::id()) }}">Edit your information</a>
             </div>
         </div>
     </div>

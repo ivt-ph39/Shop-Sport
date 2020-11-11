@@ -41,29 +41,54 @@
 		</div>
 		<div class="row">
 			<form action="{{ route('checkout') }}" method="post">
-			<input id="token" name="_token" type="hidden" value="{{csrf_token()}}"> 
+				<input id="token" name="_token" type="hidden" value="{{csrf_token()}}">
 				@if(!Auth::check())
 				<div class="col-sm-6">
 					<div class="form-group">
 						<label for="name">Name: </label>
 						<input type="name" class="form-control" name="name" id="name">
 					</div>
+					@if($errors->has('name'))
+                    <p style="color:red;">
+                        {{$errors->first('name')}}
+                    </p>
+                    @endif
 					<div class="form-group">
 						<label for="email">Email address: </label>
 						<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp">
 					</div>
+					@if($errors->has('email'))
+                    <p style="color:red;">
+                        {{$errors->first('email')}}
+                    </p>
+                    @endif
 					<div class="form-group">
 						<label for="phone">Phone: </label>
 						<input type="text" class="form-control" name="phone" id="phone">
 					</div>
+					@if($errors->has('phone'))
+                    <p style="color:red;">
+                        {{$errors->first('phone')}}
+                    </p>
+                    @endif
 					<div class="form-group">
 						<label for="address">Address</label>
 						<input type="text" class="form-control" name="address" id="address">
 					</div>
+					@if($errors->has('address'))
+                    <p style="color:red;">
+                        {{$errors->first('address')}}
+                    </p>
+                    @endif
 					<div class="form-group">
 						<label for="note">Note</label>
 						<input type="text" class="form-control" name="note" id="note">
 					</div>
+					@if($errors->has('note'))
+                    <p style="color:red;">
+                        {{$errors->first('note')}}
+                    </p>
+                    @endif
 				</div>
 				@else
 				<div class="col-sm-6">
@@ -73,22 +98,47 @@
 						<label for="name">Name: </label>
 						<input type="name" class="form-control" name="name" id="name" value="{{Auth::user()->name}}">
 					</div>
+					@if($errors->has('name'))
+                    <p style="color:red;">
+                        {{$errors->first('name')}}
+                    </p>
+                    @endif
 					<div class="form-group">
 						<label for="email">Email address: </label>
 						<input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" value="{{Auth::user()->email}}">
 					</div>
+					@if($errors->has('email'))
+                    <p style="color:red;">
+                        {{$errors->first('email')}}
+                    </p>
+                    @endif
 					<div class="form-group">
 						<label for="phone">Phone: </label>
 						<input type="text" class="form-control" name="phone" id="phone" value="{{Auth::user()->phone}}">
 					</div>
+					@if($errors->has('phone'))
+                    <p style="color:red;">
+                        {{$errors->first('phone')}}
+                    </p>
+                    @endif
 					<div class="form-group">
 						<label for="address">Address</label>
 						<input type="text" class="form-control" name="address" id="address" value="{{Auth::user()->address}}">
 					</div>
+					@if($errors->has('address'))
+                    <p style="color:red;">
+                        {{$errors->first('address')}}
+                    </p>
+                    @endif
 					<div class="form-group">
 						<label for="note">Note</label>
 						<input type="text" class="form-control" name="note" id="note">
 					</div>
+					@if($errors->has('note'))
+                    <p style="color:red;">
+                        {{$errors->first('note')}}
+                    </p>
+                    @endif
 				</div>
 				@endif
 
@@ -138,20 +188,25 @@
 			$.ajax({
 				type: 'POST',
 				url: '/api/order',
-				data: {"cart" : cart,
-					'_token' : $("#token").val(),
-					'name' : $("#name").val(),
-					'email' : $("#email").val(),
-					'address' : $("#address").val(),
-					'phone' : $("#phone").val(),
-					'user_id' : $("#user_id").val()
-				
+				data: {
+					'cart': cart,
+					'_token': $("#token").val(),
+					'name': $("#name").val(),
+					'email': $("#email").val(),
+					'address': $("#address").val(),
+					'phone': $("#phone").val(),
+					'user_id': $("#user_id").val()
+
 				},
 				success: function(res) {
 					console.log('Submission was successful.');
 					console.log(res);
 					console.log(cart);
 					alert('Order Successful');
+					localStorage.removeItem('cart');
+					// location.reload();
+					window.location="{{route('show-cart-empty')}}";
+
 				},
 				error: function(data) {
 					console.log(JSON.stringify(data));
@@ -159,7 +214,6 @@
 					console.log(cart);
 				},
 			});
-
 		});
 	});
 </script>
