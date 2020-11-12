@@ -70,28 +70,31 @@ class RoleController extends Controller
        
         $role = Role::with('permissions')->find($id);
         $arrayPermission = $role->getPermissionNames()->toArray();
-        foreach ($request->only('permissions') as $p) {
-            $x= array_merge($arrayPermission,$p);
+        if(empty($request->only('permissions'))){
+            foreach ($arrayPermission as $permission) {
+                $role->revokePermissionTo($permission);
+            }        
+        }else{
+            foreach ($request->only('permissions') as $permission) {
+           
+                $role->syncPermissions($permission);
+            }
         }
-        $role->syncPermissions($x);
-        
+         
         return redirect()->route('admin.roles.list');
     }
 
-    public function showRevoke($id){
-        $role = Role::with('permissions')->find($id);
-        $permissions = Permission::all();
-
-        return view('admin.roles.revokePermission',compact('role','permissions'));
-    }
-
-    public function revokePermission(Request $request,$id){
-        $role = Role::with('permissions')->find($id);
-        foreach ($request->only('permissions') as $permission) {
-             $x=$role->revokePermissionTo($permission);
+    public function viewDetail(Request $request,$id){
+        if($request->ajax()){
+            $roles = Role::find($id);
+            
+            $html = view('admin.components.role',compact(['roles']))->render();
+            // foreach($orders as $order){
+            //     dd($order->products->toArray());
+            // }
+            
+            return response()->json($html);
         }
-        
-        return redirect()->route('admin.roles.list');
     }
 
     public function test(){

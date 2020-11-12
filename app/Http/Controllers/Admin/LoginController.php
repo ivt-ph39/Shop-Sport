@@ -11,14 +11,15 @@ use Spatie\Permission\Traits\HasRoles;
 
 class LoginController extends Controller
 {
+    
     public function __construct()
     {
-        // $this->middleware('is.admin');
+        $this->middleware('is.admin');
     }
 
     public function show()
     {
-        if (Auth::check() && Auth::user()->hasRole(['admin'])) { 
+        if (Auth::check() && Auth::user()->hasRole(['admin','mod'])) { 
 
             return view('admin.main')->with('error','Login Fail');
         }    

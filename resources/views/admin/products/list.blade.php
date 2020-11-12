@@ -56,10 +56,13 @@
                 @foreach($product->images as $key=>$img)
                 @if($key ===0)
                  <img style=" height: 80px;width: 80px;" 
-                    src="/{{$img->path}}" alt="">
+                    src="{{$img->path}}" alt="">
+                    
+                   
+                    
                     @endif
                     @endforeach
-
+                    {{-- <p><img alt="" src="http://127.0.0.1:8089/storage/photos/1/R1-R2.png" style="height:80px; width:80px" /> --}}
            </div>
         
         </td>
@@ -126,7 +129,25 @@
         });
 
     </script>
+ <script>
+    $(document).ready(function() {
+        var warn_on_unload = "";
+        $('input:text,input:checkbox,input:radio,textarea,select').one('change', function() {
+            warn_on_unload = "Leaving this page will cause any unsaved data to be lost.";
 
+            $('#updateBtn').click(function(e) {
+                warn_on_unload = "";
+            });
+
+            window.onbeforeunload = function() {
+                if (warn_on_unload != '') {
+                    return warn_on_unload;
+                }
+            }
+        });
+    });
+
+</script>
 
 
 <script>

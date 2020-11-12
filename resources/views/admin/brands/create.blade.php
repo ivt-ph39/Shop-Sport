@@ -16,26 +16,30 @@
 </div>
 
 
-<input type="submit" value="Create brand" class="btn btn-primary">
+<input type="submit" id="createBtn" value="Create brand" class="btn btn-primary">
 </form>
 @endsection
 @section('script')
- <script>
-    $(document).ready(function() {
-    needToConfirm = false; 
-    window.onbeforeunload = askConfirm;
-});
 
-function askConfirm() {
-    if (needToConfirm) {
-        // Put your custom message here 
-        return "Your unsaved data will be lost."; 
-    }
-}
+   <script>
+        $(document).ready(function() {
+            var warn_on_unload = "";
+            $('input:text,input:checkbox,input:radio,textarea,select').one('change', function() {
+                warn_on_unload = "Leaving this page will cause any unsaved data to be lost.";
 
-$("select,input,textarea").change(function() {
-    needToConfirm = true;
-});
+                $('#createBtn').click(function(e) {
+                    warn_on_unload = "";
+                });
+
+                window.onbeforeunload = function() {
+                    if (warn_on_unload != '') {
+                        return warn_on_unload;
+                    }
+                }
+            });
+        });
+
     </script>
+   
 
 @endsection

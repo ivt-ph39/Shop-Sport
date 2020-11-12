@@ -8,7 +8,7 @@
     <label>Name</label>
     <input type="text" name="name" value="{{$permission->name}}" class="form-control">
 
-    <input type="submit" value="Update" class="btn btn-dark">
+    <input type="submit" id="btnUpdate" value="Update" class="btn btn-dark">
 </div>
 </form>
 
@@ -22,7 +22,7 @@
     {
         warn_on_unload = "Leaving this page will cause any unsaved data to be lost.";
 
-        $('#createBtn').click(function(e) { 
+        $('#btnUpdate').click(function(e) { 
             warn_on_unload = "";}); 
 
             window.onbeforeunload = function() { 
