@@ -38,6 +38,7 @@
         <a href="{{ route('admin.permissions.list') }}" class="list-group-item list-group-item-action bg-light">Permission</a>
         <a href="{{ route('admin.brands.list') }}" class="list-group-item list-group-item-action bg-light">Brand</a>
         <a href="{{ route('admin.sales.list') }}" class="list-group-item list-group-item-action bg-light">Sale</a>
+        <a href="{{ route('admin.gallery_image') }}" class="list-group-item list-group-item-action bg-light">Gallery</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -89,12 +90,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js"></script>
+  <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
   <script>
     var options = {
       filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-      filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+      filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{ csrf_token() }}',
       filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{ csrf_token() }}'
     };
   </script>
   

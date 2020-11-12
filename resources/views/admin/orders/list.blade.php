@@ -45,7 +45,15 @@
                     <td>{{ $order->name }}</td>
                     <td>{{ $order->address }}</td>
                     <td>{{ $order->phone }}</td>
-                    <td>${{ $order->total }}</td>
+                    <td>$ @php
+                        $total =0;
+                       
+                        foreach($order->products as $item){
+                                $total+=$item->price * $item->pivot->quantity;
+                        }
+                        echo $total;
+                    
+                    @endphp</td>
                     <td>{{ $order->note }}</td>
                     <td>
                         @if ($order->status_id == 1)

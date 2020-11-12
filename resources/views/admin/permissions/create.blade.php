@@ -11,7 +11,7 @@
         @endif
     </div>
 
-    <input type="submit" value="Create role" class="btn btn-primary">
+    <input type="submit" id="createBtn" value="Create role" class="btn btn-primary">
 </form>
 @endsection
 

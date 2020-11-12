@@ -57,10 +57,17 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $data = $request->all();
-        // dd($data);
-        $this->productRepo->create($data);
+        $img = $request->img_product;
+        $this->productRepo->create($data);    
+        $product = Product::orderBy('id','desc')->first();
 
-        // $this->productRepo->create($data);
+        $data_img =   [
+            'path'=>$img,
+            'imageable_id'=>$product->id,
+            'imageable_type'=>'App\Product'
+        ];
+        Image::create($data_img);
+   
         return redirect()->route('admin.products.list')
         ->with('success','Product created successfully!');
     }
@@ -76,6 +83,7 @@ class ProductController extends Controller
         //
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -85,8 +93,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = $this->productRepo->find($id);
-
-        return view('admin.products.edit', compact('product'));
+        $brands =Brand::all();
+        $sales = Sale::all();
+        return view('admin.products.edit', compact(['product','brands','sales']));
     }
 
     /**
@@ -99,27 +108,23 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = $this->productRepo->find($id);
-        $data = $request->except(['img_product','id']);
-        // $image = new Image();
-       if($request->hasFile('img_product'))
+        $data = $request->except(['img_product','old_img_id']);
+        // dd($request->img_product);
+        // dd(isset($request->img_product));
+       
+       if($request->img_product)
        {
-        // Upload image
-        $file = $request->img_product;
-        $imgName = $file->getClientOriginalName();            
-        $file->move('images', $imgName); 
-
         // Update new image to Image DB
-        Image::find($request->id)->update(
+        Image::find($request->old_img_id)->update(
             [
-                'path'=>'images/'.$request->img_product->getClientOriginalName(),
+                'path'=> $request->img_product,
                 'imageable_id'=>$id,
                 'imageable_type'=>'App\Product'
             ]
         );
 
-        // Update Product
+        //Update Product
         $product->update($data);
-
        }else{
            
            $product->update($data);
@@ -166,5 +171,7 @@ class ProductController extends Controller
         // dd();
         return view('admin.users.listSearch',compact('users'));
     }
+
+    
 
 }

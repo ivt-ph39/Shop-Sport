@@ -30,6 +30,17 @@
                     </form></td>
                 </tr>
             @endforeach
+            @php
+            $total =0;
+            
+            foreach($order->products as $item){
+                    $total+=$item->pivot->price;
+            }
+            echo $total;
+        
+    @endphp
         @endforeach
+       
+   
     </tbody>
 </table>
