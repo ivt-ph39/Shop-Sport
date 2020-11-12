@@ -29,7 +29,7 @@
         </div>
 
         <!-- markup -->
-<textarea id="my-editor" name="content" class="form-control">{!! old('content', 'test editor content') !!}</textarea>
+        <textarea id="my-editor" name="img_product" class="form-control"></textarea>
 
         <div class="form-group">
             <label for="">Brand</label>
@@ -59,10 +59,7 @@
                 @endforeach
             </select>
         </div>
-
-
-
-        <input type="submit" value="Create Product" class="btn btn-primary">
+        <input type="submit" id="createBtn" value="Create Product" class="btn btn-primary">
     </form>
 @endsection
 
@@ -86,11 +83,30 @@
         });
 
     </script>
- 
- <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
- 
+
 <script>
-CKEDITOR.replace('my-editor', options);
+    $(document).ready(function() {
+        var warn_on_unload = "";
+        $('input:text,input:checkbox,input:radio,textarea,select').one('change', function() {
+            warn_on_unload = "Leaving this page will cause any unsaved data to be lost.";
+
+            $('#updateBtn').click(function(e) {
+                warn_on_unload = "";
+            });
+
+            window.onbeforeunload = function() {
+                if (warn_on_unload != '') {
+                    return warn_on_unload;
+                }
+            }
+        });
+    });
+
 </script>
+
+    <script>
+        CKEDITOR.replace('my-editor', options);
+        CKEDITOR.config.disallowedContent = 'p';
+    </script>
 
 @endsection

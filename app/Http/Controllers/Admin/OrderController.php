@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\Product;
+
 use Illuminate\Http\Request;
 
 
@@ -32,6 +33,8 @@ class OrderController extends Controller
             return response()->json($html);
         }
     }
+
+   
 
     public function actionOrder($id){
         $order = Order::with('products')->find($id);

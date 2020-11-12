@@ -127,6 +127,7 @@ Route::group(
 
         Route::get('/products/{id}', 'ProductController@productDetail')->name('products.detail');
 
+        Route::post('/products/upload', 'ProductController@upload')->name('products.upload');
         
         //User
 
@@ -176,11 +177,7 @@ Route::group(
         Route::get('/role/{id}/showAssign', 'RoleController@showAssign')->name('roles.assign.list');
 
         Route::post('/role/{id}/assignPermission', 'RoleController@assignPermission')->name('roles.assign');
-
-        Route::get('/role/{id}/showRevoke', 'RoleController@showRevoke')->name('roles.revoke.list');
-
-        Route::post('/role/{id}/revokePermission', 'RoleController@revokePermission')->name('roles.revoke');
-
+        Route::get('role/viewDetail/{id}', 'RoleController@viewDetail')->name('roles.view');
 
         // Permission
         Route::get('permissions','PermissionController@showListPermission')
@@ -229,7 +226,13 @@ Route::group(
 
         Route::delete('/sales/{id}', 'SaleController@destroy')->name('sales.delete');
 
-
+        // Gallery 
+        Route::get('gallery_image',function(){
+            return view('admin.gallery_image.gallery');
+        })->name('gallery_image');
+        // Route::post('gallery', function ($id) {
+            
+        // });
 
 
         // TESSSSSSSSSSSSSSSSSSSST

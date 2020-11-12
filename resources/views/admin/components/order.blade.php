@@ -31,5 +31,14 @@
                 </tr>
             @endforeach
         @endforeach
+        @php
+        $total =0;
+        foreach ($orders as $order){
+        foreach($order->products as $item){
+                $total+=$item->price * $item->pivot->quantity;
+        }
+        echo $total;
+    }
+    @endphp
     </tbody>
 </table>

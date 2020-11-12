@@ -59,8 +59,9 @@ class UserController extends Controller
     {
         $data = $request->except(['role']);
         $role =$request->only('role');
-        $request->password = bcrypt($request->password);
-
+        
+        $data['password']=bcrypt($request->password);
+        dd($data);
         User::create($data);
         $user = User::with('roles')->orderBy('id','desc')->first();
         $user->assignRole('customer');
