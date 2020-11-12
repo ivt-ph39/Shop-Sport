@@ -30,15 +30,17 @@
                     </form></td>
                 </tr>
             @endforeach
-        @endforeach
-        @php
-        $total =0;
-        foreach ($orders as $order){
-        foreach($order->products as $item){
-                $total+=$item->price * $item->pivot->quantity;
-        }
-        echo $total;
-    }
+            @php
+            $total =0;
+            
+            foreach($order->products as $item){
+                    $total+=$item->pivot->price;
+            }
+            echo $total;
+        
     @endphp
+        @endforeach
+       
+   
     </tbody>
 </table>

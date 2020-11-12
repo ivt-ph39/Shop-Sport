@@ -47,7 +47,7 @@
                     <td>{{ $order->phone }}</td>
                     <td>$ @php
                         $total =0;
-                        
+                       
                         foreach($order->products as $item){
                                 $total+=$item->price * $item->pivot->quantity;
                         }
