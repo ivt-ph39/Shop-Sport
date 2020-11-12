@@ -36,7 +36,22 @@
                             </tr>
                             @endforeach
                             <td>
-                            @if ($order->status_id == 1)
+                            
+                                </td>
+                                <td></td>
+                                <td>$
+                                @php
+                        $total =0;
+                        
+                        foreach($order->products as $item){
+                                $total+=$item->pivot->price;
+                        }
+                        echo $total;
+                    
+                    @endphp
+                                </td>
+                                <td>
+                                @if ($order->status_id == 1)
                                 <p class="badge badge-secondary">Pending</p>
                                 <a href="{{ route('orders-cancel', $order->id) }}" class="badge badge-secondary">Cancel</a>
                             @elseif($order->status_id ==2)
