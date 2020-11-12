@@ -25,11 +25,7 @@
         <thead>
             <tr>
                 <th>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="">
-                        </label>
-                    </div>
+                    
                 </th>
                 <th>ID</th>
                 <th>Name</th>
@@ -41,11 +37,7 @@
             @foreach ($categories as $category)
                 <tr>
                     <td>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="">
-                            </label>
-                        </div>
+                        
                     </td>
                     <td>{{ $category->id }}</td>
                     <td><a href="{{ route('admin.categories.list-product', $category->id) }}" id="{{ $category->id }}">                          
@@ -55,7 +47,7 @@
                                 @else 
                                 {{"--".$category->name }} 
                             @endif
-                {{-- {{$category->name}} --}}
+                
                 </a></td>
                 <td><a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-dark"
                         role="button">Edit</a></td>

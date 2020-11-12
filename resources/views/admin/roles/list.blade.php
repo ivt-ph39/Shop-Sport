@@ -1,6 +1,22 @@
 @extends('admin.main')
 
 @section('content')
+@if (session('success'))
+<div class="alert alert-success alert-dismissible" style="width:500px;float:right;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{session('success')}}</strong> 
+  </div>
+  @elseif(session('delete'))
+  <div class="alert alert-success alert-dismissible" style="width:300px;float:right;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{session('delete')}}</strong> 
+  </div>
+  @elseif(session('update'))
+  <div class="alert alert-success alert-dismissible" style="width:300px;float:right;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{session('update')}}</strong> 
+  </div>
+@endif
     <h1>List Role</h1>
 
 
@@ -32,7 +48,7 @@
                         <form action="{{ route('admin.roles.delete', $role->id) }}" method="post">
                             {{ @csrf_field() }}
                             @method('DELETE')
-                            <input type="submit" class="btn btn-danger" value="Delete">
+                            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure to delete?')">
                         </form>
                     </td>
                 </tr>

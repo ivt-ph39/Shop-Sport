@@ -22,7 +22,7 @@
             <strong>{{ session('error') }}</strong>
         </div>
     @endif
-    <h1>List Role</h1>
+    <h1>List Permission</h1>
 
     <button type="button" class="btn btn-dark" style="margin-bottom: 1em">
         <a href="{{ route('admin.permissions.create') }}">Add Permission</a></button>
@@ -31,7 +31,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Role name</th>
+                <th>Permission name</th>
                 <th colspan="4">Action</th>
             </tr>
         </thead>

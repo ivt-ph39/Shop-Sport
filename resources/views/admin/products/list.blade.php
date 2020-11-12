@@ -50,7 +50,7 @@
         {{$product->name}}
         </a></td>
         <td>{{$product->quantity}}</td>
-        <td>{{$product->price}}</td>
+        <td>${{$product->price}}</td>
         <td><div >
             
                 @foreach($product->images as $key=>$img)

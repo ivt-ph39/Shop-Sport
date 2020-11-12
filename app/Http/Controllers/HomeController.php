@@ -25,29 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $order = Order::where('id',50)->get();
-        // $products = 
-        // dd($order->toArray());
-        // $d = [
-        //     'name' => 'Name',
-        //     'email' =>'Name@gmail.com',        
-        // ];
-
-        // $dd = array('products' => $products->toArray());
-        // $d[]=$dd;
-        // $d['products'] = $products->toArray();
-        // $d1=array_push($d,$dd);
-        // $d = array($products->toArray());
-        // dd($d);
-
-        // $orderDetail = OrderProduct::where('order_id',50)->get();
-        // dd($orderDetail->toArray());
-        // $d['orderDetail'] = $orderDetail->toArray();
-
-        // dd($d);
-
-
-
+        dd(bcrypt(123123123));
         $categories = Category::with('children')->get();
         // return $categories;
         $brands = Brand::all();

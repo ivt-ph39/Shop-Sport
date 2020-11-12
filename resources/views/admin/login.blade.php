@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('error'))
+<div class="alert alert-success alert-dismissible" style="width:500px;float:right;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{session('error')}}</strong> 
+  </div>
+  @endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -70,4 +76,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(".alert-dismissible").fadeTo(1500, 100).slideUp(500, function(){
+        $(".alert-dismissible").alert('close');
+    });
+     </script>
 @endsection

@@ -30,10 +30,8 @@ class OrderController extends Controller
 
     public function deleteOrder($id){
         $order = Order::with('products')->find($id);
-        // dd($order->products->toArray());
-        
         $order->delete();
-
+        
         return redirect()->back()->with('success','Deleted');
     }
 
@@ -85,9 +83,9 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function editOrder($id)
     {
-        //
+        
     }
 
     /**

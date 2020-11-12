@@ -16,8 +16,8 @@ class OrderController extends Controller
         // $this->middleware('is.admin');
     }
     public function showOrder(){
-        $orders = Order::with(['products'])->get();
-        // dd($orders->toArray());
+        $orders = Order::with(['products'])->orderBy('id','desc')->paginate(10);
+        
         return view('admin.orders.list',compact('orders'));
     }
 
@@ -26,9 +26,7 @@ class OrderController extends Controller
             $orders = Order::with(['products'])->get();
             
             $html = view('admin.components.order',compact(['orders']))->render();
-            // foreach($orders as $order){
-            //     dd($order->products->toArray());
-            // }
+           
             
             return response()->json($html);
         }
@@ -66,8 +64,29 @@ class OrderController extends Controller
         }else{
             return redirect()->route('admin.orders.list')
         ->with('error','Cannot delete this order!');
-        }
-        
-        
+        }     
+    }
+
+    public function editOrder($id)
+    {
+        $order = Order::find($id);
+        return view('admin.orders.edit', compact('order'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOrder(Request $request, $id)
+    {
+        // DB::enableQueryLog();
+        $order = Order::find($id);
+        $data = $request->all();
+        $order->update($data);
+        return redirect()->route('admin.orders.list')
+            ->with('update', 'Order updated successfully!');
     }
 }

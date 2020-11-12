@@ -19,7 +19,7 @@ class ProductController extends Controller
 
     public function __construct(ProductRepository $product)
     {
-        $this->middleware('is.admin');
+        // $this->middleware('is.admin');
         $this->productRepo = $product;
     }
     /**

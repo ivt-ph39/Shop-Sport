@@ -47,12 +47,12 @@
                     <td>{{ $order->phone }}</td>
                     <td>$ @php
                         $total =0;
-                        foreach ($orders as $order){
+                        
                         foreach($order->products as $item){
                                 $total+=$item->price * $item->pivot->quantity;
                         }
                         echo $total;
-                    }
+                    
                     @endphp</td>
                     <td>{{ $order->note }}</td>
                     <td>
@@ -70,13 +70,13 @@
                     <td>
                     <a href="{{ route('admin.orders.view') }}" data-id="{{$order->id}}" class="order_items btn btn-info">Info</a>
                     </td>
-                    <td><a href="">Edit</a></td>
+                    <td><a href="{{ route('admin.orders.edit',$order->id) }}">Edit</a></td>
                     <td>
                         
                         <form action="{{ route('admin.orders.delete',$order->id  ) }}" method="post">
                             {{ @csrf_field() }}
                             @method('DELETE')
-                            <input type="submit" value="Delete">
+                            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure to delete?')">
                         </form>
                         
                     </td>
@@ -85,6 +85,10 @@
         </tbody>
     </table>
 
+    {{-- Pagination --}}
+    <div>
+        {{ $orders->links() }}
+    </div>
     <!-- The Modal -->
     <div class="modal" id="myModalOrder">
         <div class="modal-dialog modal-lg">

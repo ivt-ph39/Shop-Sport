@@ -7,21 +7,21 @@
 
 
         <div class="form-group">
-            <label for="">Name:</label>
+            <label for="">Name<span style="color: red">(*)</span>:</label>
             <input type="text" name="name" id="" class="form-control">
             @if ($errors->has('name'))
                 <p style="color:red">{{ $errors->first('name') }}</p>
             @endif
         </div>
         <div class="form-group">
-            <label for="">Quantity:</label>
+            <label for="">Quantity<span style="color: red">(*)</span>:</label>
             <input type="number" name="quantity" id="" class="form-control">
             @if ($errors->has('quantity'))
                 <p style="color:red">{{ $errors->first('quantity') }}</p>
             @endif
         </div>
         <div class="form-group">
-            <label for="">Price:</label>
+            <label for="">Price<span style="color: red">(*)</span>:</label>
             <input type="number" name="price" id="" class="form-control">
             @if ($errors->has('price'))
                 <p style="color:red">{{ $errors->first('price') }}</p>
@@ -32,7 +32,7 @@
         <textarea id="my-editor" name="img_product" class="form-control"></textarea>
 
         <div class="form-group">
-            <label for="">Brand</label>
+            <label for="">Brand<span style="color: red">(*)</span>:</label>
             <select name="brand_id" id="">
                 @foreach ($brands as $brand)
                     <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -40,7 +40,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="">Sale</label>
+            <label for="">Sale<span style="color: red">(*)</span>:</label>
             <select name="sale_id" id="">
                 @foreach ($sales as $sale)
                     <option value="{{ $sale->id }}">{{ $sale->title }}</option>

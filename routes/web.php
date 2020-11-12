@@ -200,6 +200,9 @@ Route::group(
         Route::get('order/view', 'OrderController@viewOrder')->name('orders.view');
         Route::get('order/active/{id}', 'OrderController@actionOrder')->name('orders.active');
         Route::delete('order/{id}', 'OrderController@deleteOrder')->name('orders.delete');
+        Route::get('/order/{id}/edit', 'OrderController@editOrder')->name('orders.edit');
+
+        Route::put('/order/{id}/update', 'OrderController@updateOrder')->name('orders.update');
         //Brand 
          Route::get('/brands', 'BrandController@index')->name('brands.list');
 

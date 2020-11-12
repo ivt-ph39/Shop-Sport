@@ -16,7 +16,7 @@
 
     <label>Phone</label>
     <input type="text" name="phone" value="{{$user->phone}}" class="form-control">
-
+<br>
     
     <input type="submit" id="updateBtn" value="Update" class="btn btn-dark">
 </div>

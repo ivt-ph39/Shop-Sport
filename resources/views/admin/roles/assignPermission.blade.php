@@ -10,15 +10,16 @@
     <input type="text" name="name" value="{{$role->name}}" class="form-control" disabled><br>
     <label>Permission Name</label><br>
     <div class="container" style="border:2px solid #ccc; width:100%;  overflow-x: auto;padding-left: 5em;margin-left:0">
-        
+        <input type="checkbox" id="select-all" /> <b>Select All</b><br/>
+
         @foreach ($permissions as $item)
                   @if ($role->getPermissionNames()->contains($item->name))
                   <div class="checkbox" >
-                    <label><input type="checkbox" name="permissions[]" value="{{$item->name}}" checked > {{$item->name}}</label>
+                    <label><input type="checkbox" id="permissions" name="permissions[]" value="{{$item->name}}" checked > {{$item->name}}</label>
                   </div>
                     @else 
                     <div class="checkbox">
-                        <label><input type="checkbox" name="permissions[]" value="{{$item->name}}"> {{$item->name}}</label>
+                        <label><input type="checkbox" id="permissions" name="permissions[]" value="{{$item->name}}"> {{$item->name}}</label>
                       </div>
                   @endif
                  
@@ -51,4 +52,24 @@
     });
 
 </script>
+
+
+
+<script>
+$('#select-all').click(function(event) {   
+    if(this.checked) {
+        // Iterate each checkbox
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    } else {
+        $(':checkbox').each(function() {
+            this.checked = false;                       
+        });
+    }
+});
+</script>
+
+
+
 @endsection

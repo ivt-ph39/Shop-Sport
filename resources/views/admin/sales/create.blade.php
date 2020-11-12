@@ -6,7 +6,7 @@
 {{@csrf_field()}}
 
 <div class="form-group">
-    <label for="">Title:</label>
+    <label for="">Title<span style="color: red">(*)</span>:</label>
     <input type="text" name="title" id="" class="form-control">
     @if($errors->has('namtitlee'))
         <p style="color:red">{{$errors->first('title')}}</p>
@@ -14,7 +14,7 @@
 </div>
 
 <div class="form-group">
-    <label for="">Content:</label>
+    <label for="">Content<span style="color: red">(*)</span>:</label>
     <input type="text" name="content" id="" class="form-control">
     @if($errors->has('content'))
         <p style="color:red">{{$errors->first('content')}}</p>
@@ -22,7 +22,7 @@
 </div>
 
 <div class="form-group">
-    <label for="">Discount:</label>
+    <label for="">Discount<span style="color: red">(*)</span>:</label>
     <input type="text" name="discount" id="" class="form-control">
     @if($errors->has('discount'))
         <p style="color:red">{{$errors->first('discount')}}</p>
@@ -30,7 +30,7 @@
 </div>
 
 <div class="form-group">
-    <label for="">Start day:</label>
+    <label for="">Start day<span style="color: red">(*)</span>:</label>
     <input type="text" name="start_day" id="" class="form-control">
     @if($errors->has('start_day'))
         <p style="color:red">{{$errors->first('start_day')}}</p>
@@ -38,7 +38,7 @@
 </div>
 
 <div class="form-group">
-    <label for="">End day:</label>
+    <label for="">End day<span style="color: red">(*)</span>:</label>
     <input type="text" name="end_day" id="" class="form-control">
     @if($errors->has('end_day'))
         <p style="color:red">{{$errors->first('end_day')}}</p>

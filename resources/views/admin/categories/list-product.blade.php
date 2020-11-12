@@ -12,6 +12,9 @@
         </tr>
     </thead>
     <tbody>
+        @if (($category->products)!== null)
+            
+        
         @foreach($category->products as $product)
         <tr>
             <td>{{$product->id}}</td>
@@ -28,6 +31,8 @@
             </td>
         </tr>
         @endforeach
+        @else <h3>No products</h3>
+        @endif
     </tbody>
 </table>
 

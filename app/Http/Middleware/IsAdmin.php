@@ -22,7 +22,7 @@ class IsAdmin
     public function handle($request, Closure $next)
     {
         
-        if(Auth::check() && Auth::user()->hasRole(['admin','mod'])){
+        if(Auth::check() && Auth::user()->id == $request->id){
             return $next($request);         
         }
         return redirect()->back();

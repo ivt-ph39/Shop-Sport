@@ -8,6 +8,7 @@ use App\Category;
 use App\Product;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Order;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
@@ -16,7 +17,7 @@ class CategoryController extends Controller
 
     public function __construct(CategoryRepository $category)
     {
-        $this->middleware('is.admin');
+        // $this->middleware('is.admin');
         $this->categoryRepo = $category;
     }
 
@@ -105,8 +106,21 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        // $cate = Category::with('products')->find($id);
+        // $pro = Product::with(['category','orders'])->get();
+        // dd($pro->category);
+        // // if($cate->products->contains($pro->orders))
+        
+        // dd($cate->products->pivot->orders);
+        // if(count($cate->products) <0){
+        //     dd(1);
+        //     $this->categoryRepo->deleteX($id);
+        // }elseif($pro->orders){
+        //     dd(2);
+        // }
+        
         $this->categoryRepo->deleteX($id);
-
+        
         return redirect()->route('admin.categories.list')
             ->with('delete', 'Category deleted successfully!');
     }

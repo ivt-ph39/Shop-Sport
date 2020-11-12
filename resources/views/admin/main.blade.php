@@ -75,7 +75,14 @@
           </ul>
         </div>
       </nav>
-
+      @if (session('success'))
+          <div class="alert alert-success alert-dismissible" style="width:500px;float:right;">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <strong>{{ session('success') }}</strong>
+          </div>
+          @endif
+      @section('content')
+      
       <div class="container-fluid">
         @yield('content')
       </div>
@@ -110,10 +117,14 @@
     });
   </script>
 
-<script>
-  
 
-</script>
+  <script>
+    $(".alert-dismissible").fadeTo(1500, 100).slideUp(500, function(){
+        $(".alert-dismissible").alert('close');
+    });
+     </script>
+
+
 </body>
 
 </html>

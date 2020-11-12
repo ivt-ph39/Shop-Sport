@@ -9,7 +9,7 @@ class PermissionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('is.admin');
+        // $this->middleware('is.admin');
     }
      // Permission
      public function showListPermission(){  

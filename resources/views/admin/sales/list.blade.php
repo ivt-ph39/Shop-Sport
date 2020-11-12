@@ -39,9 +39,7 @@
             @foreach ($sales as $sale)
                 <tr>
                     <td>{{ $sale->id }}</td>
-                    <td><a href="{{--route('admin.sales.list-product',$sale->id)--}}"
-                            id="{{ $sale->id }}" class="abc">
-                            {{ $sale->title }}</a></td>
+                    <td>{{ $sale->title }}</td>
                     <td>{{ $sale->content }}</td>
                     <td>{{$sale->discount *100}}%</td>
                     <td>{{$sale->start_day}}</td>

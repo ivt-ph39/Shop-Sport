@@ -4,7 +4,7 @@
 <form action="{{route('admin.roles.store')}}" method="post" style="width: 50%;">
     {{@csrf_field()}} 
     <div class="form-group">
-        <label for="">Name:</label>
+        <label for="">Name<span style="color: red">(*)</span>:</label>
         <input type="text" name="name" id="" class="form-control">
         @if($errors->has('name'))
         <p style="color:red">{{$errors->first('name')}}</p>

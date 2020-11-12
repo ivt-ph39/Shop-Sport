@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function __construct(UserRepository $user)
     {
-        $this->middleware('is.admin');
+        // $this->middleware('is.admin');
         $this->userRepo = $user;
     }
     /**

@@ -7,7 +7,7 @@
 
 
 <div class="form-group">
-    <label for="">Name:</label>
+    <label for="">Name<span style="color: red">(*)</span>:</label>
     <input type="text" name="name" id="" class="form-control">
     
     @if($errors->has('name'))
