@@ -11,6 +11,7 @@ use App\Slide;
 use App\Sale;
 use App\Mail\OrderConfirmMail;
 use App\Order;
+use App\User;
 use App\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -247,5 +248,10 @@ class HomeController extends Controller
             $html = view('product-viewed.list-product', compact('products'))->render();
             return response()->json(['data' => $html]);
         }
+    }
+
+    public function test(){
+        $user = User::find(1);
+        $user->assignRole('admin');
     }
 }

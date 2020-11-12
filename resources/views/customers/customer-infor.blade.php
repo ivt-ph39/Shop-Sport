@@ -34,7 +34,39 @@
                                 <td>{{$pro->pivot->quantity}} </td>
                                 <td>{{$pro->pivot->price}} </td>
                             </tr>
-                        @endforeach
+                            @endforeach
+                            <td>
+                            
+                                </td>
+                                <td></td>
+                                <td>$
+                                @php
+                        $total =0;
+                        
+                        foreach($order->products as $item){
+                                $total+=$item->pivot->price;
+                        }
+                        echo $total;
+                    
+                    @endphp
+                                </td>
+                                <td>
+                                @if ($order->status_id == 1)
+                                <p class="badge badge-secondary">Pending</p>
+                                <a href="{{ route('orders-cancel', $order->id) }}" class="badge badge-secondary">Cancel</a>
+                            @elseif($order->status_id ==2)
+                                <p class="badge badge-primary">Approved</p>
+                                <a href="{{ route('orders-done', $order->id) }}" class="badge badge-secondary">Received</a>
+                            @elseif($order->status_id ==3)
+                                <p class="badge badge-warning">Canceled</p>
+                                <a href="{{ route('orders-delete', $order->id) }}" class="badge badge-secondary">Delete</a>
+                            @elseif($order->status_id ==4)
+                                <p class="badge badge-danger">Deleted</p>
+                            @elseif($order->status_id ==5)
+                                <p class="badge badge-success">Done</p>
+                            @endif
+                                </td>
+                        
                         </tr>
 
                         @endforeach

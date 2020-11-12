@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\RegisterRequest;
+use Spatie\Permission\Contracts\Role;
 
 class RegisterController extends Controller
 {
@@ -87,7 +88,7 @@ class RegisterController extends Controller
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
         auth()->login($user);
-        $user->roles()->attach(3);
+        $user->assignRole('customer');
 
         return redirect()->route('homepage');
     }
