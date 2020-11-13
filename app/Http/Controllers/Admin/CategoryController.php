@@ -9,6 +9,7 @@ use App\Product;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Order;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
@@ -23,24 +24,24 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')->paginate(10);  
-    //    foreach ($categories as $value) {
-    //       if(!$value->parent_id){
-    //           dd('sadsa');
-    //       }
-    //    }
+        $categories = Category::orderBy('id', 'desc')->paginate(5);
+        //    foreach ($categories as $value) {
+        //       if(!$value->parent_id){
+        //           dd('sadsa');
+        //       }
+        //    }
         return view('admin.categories.list', compact('categories'));
     }
 
     public function create()
     {
-        $categories = Category::with('children')->orderBy('id', 'DESC')->get();
+        $categories = Category::with('children')->get();
 
-        $c =Category::select('id','name','parent_id')->get()->toArray();
-        $x=$this->categoryRepo->cate_parent($c);
-        
+        $c = Category::select('id', 'name', 'parent_id')->get()->toArray();
+        $x = $this->categoryRepo->cate_parent($c);
+
         // dd($x);
-        return view('admin.categories.create', compact('categories','x'));
+        return view('admin.categories.create', compact('categories', 'x'));
     }
 
     /**
@@ -106,23 +107,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        // $cate = Category::with('products')->find($id);
-        // $pro = Product::with(['category','orders'])->get();
-        // dd($pro->category);
-        // // if($cate->products->contains($pro->orders))
-        
-        // dd($cate->products->pivot->orders);
-        // if(count($cate->products) <0){
-        //     dd(1);
-        //     $this->categoryRepo->deleteX($id);
-        // }elseif($pro->orders){
-        //     dd(2);
-        // }
-        
-        $this->categoryRepo->deleteX($id);
-        
-        return redirect()->route('admin.categories.list')
-            ->with('delete', 'Category deleted successfully!');
+        return $this->categoryRepo->deleteX($id);
     }
 
     public function listProductByCategoryID($id)
@@ -132,8 +117,4 @@ class CategoryController extends Controller
 
         return view('admin.categories.list-product', compact('category'));
     }
-
- 
-      
-   
 }

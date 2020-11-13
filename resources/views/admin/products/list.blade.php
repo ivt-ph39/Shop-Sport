@@ -6,7 +6,7 @@
     <strong>{{session('success')}}</strong> 
   </div>
   @elseif(session('delete'))
-  <div class="alert alert-success alert-dismissible" style="width:300px;float:right;">
+  <div class="alert alert-danger alert-dismissible" style="width:300px;float:right;">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <strong>{{session('delete')}}</strong> 
   </div>
@@ -14,6 +14,11 @@
   <div class="alert alert-success alert-dismissible" style="width:300px;float:right;">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <strong>{{session('update')}}</strong> 
+  </div>
+  @elseif(session('warning'))
+  <div class="alert alert-warning alert-dismissible" style="width:300px;float:right;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{session('warning')}}</strong> 
   </div>
 @endif
 <h1>List product </h1>

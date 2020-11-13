@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
 use App\Sale;
+use App\Order;
 use App\Image;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Eloquent\ProductRepository;
@@ -29,7 +30,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('images')->orderBy('id','DESC')->paginate(5);
+        $products = Product::with('images')->orderBy('id', 'DESC')->paginate(5);
 
         return view('admin.products.list', compact('products'));
     }
@@ -41,11 +42,13 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('id','DESC')->get();
-        $brands =Brand::all();
+        $categories = Category::orderBy('id', 'DESC')->get();
+        $brands = Brand::all();
         $sales = Sale::all();
-        return view('admin.products.create', 
-        compact(['categories','brands','sales']));
+        return view(
+            'admin.products.create',
+            compact(['categories', 'brands', 'sales'])
+        );
     }
 
     /**
@@ -58,18 +61,19 @@ class ProductController extends Controller
     {
         $data = $request->all();
         $img = $request->img_product;
-        $this->productRepo->create($data);    
-        $product = Product::orderBy('id','desc')->first();
+        $this->productRepo->create($data);
+        $product = Product::orderBy('id', 'desc')->first();
+        if ($img) {
+            $data_img =   [
+                'path' => $img,
+                'imageable_id' => $product->id,
+                'imageable_type' => 'App\Product'
+            ];
+            Image::create($data_img);
+        }
 
-        $data_img =   [
-            'path'=>$img,
-            'imageable_id'=>$product->id,
-            'imageable_type'=>'App\Product'
-        ];
-        Image::create($data_img);
-   
         return redirect()->route('admin.products.list')
-        ->with('success','Product created successfully!');
+            ->with('success', 'Product created successfully!');
     }
 
     /**
@@ -93,9 +97,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = $this->productRepo->find($id);
-        $brands =Brand::all();
+        $brands = Brand::all();
         $sales = Sale::all();
-        return view('admin.products.edit', compact(['product','brands','sales']));
+        return view('admin.products.edit', compact(['product', 'brands', 'sales']));
     }
 
     /**
@@ -108,30 +112,29 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = $this->productRepo->find($id);
-        $data = $request->except(['img_product','old_img_id']);
+        $data = $request->except(['img_product', 'old_img_id']);
         // dd($request->img_product);
         // dd(isset($request->img_product));
-       
-       if($request->img_product)
-       {
-        // Update new image to Image DB
-        Image::find($request->old_img_id)->update(
-            [
-                'path'=> $request->img_product,
-                'imageable_id'=>$id,
-                'imageable_type'=>'App\Product'
-            ]
-        );
 
-        //Update Product
-        $product->update($data);
-       }else{
-           
-           $product->update($data);
-       }
-                      
+        if ($request->img_product) {
+            // Update new image to Image DB
+            Image::find($request->old_img_id)->update(
+                [
+                    'path' => $request->img_product,
+                    'imageable_id' => $id,
+                    'imageable_type' => 'App\Product'
+                ]
+            );
+
+            //Update Product
+            $product->update($data);
+        } else {
+
+            $product->update($data);
+        }
+
         return redirect()->route('admin.products.list')
-        ->with('update','Product updated successfully!');
+            ->with('update', 'Product updated successfully!');
     }
 
     /**
@@ -142,10 +145,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = $this->productRepo->find($id);
-        $product->delete();
-        return redirect()->route('admin.products.list')
-        ->with('delete','Product deleted successfully!');
+
+        $product = Product::with('orders')->find($id);
+        if (count($product->orders)==0) {        
+            $product->delete();
+            return redirect()->route('admin.products.list')
+                ->with('delete', 'Product deleted successfully!');
+        } else {
+            return redirect()->route('admin.products.list')
+                ->with('warning', 'Existing product in orders');
+        }
     }
 
     public function productDetail($id)
@@ -165,13 +174,10 @@ class ProductController extends Controller
     public function searchAll(Request $request)
     {
         $products = Product::where('email', 'like', '%' . $request->q . '%')
-        ->orWhere('name', 'like', '%' . $request->q . '%')
-        ->paginate(3);
-            
+            ->orWhere('name', 'like', '%' . $request->q . '%')
+            ->paginate(3);
+
         // dd();
-        return view('admin.users.listSearch',compact('users'));
+        return view('admin.users.listSearch', compact('users'));
     }
-
-    
-
 }

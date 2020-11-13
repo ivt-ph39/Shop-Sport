@@ -20,7 +20,10 @@ class Order extends Model
         return $this->belongsToMany('App\Product')->withPivot('quantity','price');
     }
 
-   
+    // public function products()
+    // {
+    //     return $this->hasManyThrough('App\Category', 'App\Order');
+    // }
 
   
 }

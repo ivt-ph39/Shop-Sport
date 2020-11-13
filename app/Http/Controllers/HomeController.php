@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        dd(bcrypt(123123123));
+        
         $categories = Category::with('children')->get();
         // return $categories;
         $brands = Brand::all();

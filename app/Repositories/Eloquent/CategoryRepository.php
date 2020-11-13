@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Category;
+use App\Product;
 use App\Repositories\EloquentRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -16,24 +17,30 @@ class CategoryRepository extends EloquentRepository
     public function deleteX($id)
     {
         $category = $this->find($id);
-
+        // Cate has parent_id
         if (!$category->parent_id) {
-
             $children =  $this->find($id)->load('children')->children;
-
             foreach ($children as $child) {
-                // dd($child->toArray());
-                $categoryId =  $this->find($child->id);
-                // dd($categoryId);
-                $categoryId->delete();
-                foreach ($categoryId->products as $product) {
-                    $product->delete();
-                }
-            }
-        } else {
+                $childCategory =  $this->find($child->id);
+                foreach ($childCategory->products as $value) {
+                    $product = Product::with('orders')->find($value->id);
+                    if (count($product->orders) == 0) {
+                        $product->delete();
+                        $childCategory->delete();                   
+                        $category->delete();                      
+                    }else{
+                        return redirect()->route('admin.categories.list')
+                            ->with('warning', 'This category has product in orders!!!');
+                    }
+                }             
+            }          
+        } else { // Cate has no parent_id
             $category->products()->delete();
+            $category->delete();
         }
-        $category->delete();
+        return redirect()->route('admin.categories.list')
+                            ->with('delete', 'Category deleted successfully!');
+        
     }
 
 
@@ -45,17 +52,13 @@ class CategoryRepository extends EloquentRepository
             $name = $value['name'];
             if ($value['parent_id'] == $parent_id) {
                 if ($select != 0 && $id = $select) {
-                    $string.= "<option value='$id' selected>$str $name</option>";
+                    $string .= "<option value='$id' selected>$str $name</option>";
                 } else {
-                    $string.= "<option value='$id'>$str $name</option>";
+                    $string .= "<option value='$id'>$str $name</option>";
                 }
-                $string.=$this->cate_parent($data, $id, $str . "--");
+                $string .= $this->cate_parent($data, $id, $str . "--");
             }
         }
-       return $string;
+        return $string;
     }
-
-   
-
-
 }

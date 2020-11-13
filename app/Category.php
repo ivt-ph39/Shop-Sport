@@ -34,5 +34,8 @@ class Category extends Model
         return $this->belongsTo('App\Category','parent_id');
     }
 
- 
+    public function orders()
+    {
+        return $this->hasManyThrough('App\Order', 'App\Product');
+    }
 }

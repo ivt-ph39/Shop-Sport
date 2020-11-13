@@ -16,6 +16,11 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>{{ session('update') }}</strong>
         </div>
+    @elseif(session('warning'))
+        <div class="alert alert-warning alert-dismissible" style="width:300px;float:right;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{ session('warning') }}</strong>
+    </div>
     @endif
     <h1>List Category</h1>
   
