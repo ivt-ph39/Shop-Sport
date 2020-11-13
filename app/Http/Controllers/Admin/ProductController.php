@@ -113,19 +113,19 @@ class ProductController extends Controller
     {
         $product = $this->productRepo->find($id);
         $data = $request->except(['img_product', 'old_img_id']);
-        // dd($request->img_product);
-        // dd(isset($request->img_product));
+        // dd($request->old_img_id);
 
         if ($request->img_product) {
             // Update new image to Image DB
-            Image::find($request->old_img_id)->update(
-                [
-                    'path' => $request->img_product,
-                    'imageable_id' => $id,
-                    'imageable_type' => 'App\Product'
-                ]
-            );
-
+            if ($request->old_img_id) {
+                Image::find($request->old_img_id)->update(
+                    [
+                        'path' => $request->img_product,
+                        'imageable_id' => $id,
+                        'imageable_type' => 'App\Product'
+                    ]
+                );
+            }
             //Update Product
             $product->update($data);
         } else {
@@ -147,7 +147,7 @@ class ProductController extends Controller
     {
 
         $product = Product::with('orders')->find($id);
-        if (count($product->orders)==0) {        
+        if (count($product->orders) == 0) {
             $product->delete();
             return redirect()->route('admin.products.list')
                 ->with('delete', 'Product deleted successfully!');
@@ -159,9 +159,10 @@ class ProductController extends Controller
 
     public function productDetail($id)
     {
-        $product = $this->productRepo->find($id);
-        $sale = Sale::find($id);
-        return view('admin.products.detail', compact(['product', 'sale']));
+        $product = Product::with('sale', 'category')->find($id);
+        // $sale = Sale::with('products')->find($id);
+
+        return view('admin.products.detail', compact(['product']));
     }
 
     public function searchByName(Request $request)

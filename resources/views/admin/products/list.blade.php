@@ -38,6 +38,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Category</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Image</th>
@@ -48,12 +49,10 @@
     @foreach($products as $product)
     <tr>
         <td>{{$product->id}}</td>
-        <td><a href="{{route('admin.products.detail',$product->id)}}"
-        data-id="{{$product->id}}"
-        data-name="{{$product->name}}"
-        data-price="{{$product->price}}">
+        <td><a href="{{route('admin.products.detail',$product->id)}}">
         {{$product->name}}
         </a></td>
+        <td>{{$product->category->name}}</td>
         <td>{{$product->quantity}}</td>
         <td>${{$product->price}}</td>
         <td><div >
@@ -67,7 +66,7 @@
                     
                     @endif
                     @endforeach
-                    {{-- <p><img alt="" src="http://127.0.0.1:8089/storage/photos/1/R1-R2.png" style="height:80px; width:80px" /> --}}
+                   
            </div>
         
         </td>

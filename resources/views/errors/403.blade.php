@@ -6,8 +6,8 @@
 
 <form id="logout-form" action="{{ route('admin.logout') }}" method="POST">
     @csrf
-    <input type="submit" value="Out">
-    <a href="/" class="btn btn-dark">Return Home</a>
+    <input type="submit" value="LogOut">
+    <a href="{{ URL::previous() }}" class="">Go Back</a>
 </form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

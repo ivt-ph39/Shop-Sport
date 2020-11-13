@@ -84,6 +84,6 @@
     </script>
 <script>
     CKEDITOR.replace('my-editor', options);
-    CKEDITOR.CKEDITOR.config.disallowedContent = 'p';
+   
 </script>
 @endsection

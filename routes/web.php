@@ -101,7 +101,7 @@ Route::group(
         // Store cate
         Route::post('/categories', 'CategoryController@store')->name('categories.store');
         // Form edit cate 
-        Route::get('/categories/{id}/edit', 'CategoryController@edit')->name('categories.edit');
+        Route::get('/categories/{id}/edit', 'CategoryController@edit')->name('categories.edit')->middleware('role:admin');
 
         Route::put('/categories/{id}/update', 'CategoryController@update')->name('categories.update');
 

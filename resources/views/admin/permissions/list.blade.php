@@ -32,7 +32,7 @@
             <tr>
                 <th>ID</th>
                 <th>Permission name</th>
-                <th colspan="4">Action</th>
+                <th colspan="2">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -47,8 +47,8 @@
                     <td><a href="{{ route('admin.permissions.edit', $permission->id) }}" class="btn btn-dark"
                             role="button">Edit</a>
                     </td>
-                    <td><a href="{{ route('admin.roles.create') }}">Assign Role</a></td>
-                    <td> <a href="{{ route('admin.roles.create') }}">Revoke Role</a></td>
+                    {{-- <td><a href="{{ route('admin.roles.create') }}">Assign Role</a></td>
+                    <td> <a href="{{ route('admin.roles.create') }}">Revoke Role</a></td> --}}
                     <td>
                         <form action="{{ route('admin.permissions.delete', $permission->id) }}" method="post">
                             {{ @csrf_field() }}

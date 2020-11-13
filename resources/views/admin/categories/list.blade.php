@@ -54,8 +54,12 @@
                             @endif
                 
                 </a></td>
+                {{-- @can('edit categories') --}}
+  
                 <td><a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-dark"
                         role="button">Edit</a></td>
+                      
+                {{-- @endcan --}}
                 <td>
                     <form action="{{ route('admin.categories.delete', $category->id) }}" method="post">
                         {{ @csrf_field() }}

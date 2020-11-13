@@ -34,9 +34,7 @@
         @foreach($brands as $brand)
         <tr>
             <td>{{$brand->id}}</td>
-            <td><a href="{{--route('admin.brands.list-product',$brand->id)--}}" 
-            id="{{$brand->id}}" class="abc">
-                    {{$brand->name}}</a></td>
+            <td>{{$brand->name}}</td>
             <td><a href="{{route('admin.brands.edit',$brand->id)}}" 
             class="btn btn-dark"  role="button">Edit</a></td>
             <td>

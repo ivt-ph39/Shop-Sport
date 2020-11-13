@@ -64,8 +64,7 @@ class UserController extends Controller
         dd($data);
         User::create($data);
         $user = User::with('roles')->orderBy('id','desc')->first();
-        $user->assignRole('customer');
-        // $this->userRepo->assignRole($role);
+        $user->assignRole($role);
        
         return redirect()->route('admin.users.list')
         ->with('success','User created successfully!');
@@ -97,8 +96,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::with('roles')->find($id);
-        // dd($user->role);
-        return view('admin.users.edit', compact('user'));
+        $roles =Role::all();
+
+        return view('admin.users.edit', compact('user','roles'));
     }
 
     /**
@@ -112,9 +112,11 @@ class UserController extends Controller
     {
         $user = $this->userRepo->find($id);
         // DB::enableQueryLog();
-        $data = $request->all();
+        $data = $request->except('role');
+        $role =$request->only('role');
         $user->update($data);
-        // dd(DB::getQueryLog());
+        $user->assignRole($role);
+
         return redirect()->route('admin.users.list')
         ->with('update','User updated successfully!');
     }

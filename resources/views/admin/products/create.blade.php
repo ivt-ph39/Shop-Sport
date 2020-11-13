@@ -106,7 +106,7 @@
 
     <script>
         CKEDITOR.replace('my-editor', options);
-        CKEDITOR.config.disallowedContent = 'p';
+      
     </script>
 
 @endsection

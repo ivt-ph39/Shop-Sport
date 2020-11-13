@@ -1,10 +1,11 @@
 @extends('admin.main')
 @section('content')
-<table class="table table-bordered" style="width: 50%;">
+<table class="table table-bordered" style="width: 70%;">
     <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Category</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Description</th>
@@ -17,15 +18,24 @@
     <tr>
         <td>{{$product->id}}</td>
         <td>{{$product->name}}</td>
+        <td>{{$product->category->name}}</td>
         <td>{{$product->quantity}}</td>
         <td>{{$product->price}}</td>
         <td>{{$product->description}}</td>
-        @if(isset($sale))
-        <td>{{$sale->discount}}%</td>
+        @if(isset($product->sale))
+        <td>{{$product->sale->discount*100}}%</td>
         @else
-        <td>###</td>
+        <td>No dsicount</td>
          @endif
-        <td>###</td>
+         <td><div >         
+            @foreach($product->images as $key=>$img)
+            @if($key ===0)
+             <img style=" height: 80px;width: 80px;" 
+                src="{{$img->path}}" alt="">           
+                @endif
+                @endforeach            
+       </div>
+
 
 
 

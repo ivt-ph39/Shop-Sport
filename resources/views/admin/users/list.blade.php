@@ -55,8 +55,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->address }}</td>
                     <td>{{ $user->phone }}</td>              
-                    <td>                      
-                     
+                    <td>                                       
                             @foreach ($user->roles as $item)                                                            
                                     {{$item['name']}}                           
                             @endforeach                                         

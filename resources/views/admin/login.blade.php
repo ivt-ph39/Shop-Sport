@@ -2,7 +2,7 @@
 
 @section('content')
 @if (session('error'))
-<div class="alert alert-success alert-dismissible" style="width:500px;float:right;">
+<div class="alert alert-success alert-dismissible" style="width:200px;float:right;">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <strong>{{session('error')}}</strong> 
   </div>

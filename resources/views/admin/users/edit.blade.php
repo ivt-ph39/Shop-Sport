@@ -17,7 +17,25 @@
     <label>Phone</label>
     <input type="text" name="phone" value="{{$user->phone}}" class="form-control">
 <br>
-    
+@if (Auth::user()
+->getRoleNames()
+->contains('admin'))
+    <select name="role">
+        @foreach ($roles as $role)
+            <option value="{{ $role->name }}">{{ $role->name }}</option>
+        @endforeach
+    </select>
+@else
+    <select name="role">
+        @foreach ($roles as $role)
+            @if ($role->name != 'admin')
+                <option value="{{ $role->name }}">{{ $role->name }}</option>
+            @endif
+        @endforeach
+    </select>
+@endif
+<br>
+<br>
     <input type="submit" id="updateBtn" value="Update" class="btn btn-dark">
 </div>
 </form>

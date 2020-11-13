@@ -21,19 +21,19 @@ class LoginController extends Controller
     {
         if (Auth::check() && Auth::user()->hasRole(['admin','mod'])) { 
 
-            return view('admin.main')->with('error','Login Fail');
+            return view('admin.main');
         }    
-        Auth::logout();
-        return view('admin.login')->with('success','Login Successful');
+        // Auth::logout();
+        return view('admin.login');
         
     }
 
     public function login(Request $rq)
     {
         if (Auth::attempt(array('email' => $rq->email, 'password' => $rq->password))) {
-            return redirect()->route('admin.main');
+            return redirect()->route('admin.main')->with('success','Login Successful');
         }
-        return view('admin.login');
+        return redirect()->route('admin.login')->with('error','Login Fail');
     }
 
     public function logout()
